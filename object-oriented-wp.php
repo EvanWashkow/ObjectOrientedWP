@@ -10,4 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 namespace WordPress;
+
+$directory = dirname( __FILE__ );
+require_once( "{$directory}/Sites.php" );
 ?>
