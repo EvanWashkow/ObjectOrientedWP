@@ -10,5 +10,10 @@ class Site {
     public function __construct( $id ) {
         $this->id = $id;
     }
+    
+    // Return site ID
+    public function getID() {
+        return $this->id;
+    }
 }
 ?>

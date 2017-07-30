@@ -13,24 +13,28 @@ class Sites {
     // Get sites, indexed by id
     public static function Get() {
         
-        // Exit. Sites were cached from last lookup.
-        $sites = self::getSitesCache();
-        if ( isset( $sites )) {
-            return $sites;
+        // Exit. Return all sites from cache.
+        if ( self::isCompleteCache() ) {
+            return self::getCache();
         }
         
-        // Lookup sites. For each, create a new site object instance.
-        $sites    = [];
+        // Lookup sites. For each, create and cache new a site instance.
         $wp_sites = get_sites();
         foreach ( $wp_sites as $wp_site ) {
             self::loadComponents();
-            $id           = $wp_site->blog_id;
-            $sites[ $id ] = new Sites\Site( $id );
+            $id   = $wp_site->blog_id;
+            $site = self::getCache( $id );
+            
+            // Cache new site object
+            if ( !isset( $site )) {
+                $site = new Sites\Site( $id );
+                self::addCache( $site );
+            }
         }
         
-        // Cache and return sites
-        self::setSitesCache( $sites );
-        return $sites;
+        // Return sites. Mark cache complete.
+        self::isCompleteCache( true );
+        return self::getCache();
     }
     
     
@@ -38,16 +42,30 @@ class Sites {
     // CACHE
     
     // Sites cache
-    private static $sites;
+    private static $isCompleteCache = false;
+    private static $cache           = [ /* site_id => site_object*/ ];
     
-    // Get sites cache
-    private static function getSitesCache() {
-        return self::$sites;
+    // Are all sites in the cache?
+    private static function isCompleteCache( $bool = NULL ) {
+        if ( isset( $bool ) && is_bool( $bool )) {
+            self::$isCompleteCache = $bool;
+        }
+        return self::$isCompleteCache;
     }
     
-    // Set sites cache
-    private static function setSitesCache( $sites ) {
-        self::$sites = $sites;
+    // Add site to cache
+    private static function addCache( $site ) {
+        self::$cache[ $site->getID() ] = $site;
+    }
+    
+    // Get site or sites from cache
+    private static function getCache( $siteID = NULL ) {
+        if ( isset( $siteID )) {
+            return empty( self::$cache[ $siteID ] ) ? NULL : self::$cache[ $siteID ];
+        }
+        else {
+            return self::$cache;
+        }
     }
     
     
