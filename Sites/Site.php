@@ -16,6 +16,10 @@ class Site {
         return $this->id;
     }
     
+    // Return site description
+    public function getDescription() {
+        return $this->getAttribute( 'description' );
+    }
     
     // Return site URL
     public function getURL() {
