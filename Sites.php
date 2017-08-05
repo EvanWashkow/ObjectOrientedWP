@@ -10,8 +10,28 @@ class Sites {
     //
     // METHODS
     
-    // Get sites, indexed by id
-    public static function Get() {
+    // Get site or sites, indexed by id
+    public static function Get( $id = NULL ) {
+        
+        // Get site by ID
+        if ( isset( $id ) && is_numeric( $id )) {
+            $site = self::getCache( $id );
+            if ( !isset( $site )) {
+                self::loadComponents();
+                $site = new Sites\Site( $id );
+                self::addCache( $site );
+            }
+            return $site;
+        }
+        
+        // Return all sites
+        else {
+            return self::getAll();
+        }
+    }
+    
+    // Get all sites, indexed by id
+    private static function getAll() {
         
         // Exit. Return all sites from cache.
         if ( self::isCompleteCache() ) {
