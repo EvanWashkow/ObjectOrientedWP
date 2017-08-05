@@ -15,5 +15,31 @@ class Site {
     public function getID() {
         return $this->id;
     }
+    
+    // Get site details
+    private $_attributes;
+    private function getAttribute( $key ) {
+        $failure = NULL;
+        
+        // Build essential attribute cache
+        if ( !isset( $this->_attributes )) {
+            $this->_attributes = get_blog_details();
+            $this->_attributes = (array) $this->_attributes;
+        }
+        
+        // Return cached attribute by key
+        if ( !empty( $this->_attributes[ $key ] )) {
+            return $this->_attributes[ $key ];
+        }
+        
+        // Attempt to lookup the attribute via `get_bloginfo()`
+        $attribute = get_bloginfo( $key );
+        if ( !empty( $attribute )) {
+            $this->_attributes[ $key ] = $attribute;
+            return $attribute;
+        }
+        
+        return $failure;
+    }
 }
 ?>
