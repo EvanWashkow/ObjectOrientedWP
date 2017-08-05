@@ -3,6 +3,15 @@ namespace WordPress\Sites;
 
 class Site {
     
+    //
+    // CONSTANTS
+    const SITE_URL = 'siteurl';
+    const HOME_URL = 'homeurl';
+    
+    
+    //
+    // SITE ATTRIBUTES
+    
     // Site properties
     private $id;
     
@@ -28,7 +37,15 @@ class Site {
     
     // Get site URL
     public function getURL() {
-        return $this->getAttribute( 'siteurl' );
+        return $this->getAttribute( self::SITE_URL );
+    }
+    
+    // Get site URLs
+    public function getURLs() {
+        return [
+            self::SITE_URL => $this->getURL(),
+            self::HOME_URL => get_home_url()
+        ];
     }
     
     // Get site details
