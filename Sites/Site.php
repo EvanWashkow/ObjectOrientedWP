@@ -11,17 +11,17 @@ class Site {
         $this->id = $id;
     }
     
-    // Return site ID
+    // Get site ID
     public function getID() {
         return $this->id;
     }
     
-    // Return site description
+    // Get site description
     public function getDescription() {
         return $this->getAttribute( 'description' );
     }
     
-    // Return site URL
+    // Get site URL
     public function getURL() {
         return $this->getAttribute( 'siteurl' );
     }
@@ -37,7 +37,7 @@ class Site {
             $this->_attributes = (array) $this->_attributes;
         }
         
-        // Return cached attribute by key
+        // Get cached attribute by key
         if ( !empty( $this->_attributes[ $key ] )) {
             return $this->_attributes[ $key ];
         }
