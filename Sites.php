@@ -63,7 +63,7 @@ class Sites {
     
     // Sites cache
     private static $isCompleteCache = false;
-    private static $cache           = [ /* site_id => site_object*/ ];
+    private static $_sites          = [ /* site_id => site_object*/ ];
     
     // Are all sites in the cache?
     private static function isCompleteCache( $bool = NULL ) {
@@ -75,16 +75,16 @@ class Sites {
     
     // Add site to cache
     private static function addCache( $site ) {
-        self::$cache[ $site->getID() ] = $site;
+        self::$_sites[ $site->getID() ] = $site;
     }
     
     // Get site or sites from cache
     private static function getCache( $siteID = NULL ) {
         if ( isset( $siteID )) {
-            return empty( self::$cache[ $siteID ] ) ? NULL : self::$cache[ $siteID ];
+            return empty( self::$_sites[ $siteID ] ) ? NULL : self::$_sites[ $siteID ];
         }
         else {
-            return self::$cache;
+            return self::$_sites;
         }
     }
     
