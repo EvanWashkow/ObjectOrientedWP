@@ -16,6 +16,11 @@ class Site {
         return $this->id;
     }
     
+    // Get site title
+    public function getTitle() {
+        return $this->getAttribute( 'title' );
+    }
+    
     // Get site description
     public function getDescription() {
         return $this->getAttribute( 'description' );
