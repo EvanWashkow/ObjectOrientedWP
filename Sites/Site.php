@@ -60,6 +60,15 @@ class Site {
     
     
     //
+    // PLUGINS/THEMES
+    
+    // Get the current theme
+    public function getTheme() {
+        return $this->getAttribute( 'current_theme' );
+    }
+    
+    
+    //
     // HELPERS
     
     // Get site details
