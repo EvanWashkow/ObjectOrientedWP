@@ -3,10 +3,6 @@ namespace WordPress\Sites;
 
 class Site {
     
-    // Constants
-    const SITE_URL = 'siteurl';
-    const HOME_URL = 'home';
-    
     // Site properties
     private $id;
     
@@ -18,6 +14,10 @@ class Site {
     
     //
     // GENERAL INFORMATION
+    
+    // Constants
+    const TIMEZONE_STRING = 'timezone-string';
+    const TIMEZONE_GMT    = 'Timezone-gmt';
     
     // Get site ID
     public function getID() {
@@ -34,9 +34,52 @@ class Site {
         return $this->getAttribute( 'blogdescription' );
     }
     
+    // Get timezone by the requested format
+    public function getTimeZone( $format = self::TIMEZONE_GMT ) {
+        
+        // WordPress stores either the GMT or timezone string, but not both
+        $timezone         = NULL;
+        $_timezone_gmt    = $this->getAttribute( 'gmt_offset' );
+        $_timezone_string = $this->getAttribute( 'timezone_string' );
+        
+        // No timezone set: default to GMT
+        if ( empty( $_timezone_gmt ) && empty( $_timezone_string )) {
+            $_timezone_gmt = '+0';
+        }
+        
+        // Convert timezone string to GMT offset
+        if ( empty( $_timezone_gmt )) {
+            $now = new \DateTime();
+            $now->setTimeZone( new \DateTimeZone( $_timezone_string ));
+            $_timezone_gmt = $now->format( 'P' );
+        }
+        
+        // Convert GMT to timezone string
+        else if ( empty( $_timezone_string )) {
+            $now = new \DateTime();
+            $now->setTimeZone( new \DateTimeZone( $_timezone_gmt ));
+            $_timezone_string = $now->format( 'e' );
+        }
+        
+        // Format timezone
+        switch ( $format ) {
+            case self::TIMEZONE_STRING:
+                $timezone = $_timezone_string;
+                break;
+            case self::TIMEZONE_GMT:
+                $timezone = $_timezone_gmt;
+                break;
+        }
+        return $timezone;
+    }
+    
     
     //
     // URLS
+    
+    // Constants
+    const SITE_URL = 'siteurl';
+    const HOME_URL = 'home';
     
     // Get site URL
     public function getURL() {
