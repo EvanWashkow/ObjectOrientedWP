@@ -48,6 +48,13 @@ class Site {
         ];
     }
     
+    // Get site URL protocol
+    public function getProtocol() {
+        $url      = $this->getURL();
+        $protocol = substr( $url, 0, strpos( $url, '://' ));
+        return $protocol;
+    }
+    
     // Get site details
     private $_attributes = [];
     private function getAttribute( $key ) {
