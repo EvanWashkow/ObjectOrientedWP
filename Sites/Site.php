@@ -3,14 +3,9 @@ namespace WordPress\Sites;
 
 class Site {
     
-    //
-    // CONSTANTS
+    // Constants
     const SITE_URL = 'siteurl';
     const HOME_URL = 'home';
-    
-    
-    //
-    // SITE ATTRIBUTES
     
     // Site properties
     private $id;
@@ -19,6 +14,10 @@ class Site {
     public function __construct( $id ) {
         $this->id = $id;
     }
+    
+    
+    //
+    // GENERAL INFORMATION
     
     // Get site ID
     public function getID() {
@@ -34,6 +33,10 @@ class Site {
     public function getDescription() {
         return $this->getAttribute( 'blogdescription' );
     }
+    
+    
+    //
+    // URLS
     
     // Get site URL
     public function getURL() {
@@ -54,6 +57,10 @@ class Site {
         $protocol = substr( $url, 0, strpos( $url, '://' ));
         return $protocol;
     }
+    
+    
+    //
+    // HELPERS
     
     // Get site details
     private $_attributes = [];
