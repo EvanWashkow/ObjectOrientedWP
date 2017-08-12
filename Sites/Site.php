@@ -6,7 +6,7 @@ class Site {
     //
     // CONSTANTS
     const SITE_URL = 'siteurl';
-    const HOME_URL = 'homeurl';
+    const HOME_URL = 'home';
     
     
     //
@@ -27,12 +27,12 @@ class Site {
     
     // Get site title
     public function getTitle() {
-        return $this->getAttribute( 'title' );
+        return $this->getAttribute( 'blogname' );
     }
     
     // Get site description
     public function getDescription() {
-        return $this->getAttribute( 'description' );
+        return $this->getAttribute( 'blogdescription' );
     }
     
     // Get site URL
@@ -44,34 +44,24 @@ class Site {
     public function getURLs() {
         return [
             self::SITE_URL => $this->getURL(),
-            self::HOME_URL => get_home_url()
+            self::HOME_URL => $this->getAttribute( self::HOME_URL )
         ];
     }
     
     // Get site details
-    private $_attributes;
+    private $_attributes = [];
     private function getAttribute( $key ) {
         $failure = NULL;
-        
-        // Build essential attribute cache
-        if ( !isset( $this->_attributes )) {
-            $this->_attributes = get_blog_details();
-            $this->_attributes = (array) $this->_attributes;
-        }
         
         // Get cached attribute by key
         if ( !empty( $this->_attributes[ $key ] )) {
             return $this->_attributes[ $key ];
         }
         
-        // Attempt to lookup the attribute via `get_bloginfo()`
-        $attribute = get_bloginfo( $key );
-        if ( !empty( $attribute )) {
-            $this->_attributes[ $key ] = $attribute;
-            return $attribute;
-        }
-        
-        return $failure;
+        // Lookup, cache, and return the attribute
+        $attribute = get_option( $key, $failure );
+        $this->_attributes[ $key ] = $attribute;
+        return $attribute;
     }
 }
 ?>
