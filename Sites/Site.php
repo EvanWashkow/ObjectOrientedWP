@@ -15,10 +15,6 @@ class Site {
     //
     // GENERAL INFORMATION
     
-    // Constants
-    const TIMEZONE_STRING = 'timezone-string';
-    const TIMEZONE_GMT    = 'Timezone-gmt';
-    
     // Get site ID
     public function getID() {
         return $this->id;
@@ -35,41 +31,23 @@ class Site {
     }
     
     // Get timezone by the requested format
-    public function getTimeZone( $format = self::TIMEZONE_GMT ) {
+    public function getTimeZone() {
+        $failure = NULL;
         
         // WordPress stores either the GMT or timezone string, but not both
-        $timezone         = NULL;
         $_timezone_gmt    = $this->getAttribute( 'gmt_offset' );
         $_timezone_string = $this->getAttribute( 'timezone_string' );
         
-        // No timezone set: default to GMT
-        if ( empty( $_timezone_gmt ) && empty( $_timezone_string )) {
-            $_timezone_gmt = '+0';
+        // Create timezone
+        $timezone = $failure;
+        \WordPress\Libraries::Load( 'TimeZone' );
+        if ( isset( $_timezone_string )) {
+            $timezone = new \WordPress\TimeZone( $_timezone_string );
+        }
+        elseif ( isset( $_timezone_gmt )) {
+            $timezone = new \WordPress\TimeZone( $_timezone_gmt );
         }
         
-        // Convert timezone string to GMT offset
-        if ( empty( $_timezone_gmt )) {
-            $now = new \DateTime();
-            $now->setTimeZone( new \DateTimeZone( $_timezone_string ));
-            $_timezone_gmt = $now->format( 'P' );
-        }
-        
-        // Convert GMT to timezone string
-        else if ( empty( $_timezone_string )) {
-            $now = new \DateTime();
-            $now->setTimeZone( new \DateTimeZone( $_timezone_gmt ));
-            $_timezone_string = $now->format( 'e' );
-        }
-        
-        // Format timezone
-        switch ( $format ) {
-            case self::TIMEZONE_STRING:
-                $timezone = $_timezone_string;
-                break;
-            case self::TIMEZONE_GMT:
-                $timezone = $_timezone_gmt;
-                break;
-        }
         return $timezone;
     }
     
