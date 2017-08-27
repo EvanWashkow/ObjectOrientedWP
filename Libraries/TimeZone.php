@@ -37,17 +37,38 @@ class TimeZone extends \DateTimeZone {
         }
     }
     
-    // Convert to Abbreviation (PST)
-    public function toAbbreviation() {
-        return $this->format( 'T' );
+    
+    //
+    // CONVERSION -- cascades by order
+    
+    // Convert to Identifier (America/Los_Angeles)
+    public function toIdentifier( $fallback = true ) {
+        if ( self::IDENTIFICATION_TYPE == $this->timezone_type ) {
+            return $this->format( 'e' );
+        }
+        elseif ( $fallback ) {
+            return $this->toAbbreviation();
+        }
+        else {
+            return NULL;
+        }
     }
     
-    public function toIdentifier() {
-        return $this->format( 'e' );
+    // Convert to Abbreviation (PST)
+    public function toAbbreviation( $fallback = true ) {
+        if ( self::ABBREVIATION_TYPE <= $this->timezone_type ) {
+            return $this->format( 'T' );
+        }
+        elseif ( $fallback ) {
+            return $this->toGMT();
+        }
+        else {
+            return NULL;
+        }
     }
     
     // Convert to GMT (+00:00)
-    public function toGMT() {
+    public function toGMT( $fallback = true ) {
         return $this->format( 'P' );
     }
     
