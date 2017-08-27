@@ -10,5 +10,31 @@ class TimeZone extends \DateTimeZone {
     const GMT_TYPE            = 1;  // '+00:00'
     const ABBREVIATION_TYPE   = 2;  // 'PST'
     const IDENTIFICATION_TYPE = 3;  // 'America/Los_Angeles'
+    
+    
+    //
+    // INSTANCE
+    
+    // Variables
+    protected $timezone;
+    protected $timezone_type;
+    
+    // Create new TimeZone
+    public function __construct( $mixed ) {
+        parent::__construct( $mixed );
+        
+        // PHP doesn't allow us to access parent members. Let's change that.
+        $variables = print_r( $this, true );
+        preg_match_all( '/\[(\S+)\] => (\S+)/', $variables, $variables );
+        $_variable_values = array_pop( $variables );
+        $_variable_names  = array_pop( $variables );
+        
+        // Match each variable name to its value
+        $variables = [];
+        foreach ( $_variable_names as $i => $name ) {
+            $value = $_variable_values[ $i ];
+            $this->$name = $value;
+        }
+    }
 }
 ?>
