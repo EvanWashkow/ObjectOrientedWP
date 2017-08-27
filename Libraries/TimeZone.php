@@ -36,5 +36,20 @@ class TimeZone extends \DateTimeZone {
             $this->$name = $value;
         }
     }
+    
+    // Convert to GMT (+00:00)
+    public function toGMT() {
+        return $this->format( 'P' );
+    }
+    
+    // Convert to given format
+    private $dateTime;
+    private function format( $format ) {
+        if ( !isset( $this->dateTime )) {
+            $this->dateTime = new \DateTime();
+            $this->dateTime->setTimeZone( $this );
+        }
+        return $this->dateTime->format( $format );
+    }
 }
 ?>
