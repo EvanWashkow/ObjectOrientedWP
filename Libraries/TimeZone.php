@@ -42,6 +42,10 @@ class TimeZone extends \DateTimeZone {
         return $this->format( 'T' );
     }
     
+    public function toIdentifier() {
+        return $this->format( 'e' );
+    }
+    
     // Convert to GMT (+00:00)
     public function toGMT() {
         return $this->format( 'P' );
