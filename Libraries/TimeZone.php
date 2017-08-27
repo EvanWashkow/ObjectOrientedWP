@@ -37,6 +37,11 @@ class TimeZone extends \DateTimeZone {
         }
     }
     
+    // Convert to Abbreviation (PST)
+    public function toAbbreviation() {
+        return $this->format( 'T' );
+    }
+    
     // Convert to GMT (+00:00)
     public function toGMT() {
         return $this->format( 'P' );
