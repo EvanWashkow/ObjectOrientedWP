@@ -41,10 +41,10 @@ class Site {
         // Create timezone
         $timezone = $failure;
         \WordPress\Libraries::Load( 'TimeZone' );
-        if ( isset( $_timezone_string )) {
+        if ( !empty( $_timezone_string )) {
             $timezone = new \WordPress\TimeZone( $_timezone_string );
         }
-        elseif ( isset( $_timezone_gmt )) {
+        elseif ( !empty( $_timezone_gmt )) {
             $timezone = new \WordPress\TimeZone( $_timezone_gmt );
         }
         
