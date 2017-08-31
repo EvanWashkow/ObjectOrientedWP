@@ -25,7 +25,7 @@ class Site {
     
     // Get site title
     public function getTitle() {
-        return $this->getAttribute( self::TITLE_OPTION );
+        return get_option( self::TITLE_OPTION );
     }
     
     // Set site title
@@ -33,7 +33,7 @@ class Site {
         $return = false;
         $title  = trim( $title );
         if ( is_string( $title ) && !empty( $title )) {
-            $this->setAttribute( self::TITLE_OPTION, $title );
+            update_option( self::TITLE_OPTION, $title );
             $return = $title;
         }
         return $return;
@@ -41,7 +41,7 @@ class Site {
     
     // Get site description
     public function getDescription() {
-        return $this->getAttribute( 'blogdescription' );
+        return get_option( 'blogdescription' );
     }
     
     // Get timezone by the requested format
@@ -49,8 +49,8 @@ class Site {
         $failure = NULL;
         
         // WordPress stores either the GMT or timezone string, but not both
-        $_timezone_gmt    = $this->getAttribute( 'gmt_offset' );
-        $_timezone_string = $this->getAttribute( 'timezone_string' );
+        $_timezone_gmt    = get_option( 'gmt_offset' );
+        $_timezone_string = get_option( 'timezone_string' );
         
         // Create timezone
         $timezone = $failure;
@@ -67,7 +67,7 @@ class Site {
     
     // Get the default user role
     public function getDefaultRole() {
-        return $this->getAttribute( 'default_role' );
+        return get_option( 'default_role' );
     }
     
     
@@ -80,14 +80,14 @@ class Site {
     
     // Get site URL
     public function getURL() {
-        return $this->getAttribute( self::SITE_URL );
+        return get_option( self::SITE_URL );
     }
     
     // Get site URLs
     public function getURLs() {
         return [
             self::SITE_URL => $this->getURL(),
-            self::HOME_URL => $this->getAttribute( self::HOME_URL )
+            self::HOME_URL => get_option( self::HOME_URL )
         ];
     }
     
@@ -104,34 +104,7 @@ class Site {
     
     // Get the current theme
     public function getTheme() {
-        return $this->getAttribute( 'current_theme' );
-    }
-    
-    
-    //
-    // HELPERS
-    
-    // Get site details
-    private $_attributes = [];
-    private function getAttribute( $key ) {
-        $failure = NULL;
-        
-        // Get cached attribute by key
-        if ( !empty( $this->_attributes[ $key ] )) {
-            return $this->_attributes[ $key ];
-        }
-        
-        // Lookup, cache, and return the attribute
-        $attribute = get_option( $key, $failure );
-        $this->_attributes[ $key ] = $attribute;
-        return $attribute;
-    }
-    
-    // Set site details
-    private function setAttribute( $key, $value ) {
-        if ( $isSuccessful = update_option( $key, $value )) {
-            $_attributes[ $key ] = $value;
-        }
+        return get_option( 'current_theme' );
     }
 }
 ?>
