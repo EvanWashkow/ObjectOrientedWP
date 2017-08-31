@@ -3,8 +3,10 @@ namespace WordPress\Sites;
 
 class Site {
     
-    // Site keys
-    const TITLE_OPTION = 'blogname';
+    // Site option keys
+    const TITLE    = 'blogname';
+    const HOME_URL = 'home';
+    const SITE_URL = 'siteurl';
     
     // Site properties
     private $id;
@@ -25,7 +27,7 @@ class Site {
     
     // Get site title
     public function getTitle() {
-        return get_option( self::TITLE_OPTION );
+        return get_option( self::TITLE );
     }
     
     // Set site title
@@ -33,7 +35,7 @@ class Site {
         $return = false;
         $title  = trim( $title );
         if ( is_string( $title ) && !empty( $title )) {
-            update_option( self::TITLE_OPTION, $title );
+            update_option( self::TITLE, $title );
             $return = $title;
         }
         return $return;
@@ -74,10 +76,6 @@ class Site {
     //
     // URLS
     
-    // Constants
-    const SITE_URL = 'siteurl';
-    const HOME_URL = 'home';
-    
     // Get site URL
     public function getURL() {
         return get_option( self::SITE_URL );
@@ -86,8 +84,8 @@ class Site {
     // Get site URLs
     public function getURLs() {
         return [
-            self::SITE_URL => $this->getURL(),
-            self::HOME_URL => get_option( self::HOME_URL )
+            self::HOME_URL => get_option( self::HOME_URL ),
+            self::SITE_URL => $this->getURL()
         ];
     }
     
