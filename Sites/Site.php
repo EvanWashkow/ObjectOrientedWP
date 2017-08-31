@@ -51,6 +51,11 @@ class Site {
         return $timezone;
     }
     
+    // Get the default user role
+    public function getDefaultRole() {
+        return $this->getAttribute( 'default_role' );
+    }
+    
     
     //
     // URLS
