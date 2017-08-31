@@ -3,6 +3,9 @@ namespace WordPress\Sites;
 
 class Site {
     
+    // Site keys
+    const TITLE_OPTION = 'blogname';
+    
     // Site properties
     private $id;
     
@@ -22,7 +25,18 @@ class Site {
     
     // Get site title
     public function getTitle() {
-        return $this->getAttribute( 'blogname' );
+        return $this->getAttribute( self::TITLE_OPTION );
+    }
+    
+    // Set site title
+    public function setTitle( $title ) {
+        $return = false;
+        $title  = trim( $title );
+        if ( is_string( $title ) && !empty( $title )) {
+            $this->setAttribute( self::TITLE_OPTION, $title );
+            $return = $title;
+        }
+        return $return;
     }
     
     // Get site description
