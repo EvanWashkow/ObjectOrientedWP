@@ -4,7 +4,8 @@ namespace WordPress\Sites;
 class Site {
     
     // Site option keys
-    const TITLE    = 'blogname';
+    const DESECRIPTION = 'blogdescription';
+    const TITLE        = 'blogname';
     const HOME_URL = 'home';
     const SITE_URL = 'siteurl';
     
@@ -43,7 +44,18 @@ class Site {
     
     // Get site description
     public function getDescription() {
-        return get_option( 'blogdescription' );
+        return get_option( self::DESECRIPTION );
+    }
+    
+    // Set site description
+    public function setDescription( $description ) {
+        $return      = false;
+        $description = trim( $description );
+        if ( is_string( $description ) && !empty( $description )) {
+            update_option( self::DESECRIPTION, $description );
+            $return = $description;
+        }
+        return $return;
     }
     
     // Get timezone by the requested format
