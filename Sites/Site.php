@@ -112,5 +112,12 @@ class Site {
         $this->_attributes[ $key ] = $attribute;
         return $attribute;
     }
+    
+    // Set site details
+    private function setAttribute( $key, $value ) {
+        if ( $isSuccessful = update_option( $key, $value )) {
+            $_attributes[ $key ] = $value;
+        }
+    }
 }
 ?>
