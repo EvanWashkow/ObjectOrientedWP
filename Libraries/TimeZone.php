@@ -21,6 +21,30 @@ class TimeZone extends \DateTimeZone {
     
     // Create new TimeZone
     public function __construct( $mixed ) {
+        
+        // Compensate for WordPress' malformed GMT timezones (9.5, for example)
+        $isFloat = preg_match( '/([-+]{0,1})(\d+)\.(\d+)/', $mixed, $matches );
+        if ( $isFloat ) {
+            $operand = $matches[ 1 ];
+            $operand = empty( $operand ) ? '+' : $operand;
+            $hour    = $matches[ 2 ];
+            $hour    = str_pad( $hour, 2, '0', STR_PAD_LEFT );
+            $minutes = $matches[ 3 ];
+            switch ( $minutes ) {
+                case 75:
+                    $minutes = '45';
+                    break;
+                case 5:
+                    $minutes = '30';
+                    break;
+                default:
+                    $minutes = '00';
+                    break;
+            }
+            $mixed = "{$operand}{$hour}:{$minutes}";
+        }
+        
+        // Create new TimeZone
         parent::__construct( $mixed );
         
         // PHP doesn't allow us to access parent members. Let's change that.
