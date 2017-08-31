@@ -108,6 +108,11 @@ class Site {
         return $protocol;
     }
     
+    // Is this site on SSL?
+    public function isSSL() {
+        return is_ssl();
+    }
+    
     
     //
     // PLUGINS/THEMES
