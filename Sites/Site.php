@@ -103,8 +103,8 @@ class Site {
     
     // Get site URL protocol
     public function getProtocol() {
-        $url      = $this->getURL();
-        $protocol = substr( $url, 0, strpos( $url, '://' ));
+        preg_match( '/^(\S+):\/\//', $this->getURL(), $protocol );
+        $protocol = $protocol[ 1 ];
         return $protocol;
     }
     
