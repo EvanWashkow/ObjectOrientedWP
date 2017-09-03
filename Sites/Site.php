@@ -49,7 +49,7 @@ class Site {
     
     // Set site description
     public function setDescription( $description ) {
-        $return      = false;
+        $return      = NULL;
         $description = trim( $description );
         if ( is_string( $description ) && !empty( $description )) {
             update_option( self::DESECRIPTION, $description );
