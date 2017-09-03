@@ -8,6 +8,7 @@ class Site {
     const TITLE        = 'blogname';
     const HOME_URL = 'home';
     const SITE_URL = 'siteurl';
+    const ADMINISTRATOR_EMAIL = 'admin_email';
     
     // Site properties
     private $id;
@@ -99,6 +100,11 @@ class Site {
     
     //
     // ADMINISTRATION
+    
+    // Get the administator email
+    public function getAdministratorEmail() {
+        return get_option( self::ADMINISTRATOR_EMAIL );
+    }
     
     // Get the default user role
     public function getDefaultRole() {
