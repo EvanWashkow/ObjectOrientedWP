@@ -97,6 +97,14 @@ class Site {
         return get_option( 'current_theme' );
     }
     
+    // Switch theme
+    public function setTheme( $themeFolder ) {
+        $themeFolder = trim( $themeFolder );
+        if ( !empty( $themeFolder )) {
+            switch_theme( $themeFolder );
+        }
+    }
+    
     
     //
     // ADMINISTRATION
