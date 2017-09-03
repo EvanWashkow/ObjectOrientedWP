@@ -8,6 +8,8 @@ class Site {
     const TITLE        = 'blogname';
     const HOME_URL = 'home';
     const SITE_URL = 'siteurl';
+    const THEME_NAME   = 'current_theme';
+    const THEME_FOLDER = 'template';
     const ADMINISTRATOR_EMAIL = 'admin_email';
     
     // Site properties
@@ -93,8 +95,14 @@ class Site {
     // PLUGINS/THEMES
     
     // Get the current theme
-    public function getTheme() {
-        return get_option( 'current_theme' );
+    public function getTheme( $format = self::THEME_FOLDER ) {
+        $failure = NULL;
+        if ( $format == self::THEME_FOLDER || $format == self::THEME_NAME ) {
+            return get_option( $format );
+        }
+        else {
+            return $failure;
+        }
     }
     
     // Switch theme
