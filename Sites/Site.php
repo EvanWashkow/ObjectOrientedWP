@@ -33,7 +33,7 @@ class Site {
     
     // Set site title
     public function setTitle( $title ) {
-        $return = false;
+        $return = NULL;
         $title  = trim( $title );
         if ( is_string( $title ) && !empty( $title )) {
             update_option( self::TITLE, $title );
