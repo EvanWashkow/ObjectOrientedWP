@@ -122,6 +122,19 @@ class Site {
         return get_option( self::ADMINISTRATOR_EMAIL );
     }
     
+    // Set the administator email
+    public function setAdministratorEmail( $email ) {
+        $failure = NULL;
+        $email = trim( $email );
+        if ( is_email( $email )) {
+            update_option( self::ADMINISTRATOR_EMAIL, $email );
+            return $email;
+        }
+        else {
+            return $failure;
+        }
+    }
+    
     // Get the default user role
     public function getDefaultRole() {
         return get_option( 'default_role' );
