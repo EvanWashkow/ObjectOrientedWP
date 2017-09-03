@@ -58,32 +58,6 @@ class Site {
         return $return;
     }
     
-    // Get timezone by the requested format
-    public function getTimeZone() {
-        $failure = NULL;
-        
-        // WordPress stores either the GMT or timezone string, but not both
-        $_timezone_gmt    = get_option( 'gmt_offset' );
-        $_timezone_string = get_option( 'timezone_string' );
-        
-        // Create timezone
-        $timezone = $failure;
-        \WordPress\Libraries::Load( 'TimeZone' );
-        if ( !empty( $_timezone_string )) {
-            $timezone = new \WordPress\TimeZone( $_timezone_string );
-        }
-        elseif ( !empty( $_timezone_gmt )) {
-            $timezone = new \WordPress\TimeZone( $_timezone_gmt );
-        }
-        
-        return $timezone;
-    }
-    
-    // Get the default user role
-    public function getDefaultRole() {
-        return get_option( 'default_role' );
-    }
-    
     
     //
     // URLS
@@ -120,6 +94,36 @@ class Site {
     // Get the current theme
     public function getTheme() {
         return get_option( 'current_theme' );
+    }
+    
+    
+    //
+    // ADMINISTRATION
+    
+    // Get the default user role
+    public function getDefaultRole() {
+        return get_option( 'default_role' );
+    }
+    
+    // Get timezone by the requested format
+    public function getTimeZone() {
+        $failure = NULL;
+        
+        // WordPress stores either the GMT or timezone string, but not both
+        $_timezone_gmt    = get_option( 'gmt_offset' );
+        $_timezone_string = get_option( 'timezone_string' );
+        
+        // Create timezone
+        $timezone = $failure;
+        \WordPress\Libraries::Load( 'TimeZone' );
+        if ( !empty( $_timezone_string )) {
+            $timezone = new \WordPress\TimeZone( $_timezone_string );
+        }
+        elseif ( !empty( $_timezone_gmt )) {
+            $timezone = new \WordPress\TimeZone( $_timezone_gmt );
+        }
+        
+        return $timezone;
     }
 }
 ?>
