@@ -6,7 +6,11 @@ namespace WordPress\Sites;
  */
 class Site
 {
-
+    
+    /***************************************************************************
+    *                               DATABASE KEYS
+    ***************************************************************************/
+    
     /**
      * Option key for the site's admistor email address
      *
@@ -57,53 +61,88 @@ class Site
     const TITLE_KEY = 'blogname';
     
     
-    // Site properties
+    /***************************************************************************
+    *                              SITE PROPERTIES
+    ***************************************************************************/
+    
+    /**
+     * The site (blog) ID: uniquely identifies this site.
+     *
+     * @var int
+     */
     private $id;
     
-    // Create new site object instance
-    public function __construct( $id ) {
+    /**
+     * Create new site instance
+     *
+     * @param int $id The site (blog) id
+     */
+    public function __construct( int $id )
+    {
         $this->id = $id;
     }
     
     
-    //
-    // GENERAL INFORMATION
+    /***************************************************************************
+    *                             GENERAL INFORMATION
+    ***************************************************************************/
     
-    // Get site ID
-    public function getID() {
+    /**
+     * Get the unique identifier for this site
+     *
+     * @return int
+     */
+    public function getID()
+    {
         return $this->id;
     }
     
-    // Get site title
-    public function getTitle() {
-        return get_option( self::TITLE_KEY );
+    
+    /**
+     * Get the site title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return get_option( self::TITLE_KEY, '' );
     }
     
-    // Set site title
-    public function setTitle( $title ) {
-        $return = NULL;
-        $title  = trim( $title );
-        if ( is_string( $title ) && !empty( $title )) {
+    
+    /**
+     * Set the site title
+     *
+     * @param string $title The new site title
+     */
+    public function setTitle( string $title )
+    {
+        $title = trim( $title );
+        if ( !empty( $title )) {
             update_option( self::TITLE_KEY, $title );
-            $return = $title;
         }
-        return $return;
     }
     
-    // Get site description
-    public function getDescription() {
-        return get_option( self::DESECRIPTION_KEY );
+    
+    /**
+     * Get the site description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return get_option( self::DESECRIPTION_KEY, '' );
     }
     
-    // Set site description
-    public function setDescription( $description ) {
-        $return      = NULL;
+    
+    /**
+     * Set the site description
+     *
+     * @param string $description The new site description
+     */
+    public function setDescription( string $description )
+    {
         $description = trim( $description );
-        if ( is_string( $description ) && !empty( $description )) {
-            update_option( self::DESECRIPTION_KEY, $description );
-            $return = $description;
-        }
-        return $return;
+        update_option( self::DESECRIPTION_KEY, $description );
     }
     
     
