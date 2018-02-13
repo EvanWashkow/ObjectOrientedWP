@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "013083dba21cd0ebcd2712a743f04f1d",
-    "packages": [],
+    "content-hash": "93e5af4f58e07e9e1229caff13fd64a0",
+    "packages": [
+        {
+            "name": "evanwashkow/php-cache",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EvanWashkow/php-cache.git",
+                "reference": "dc6855f77830c415f51d37472f890c98a3d464ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EvanWashkow/php-cache/zipball/dc6855f77830c415f51d37472f890c98a3d464ae",
+                "reference": "dc6855f77830c415f51d37472f890c98a3d464ae",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHP\\": "src/PHP/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Evan Washkow",
+                    "email": "epwashkow@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple caching tools for PHP",
+            "support": {
+                "source": "https://github.com/EvanWashkow/php-cache/tree/1.0.0",
+                "issues": "https://github.com/EvanWashkow/php-cache/issues"
+            },
+            "time": "2018-02-11T00:14:41+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
