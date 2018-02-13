@@ -3,7 +3,7 @@
     "description": "Access all of WordPress in an object-oriented way",
     "version":     "0.0.0",
     "autoload": {
-        "files": [
+        "classmap": [
             "src/WordPress.php"
         ],
         "psr-4": {
