@@ -105,7 +105,7 @@ class Site
      */
     public function getTitle()
     {
-        return get_option( self::TITLE_KEY, '' );
+        return $this->get( self::TITLE_KEY, '' );
     }
     
     
@@ -130,7 +130,7 @@ class Site
      */
     public function getDescription()
     {
-        return get_option( self::DESECRIPTION_KEY, '' );
+        return $this->get( self::DESECRIPTION_KEY, '' );
     }
     
     
@@ -151,13 +151,13 @@ class Site
     
     // Get site URL
     public function getURL() {
-        return get_option( self::SITE_URL_KEY );
+        return $this->get( self::SITE_URL_KEY );
     }
     
     // Get site URLs
     public function getURLs() {
         return [
-            self::HOME_URL_KEY => get_option( self::HOME_URL_KEY ),
+            self::HOME_URL_KEY => $this->get( self::HOME_URL_KEY ),
             self::SITE_URL_KEY => $this->getURL()
         ];
     }
@@ -182,7 +182,7 @@ class Site
     public function getTheme( $format = self::THEME_ID_KEY ) {
         $failure = NULL;
         if ( $format == self::THEME_ID_KEY || $format == self::THEME_NAME_KEY ) {
-            return get_option( $format );
+            return $this->get( $format );
         }
         else {
             return $failure;
@@ -203,7 +203,7 @@ class Site
     
     // Get the administator email
     public function getAdministratorEmail() {
-        return get_option( self::ADMINISTRATOR_EMAIL_KEY );
+        return $this->get( self::ADMINISTRATOR_EMAIL_KEY );
     }
     
     // Set the administator email
@@ -221,7 +221,7 @@ class Site
     
     // Get the default user role
     public function getDefaultRole() {
-        return get_option( 'default_role' );
+        return $this->get( 'default_role' );
     }
     
     // Get timezone by the requested format
@@ -229,8 +229,8 @@ class Site
         $failure = NULL;
         
         // WordPress stores either the GMT or timezone string, but not both
-        $_timezone_gmt    = get_option( 'gmt_offset' );
-        $_timezone_string = get_option( 'timezone_string' );
+        $_timezone_gmt    = $this->get( 'gmt_offset' );
+        $_timezone_string = $this->get( 'timezone_string' );
         
         // Create timezone
         $timezone = $failure;
@@ -242,6 +242,45 @@ class Site
         }
         
         return $timezone;
+    }
+    
+    
+    /***************************************************************************
+    *                               UTILITIES
+    ***************************************************************************/
+    
+    /**
+     * Retrieve a property for this site
+     *
+     * @param string $key          The property key
+     * @param mixed  $defaultValue The property's default value
+     * @return mixed The property value
+     */
+    final public function get( string $key, $defaultValue = NULL )
+    {
+        // Variables
+        $key   = self::sanitizeKey( $key );
+        $value = $defaultValue;
+        
+        // Retrieve value
+        if ( '' != $key ) {
+            switch_to_blog( $this->getID() );
+            $value = get_option( $key, $defaultValue );
+            restore_current_blog();
+        }
+        return $value;
+    }
+    
+    
+    /**
+     * Sanitize the site property key
+     *
+     * @param string $key The property key
+     * @return string
+     */
+    final protected static function sanitizeKey( string $key )
+    {
+        return trim( $key );
     }
 }
 ?>
