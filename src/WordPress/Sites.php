@@ -1,17 +1,24 @@
 <?php
 namespace WordPress;
 
-/*******************************************************************************
-* WordPress Site (blog) manager
-*******************************************************************************/
-
-class Sites {
+/**
+ * Manages WordPress sites
+ */
+class Sites
+{
     
-    //
-    // METHODS
+    /***************************************************************************
+    *                                   MAIN
+    ***************************************************************************/
     
-    // Get site or sites, indexed by id
-    public static function Get( $id = NULL ) {
+    /**
+     * Retrieve site(s)
+     *
+     * @param int $id Site ID to lookup
+     * @return Sites\Site|array
+     */
+    public static function Get( int $id = NULL )
+    {
         
         // Get site by ID
         if ( isset( $id ) && is_numeric( $id )) {
@@ -29,8 +36,18 @@ class Sites {
         }
     }
     
-    // Get all sites, indexed by id
-    private static function getAll() {
+    
+    /***************************************************************************
+    *                               SUB-ROUTINES
+    ***************************************************************************/
+    
+    /**
+     * Retrieve all sites
+     *
+     * @return array
+     */
+    private static function getAll()
+    {
         
         // Exit. Return all sites from cache.
         if ( self::isCompleteCache() ) {
