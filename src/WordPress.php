@@ -5,5 +5,15 @@
  */
 class WordPress
 {
+    
+    /**
+     * Retrieve current WordPress version
+     *
+     * @return string
+     */
+    final public static function GetVersion()
+    {
+        return get_bloginfo( 'version' );
+    }
 }
 ?>
