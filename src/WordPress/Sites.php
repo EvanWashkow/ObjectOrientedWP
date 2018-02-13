@@ -7,6 +7,14 @@ namespace WordPress;
 class Sites
 {
     
+    /**
+     * Cache of all sites
+     *
+     * @var \PHP\Cache
+     */
+    private static $cache;
+    
+    
     /***************************************************************************
     *                                   MAIN
     ***************************************************************************/
@@ -19,18 +27,13 @@ class Sites
      */
     public static function Get( int $id = NULL )
     {
+        // Setup
+        self::initializeCache();
         
-        // Get site by ID
-        if ( isset( $id ) && is_numeric( $id )) {
-            $site = self::getCache( $id );
-            if ( !isset( $site )) {
-                $site = new Sites\Site( $id );
-                self::addCache( $site );
-            }
-            return $site;
+        // Return site(s)
+        if ( isset( $id )) {
+            return self::getSingle( $id );
         }
-        
-        // Return all sites
         else {
             return self::getAll();
         }
@@ -41,6 +44,24 @@ class Sites
     *                               SUB-ROUTINES
     ***************************************************************************/
     
+    
+    /**
+     * Retrieve single site
+     *
+     * @param int $id Site ID to lookup
+     * @return Sites\Site
+     */
+    private static function getSingle( int $id )
+    {
+        $site  = NULL;
+        $sites = self::getAll();
+        if ( array_key_exists( $id, $sites )) {
+            $site = $sites[ $id ];
+        }
+        return $site;
+    }
+    
+    
     /**
      * Retrieve all sites
      *
@@ -49,65 +70,50 @@ class Sites
     private static function getAll()
     {
         
-        // Exit. Return all sites from cache.
-        if ( self::isCompleteCache() ) {
-            return self::getCache();
+        // Variables
+        $sites = [];
+        
+        // Read all sites from cache.
+        if ( self::$cache->isComplete() ) {
+            $sites = self::$cache->get();
         }
         
-        // Retrieve sites from the multisite setup
-        if ( is_multisite() ) {
-            $wp_sites = get_sites();
-            foreach ( $wp_sites as $wp_site ) {
-                $id   = $wp_site->blog_id;
-                $site = self::getCache( $id );
-                
-                // Cache new site object
-                if ( !isset( $site )) {
-                    $site = new Sites\Site( $id );
-                    self::addCache( $site );
+        // Lookup sites
+        else {
+            
+            // Retrieve sites from the multisite setup
+            if ( is_multisite() ) {
+                $wp_sites = get_sites();
+                foreach ( $wp_sites as $wp_site ) {
+                    $id = $wp_site->blog_id;
+                    $sites[ $id ] = new Sites\Site( $id );
                 }
             }
+            
+            // Retrieve site from default, non-multisite setup
+            else {
+                $sites[ 1 ] = new Sites\Site( 1 );
+            }
+            
+            // Set cache, marking it complete
+            self::$cache->set( $sites );
         }
         
-        // Retrieve site from default, non-multisite setup
-        else {
-            $site = new Sites\Site( 1 );
-            self::addCache( $site );
-        }
-        
-        // Return sites. Mark cache complete.
-        self::isCompleteCache( true );
-        return self::getCache();
+        return $sites;
     }
     
     
-    //
-    // CACHE
+    /***************************************************************************
+    *                               UTILITIES
+    ***************************************************************************/
     
-    // Sites cache
-    private static $isCompleteCache = false;
-    private static $_sites          = [ /* site_id => site_object*/ ];
-    
-    // Are all sites in the cache?
-    private static function isCompleteCache( $bool = NULL ) {
-        if ( isset( $bool ) && is_bool( $bool )) {
-            self::$isCompleteCache = $bool;
-        }
-        return self::$isCompleteCache;
-    }
-    
-    // Add site to cache
-    private static function addCache( $site ) {
-        self::$_sites[ $site->getID() ] = $site;
-    }
-    
-    // Get site or sites from cache
-    private static function getCache( $siteID = NULL ) {
-        if ( isset( $siteID )) {
-            return empty( self::$_sites[ $siteID ] ) ? NULL : self::$_sites[ $siteID ];
-        }
-        else {
-            return self::$_sites;
+    /**
+     * Create cache instance
+     */
+    private static function initializeCache()
+    {
+        if ( !isset( self::$cache )) {
+            self::$cache = new \PHP\Cache();
         }
     }
 }
