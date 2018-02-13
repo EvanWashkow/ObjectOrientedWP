@@ -1,0 +1,21 @@
+{
+    "name":        "evanwashkow/object-oriented-wordpress",
+    "description": "Access all of WordPress in an object-oriented way",
+    "version":     "0.0.0",
+    "autoload": {
+        "psr-4": {
+            "WordPress\\": "src/WordPress"
+        }
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "authors": [
+        {
+            "name":  "Evan Washkow",
+            "email": "epwashkow@gmail.com",
+            "role":  "Developer"
+        }
+    ],
+    "license": "GPL-3.0-or-later"
+}
