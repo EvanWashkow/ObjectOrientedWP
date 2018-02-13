@@ -7,7 +7,11 @@
             "src/WordPress.php"
         ],
         "psr-4": {
-            "WordPress\\": "src/WordPress"
+            "WordPress\\": [
+                "src/WordPress",
+                "src/WordPress/libraries"
+            ]
+            
         }
     },
     "require": {

@@ -150,7 +150,6 @@ class Site {
         
         // Create timezone
         $timezone = $failure;
-        \WordPress\Libraries::Load( 'TimeZone' );
         if ( !empty( $_timezone_string )) {
             $timezone = new \WordPress\TimeZone( $_timezone_string );
         }
