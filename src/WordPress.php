@@ -1,5 +1,12 @@
 <?php
 
+// Load the autoloader locally
+$autoloaderFile = __DIR__ . '/../vendor/autoload.php';
+if ( file_exists( $autoloaderFile )) {
+    require_once( $autoloaderFile );
+}
+
+
 /**
  * Root WordPress class
  */
