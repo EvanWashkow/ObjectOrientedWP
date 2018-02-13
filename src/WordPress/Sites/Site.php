@@ -118,7 +118,7 @@ class Site
     {
         $title = trim( $title );
         if ( !empty( $title )) {
-            update_option( self::TITLE_KEY, $title );
+            $this->set( self::TITLE_KEY, $title );
         }
     }
     
@@ -142,7 +142,7 @@ class Site
     public function setDescription( string $description )
     {
         $description = trim( $description );
-        update_option( self::DESECRIPTION_KEY, $description );
+        $this->set( self::DESECRIPTION_KEY, $description );
     }
     
     
@@ -211,7 +211,7 @@ class Site
         $failure = NULL;
         $email = trim( $email );
         if ( is_email( $email )) {
-            update_option( self::ADMINISTRATOR_EMAIL_KEY, $email );
+            $this->set( self::ADMINISTRATOR_EMAIL_KEY, $email );
             return $email;
         }
         else {
@@ -269,6 +269,25 @@ class Site
             restore_current_blog();
         }
         return $value;
+    }
+    
+    /**
+     * Set a property on this site
+     *
+     * @param string $key   The property key
+     * @param mixed  $value The new value for the property
+     */
+    final public function set( string $key, $value )
+    {
+        // Variables
+        $key = self::sanitizeKey( $key );
+        
+        // Set value
+        if ( '' != $key ) {
+            switch_to_blog( $this->getID() );
+            update_option( $key, $value );
+            restore_current_blog();
+        }
     }
     
     
