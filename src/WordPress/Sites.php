@@ -38,18 +38,26 @@ class Sites {
             return self::getCache();
         }
         
-        // Lookup sites. For each, create and cache new a site instance.
-        $wp_sites = get_sites();
-        foreach ( $wp_sites as $wp_site ) {
-            self::loadComponents();
-            $id   = $wp_site->blog_id;
-            $site = self::getCache( $id );
-            
-            // Cache new site object
-            if ( !isset( $site )) {
-                $site = new Sites\Site( $id );
-                self::addCache( $site );
+        // Retrieve sites from the multisite setup
+        if ( is_multisite() ) {
+            $wp_sites = get_sites();
+            foreach ( $wp_sites as $wp_site ) {
+                self::loadComponents();
+                $id   = $wp_site->blog_id;
+                $site = self::getCache( $id );
+                
+                // Cache new site object
+                if ( !isset( $site )) {
+                    $site = new Sites\Site( $id );
+                    self::addCache( $site );
+                }
             }
+        }
+        
+        // Retrieve site from default, non-multisite setup
+        else {
+            $site = new Sites\Site( 1 );
+            self::addCache( $site );
         }
         
         // Return sites. Mark cache complete.
