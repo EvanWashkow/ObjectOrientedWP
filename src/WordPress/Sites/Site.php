@@ -1,16 +1,61 @@
 <?php
 namespace WordPress\Sites;
 
-class Site {
+/**
+ * Defines a single site
+ */
+class Site
+{
+
+    /**
+     * Option key for the site's admistor email address
+     *
+     * @var string
+     */
+    const ADMINISTRATOR_EMAIL_KEY = 'admin_email';
     
-    // Site option keys
-    const DESECRIPTION = 'blogdescription';
-    const TITLE        = 'blogname';
-    const HOME_URL = 'home';
-    const SITE_URL = 'siteurl';
-    const THEME_NAME   = 'current_theme';
-    const THEME_FOLDER = 'template';
-    const ADMINISTRATOR_EMAIL = 'admin_email';
+    /**
+     * Option key for the site description
+     *
+     * @var string
+     */
+    const DESECRIPTION_KEY = 'blogdescription';
+    
+    /**
+     * Option key for the site's home (front-facing) url
+     *
+     * @var string
+     */
+    const HOME_URL_KEY = 'home';
+    
+    /**
+     * Option key for the site (backend) url
+     *
+     * @var string
+     */
+    const SITE_URL_KEY = 'siteurl';
+    
+    /**
+     * Option key for the current theme name
+     *
+     * @var string
+     */
+    const THEME_NAME_KEY = 'current_theme';
+    
+    /**
+     * Option key for current theme ID
+     *
+     * @var string
+     */
+    const THEME_ID_KEY = 'template';
+    
+    /**
+     * Option key for the site title
+     *
+     * @var string
+     */
+    const TITLE_KEY = 'blogname';
+    
     
     // Site properties
     private $id;
@@ -31,7 +76,7 @@ class Site {
     
     // Get site title
     public function getTitle() {
-        return get_option( self::TITLE );
+        return get_option( self::TITLE_KEY );
     }
     
     // Set site title
@@ -39,7 +84,7 @@ class Site {
         $return = NULL;
         $title  = trim( $title );
         if ( is_string( $title ) && !empty( $title )) {
-            update_option( self::TITLE, $title );
+            update_option( self::TITLE_KEY, $title );
             $return = $title;
         }
         return $return;
@@ -47,7 +92,7 @@ class Site {
     
     // Get site description
     public function getDescription() {
-        return get_option( self::DESECRIPTION );
+        return get_option( self::DESECRIPTION_KEY );
     }
     
     // Set site description
@@ -55,7 +100,7 @@ class Site {
         $return      = NULL;
         $description = trim( $description );
         if ( is_string( $description ) && !empty( $description )) {
-            update_option( self::DESECRIPTION, $description );
+            update_option( self::DESECRIPTION_KEY, $description );
             $return = $description;
         }
         return $return;
@@ -67,14 +112,14 @@ class Site {
     
     // Get site URL
     public function getURL() {
-        return get_option( self::SITE_URL );
+        return get_option( self::SITE_URL_KEY );
     }
     
     // Get site URLs
     public function getURLs() {
         return [
-            self::HOME_URL => get_option( self::HOME_URL ),
-            self::SITE_URL => $this->getURL()
+            self::HOME_URL_KEY => get_option( self::HOME_URL_KEY ),
+            self::SITE_URL_KEY => $this->getURL()
         ];
     }
     
@@ -95,9 +140,9 @@ class Site {
     // PLUGINS/THEMES
     
     // Get the current theme
-    public function getTheme( $format = self::THEME_FOLDER ) {
+    public function getTheme( $format = self::THEME_ID_KEY ) {
         $failure = NULL;
-        if ( $format == self::THEME_FOLDER || $format == self::THEME_NAME ) {
+        if ( $format == self::THEME_ID_KEY || $format == self::THEME_NAME_KEY ) {
             return get_option( $format );
         }
         else {
@@ -119,7 +164,7 @@ class Site {
     
     // Get the administator email
     public function getAdministratorEmail() {
-        return get_option( self::ADMINISTRATOR_EMAIL );
+        return get_option( self::ADMINISTRATOR_EMAIL_KEY );
     }
     
     // Set the administator email
@@ -127,7 +172,7 @@ class Site {
         $failure = NULL;
         $email = trim( $email );
         if ( is_email( $email )) {
-            update_option( self::ADMINISTRATOR_EMAIL, $email );
+            update_option( self::ADMINISTRATOR_EMAIL_KEY, $email );
             return $email;
         }
         else {
