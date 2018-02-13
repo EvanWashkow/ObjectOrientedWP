@@ -13,4 +13,10 @@ namespace WordPress;
 
 $directory = dirname( __FILE__ );
 require_once( "{$directory}/WordPress.php" );
+
+// Shared
+require_once( "{$directory}/Libraries.php" );   // Lazy-loaded, non-static members
+
+// Components
+require_once( "{$directory}/Sites.php" );
 ?>
