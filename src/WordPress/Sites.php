@@ -17,7 +17,6 @@ class Sites {
         if ( isset( $id ) && is_numeric( $id )) {
             $site = self::getCache( $id );
             if ( !isset( $site )) {
-                self::loadComponents();
                 $site = new Sites\Site( $id );
                 self::addCache( $site );
             }
@@ -42,7 +41,6 @@ class Sites {
         if ( is_multisite() ) {
             $wp_sites = get_sites();
             foreach ( $wp_sites as $wp_site ) {
-                self::loadComponents();
                 $id   = $wp_site->blog_id;
                 $site = self::getCache( $id );
                 
@@ -94,16 +92,6 @@ class Sites {
         else {
             return self::$_sites;
         }
-    }
-    
-    
-    //
-    // COMPONENTS
-    
-    // Load components
-    private static function loadComponents() {
-        $directory = dirname( __FILE__ ) . '/Sites';
-        require_once( "{$directory}/Site.php" );
     }
 }
 ?>
