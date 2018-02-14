@@ -52,6 +52,34 @@ class Sites
     
     
     /***************************************************************************
+    *                              SITE SWITCHING
+    ***************************************************************************/
+    
+    /**
+     * Switch to different site context
+     *
+     * @param int $siteID Site (blog) ID to switch to
+     */
+    final public static function SwitchTo( int $siteID )
+    {
+        if ( is_multisite() ) {
+            switch_to_blog( $siteID );
+        }
+    }
+    
+    
+    /**
+     * Switch back to the prior site context
+     */
+    final public static function SwitchBack()
+    {
+        if ( is_multisite() ) {
+            restore_current_blog();
+        }
+    }
+    
+    
+    /***************************************************************************
     *                               SUB-ROUTINES
     ***************************************************************************/
     
