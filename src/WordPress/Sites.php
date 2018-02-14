@@ -86,13 +86,13 @@ class Sites
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
                     $id = $wp_site->blog_id;
-                    $sites[ $id ] = new Sites\Site( $id );
+                    $sites[ $id ] = Sites\Models::Create( $id );
                 }
             }
             
             // Retrieve site from default, non-multisite setup
             else {
-                $sites[ 1 ] = new Sites\Site( 1 );
+                $sites[ 1 ] = Sites\Models::Create( 1 );
             }
             
             // Set cache, marking it complete

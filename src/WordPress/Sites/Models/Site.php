@@ -1,5 +1,5 @@
 <?php
-namespace WordPress\Sites;
+namespace WordPress\Sites\Models;
 
 /**
  * Defines a single site
