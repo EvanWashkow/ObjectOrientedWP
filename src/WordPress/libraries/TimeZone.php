@@ -20,28 +20,44 @@ class TimeZone extends \DateTimeZone {
     protected $timezone_type;
     
     // Create new TimeZone
-    public function __construct( $mixed ) {
-        
-        // Compensate for WordPress' malformed GMT timezones (9.5, for example)
-        $isFloat = preg_match( '/([-+]{0,1})(\d+)\.(\d+)/', $mixed, $matches );
-        if ( $isFloat ) {
-            $operand = $matches[ 1 ];
-            $operand = empty( $operand ) ? '+' : $operand;
-            $hour    = $matches[ 2 ];
-            $hour    = str_pad( $hour, 2, '0', STR_PAD_LEFT );
-            $minutes = $matches[ 3 ];
-            switch ( $minutes ) {
-                case 75:
-                    $minutes = '45';
-                    break;
-                case 5:
-                    $minutes = '30';
-                    break;
-                default:
-                    $minutes = '00';
-                    break;
+    public function __construct( $mixed )
+    {
+        // Compensate for WordPress' decimal timezones (ex: 0, -1, 1.5)
+        if ( is_numeric( $mixed )) {
+            
+            // Ensure string has a decimal place
+            $floatString = strval( $mixed );
+            if ( false === strpos( $floatString, '.' )) {
+                $floatString .= ".0";
             }
-            $mixed = "{$operand}{$hour}:{$minutes}";
+            
+            // Extract string elements
+            $isSuccessful = preg_match(
+                '/([-+]{0,1})(\d+)\.(\d+)/',
+                $floatString,
+                $elements
+            );
+            
+            // Build GMT string
+            if ( $isSuccessful ) {
+                $operand = $elements[ 1 ];
+                $operand = empty( $operand ) ? '+' : $operand;
+                $hour    = $elements[ 2 ];
+                $hour    = str_pad( $hour, 2, '0', STR_PAD_LEFT );
+                $minutes = $elements[ 3 ];
+                switch ( $minutes ) {
+                    case 75:
+                        $minutes = '45';
+                        break;
+                    case 5:
+                        $minutes = '30';
+                        break;
+                    default:
+                        $minutes = '00';
+                        break;
+                }
+                $mixed = "{$operand}{$hour}:{$minutes}";
+            }
         }
         
         // Create new TimeZone
