@@ -146,31 +146,58 @@ class Site
     }
     
     
-    //
-    // URLS
+    /***************************************************************************
+    *                                    URLS
+    ***************************************************************************/
     
-    // Get site URL
-    public function getURL() {
-        return $this->get( self::SITE_URL_KEY );
+    /**
+     * Retrieve the primary site URL
+     *
+     * If you want the front-facing home URL, see getURLs()
+     *
+     * @return string
+     */
+    public function getURL()
+    {
+        return $this->get( self::SITE_URL_KEY, '' );
     }
     
-    // Get site URLs
-    public function getURLs() {
+    
+    /**
+     * Retrieve all URLs associated with this site
+     *
+     * @return array
+     */
+    public function getURLs()
+    {
         return [
-            self::HOME_URL_KEY => $this->get( self::HOME_URL_KEY ),
+            self::HOME_URL_KEY => $this->get( self::HOME_URL_KEY, '' ),
             self::SITE_URL_KEY => $this->getURL()
         ];
     }
     
-    // Get site URL protocol
-    public function getProtocol() {
+    
+    /**
+     * Returns "http" or "https" for the primary URL
+     *
+     * @param type var Description
+     * @return return type
+     */
+    public function getProtocol()
+    {
         preg_match( '/^(\S+):\/\//', $this->getURL(), $protocol );
         $protocol = $protocol[ 1 ];
         return $protocol;
     }
     
-    // Is this site on SSL?
-    public function isSSL() {
+    
+    /**
+     * Is this site secured on SSL?
+     *
+     * @return bool
+     */
+    public function isSSL()
+    {
         return is_ssl();
     }
     
