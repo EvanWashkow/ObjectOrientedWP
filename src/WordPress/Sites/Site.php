@@ -217,42 +217,59 @@ class Site
     }
     
     
-    //
-    // ADMINISTRATION
+    /***************************************************************************
+    *                               ADMINISTRATION
+    ***************************************************************************/
     
-    // Get the administator email
-    public function getAdministratorEmail() {
-        return $this->get( self::ADMINISTRATOR_EMAIL_KEY );
+    /**
+     * Retrieve the administator's email address
+     *
+     * @return string
+     */
+    public function getAdministratorEmail()
+    {
+        return $this->get( self::ADMINISTRATOR_EMAIL_KEY, '' );
     }
     
-    // Set the administator email
-    public function setAdministratorEmail( $email ) {
-        $failure = NULL;
+    
+    /**
+     * Change the administator's email address
+     *
+     * @param string $email The new administrator email address
+     */
+    public function setAdministratorEmail( string $email )
+    {
         $email = trim( $email );
         if ( is_email( $email )) {
             $this->set( self::ADMINISTRATOR_EMAIL_KEY, $email );
-            return $email;
-        }
-        else {
-            return $failure;
         }
     }
     
-    // Get the default user role
-    public function getDefaultRole() {
-        return $this->get( 'default_role' );
+    
+    /**
+     * Get the default user role
+     *
+     * @return string
+     */
+    public function getDefaultRole()
+    {
+        return $this->get( 'default_role', '' );
     }
     
-    // Get timezone by the requested format
-    public function getTimeZone() {
-        $failure = NULL;
-        
+    
+    /**
+     * Get timezone for this site
+     *
+     * @return \WordPress\TimeZone
+     */
+    public function getTimeZone()
+    {
         // WordPress stores either the GMT or timezone string, but not both
         $_timezone_gmt    = $this->get( 'gmt_offset' );
         $_timezone_string = $this->get( 'timezone_string' );
         
         // Create timezone
-        $timezone = $failure;
+        $timezone = NULL;
         if ( !empty( $_timezone_string )) {
             $timezone = new \WordPress\TimeZone( $_timezone_string );
         }
