@@ -270,10 +270,10 @@ class Site
         
         // Create timezone
         $timezone = NULL;
-        if ( !empty( $_timezone_string )) {
+        if ( '' != $_timezone_string ) {
             $timezone = new \WordPress\TimeZone( $_timezone_string );
         }
-        elseif ( !empty( $_timezone_gmt )) {
+        elseif ( '' != $_timezone_gmt ) {
             $timezone = new \WordPress\TimeZone( $_timezone_gmt );
         }
         
