@@ -17,6 +17,15 @@ class Site
      * @var string
      */
     const ACTIVE_THEME_ID_KEY = 'template';
+    
+    /**
+     * Option key for the site's active plugins
+     *
+     * @var string
+     */
+    const ACTIVE_PLUGINS_KEY = 'active_plugins';
+    
+    /**
      * Option key for the site's admistor email address
      *
      * @var string
@@ -196,6 +205,25 @@ class Site
     final public function getActiveThemeID()
     {
         return $this->get( self::ACTIVE_THEME_ID_KEY, '' );
+    }
+    
+    
+    /**
+     * Retrieve the active plugin IDs for this site (does not include network)
+     *
+     * Use \WordPress\Plugins for related plugin management
+     *
+     * @return array
+     */
+    final public function getActivePluginIDs()
+    {
+        $pluginIDs   = [];
+        $pluginFiles = $this->get( self::ACTIVE_PLUGINS_KEY, [] );
+        foreach ( $pluginFiles as $pluginFile ) {
+            $elements = explode( '/', $pluginFile );
+            $pluginIDs[] = $elements[ 0 ];
+        }
+        return $pluginIDs;
     }
     
     
