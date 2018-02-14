@@ -29,7 +29,7 @@ class Sites
     /**
      * Retrieve site(s)
      *
-     * @param int $id Site ID to lookup
+     * @param int $id CURRENT or the site ID to lookup
      * @return Sites\Site|array
      */
     public static function Get( int $id = NULL )
