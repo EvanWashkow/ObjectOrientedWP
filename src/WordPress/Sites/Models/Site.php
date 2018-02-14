@@ -1,6 +1,8 @@
 <?php
 namespace WordPress\Sites\Models;
 
+use \WordPress\Sites;
+
 /**
  * Defines a single site
  */
@@ -318,9 +320,9 @@ class Site
         
         // Retrieve value
         if ( '' != $key ) {
-            switch_to_blog( $this->getID() );
+            Sites::SwitchTo( $this->getID() );
             $value = get_option( $key, $defaultValue );
-            restore_current_blog();
+            Sites::SwitchBack();
         }
         return $value;
     }
@@ -338,9 +340,9 @@ class Site
         
         // Set value
         if ( '' != $key ) {
-            switch_to_blog( $this->getID() );
+            Sites::SwitchTo( $this->getID() );
             update_option( $key, $value );
-            restore_current_blog();
+            Sites::SwitchBack();
         }
     }
     
