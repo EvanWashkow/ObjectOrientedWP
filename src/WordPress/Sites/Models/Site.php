@@ -173,6 +173,52 @@ class Site
     
     
     /**
+     * Change the site's primary URL, including protocol
+     *
+     * DANGER! USE WITH EXTREME CAUTION.
+     *
+     * @param string $url The new URL
+     */
+    final public function setURL( string $url )
+    {
+        // Exit. Invalid URL.
+        $url = trim( $url );
+        $url = filter_var( $url, FILTER_VALIDATE_URL );
+        if ( false === $url ) {
+            return;
+        }
+        
+        // Single-/multi-site
+        $this->set( self::SITE_URL_KEY, $url );
+        
+        // Multi-site
+        if ( is_multisite() ) {
+            
+            // Break URL into its component parts
+            $urlPieces = explode( '/', $url );
+            $protocol  = array_shift( $urlPieces );
+            $domain    = array_shift( $urlPieces );
+            $domain    = array_shift( $urlPieces );
+            $path      = '/' . implode( '/', $urlPieces );
+            
+            // Update blogs table
+            global $wpdb;
+            $wpdb->update(
+                $wpdb->blogs,
+                [
+                    'domain' => $domain,
+                    'path'   => $path
+                ],
+                [
+                    'blog_id' => $this->getID()
+                ]
+            );
+        }
+            
+    }
+    
+    
+    /**
      * Retrieve all URLs associated with this site
      *
      * @return array
