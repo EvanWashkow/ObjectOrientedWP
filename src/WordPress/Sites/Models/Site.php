@@ -12,6 +12,11 @@ class Site
     ***************************************************************************/
     
     /**
+     * Option key for currently-active theme ID
+     *
+     * @var string
+     */
+    const ACTIVE_THEME_ID_KEY = 'template';
      * Option key for the site's admistor email address
      *
      * @var string
@@ -38,20 +43,6 @@ class Site
      * @var string
      */
     const SITE_URL_KEY = 'siteurl';
-    
-    /**
-     * Option key for the current theme name
-     *
-     * @var string
-     */
-    const THEME_NAME_KEY = 'current_theme';
-    
-    /**
-     * Option key for current theme ID
-     *
-     * @var string
-     */
-    const THEME_ID_KEY = 'template';
     
     /**
      * Option key for the site title
@@ -196,24 +187,15 @@ class Site
     ***************************************************************************/
     
     /**
-     * Get the current site theme
+     * Retrieve the currently-active theme ID
      *
-     * Use \WordPress\Themes to change themes
+     * Use \WordPress\Themes for related theme management
      *
-     * @todo Drop name support. Instead, build \WordPress\Themes support.
-     *
-     * @param string $format Retrieve the theme name or ID
      * @return string
      */
-    final public function getTheme( $format = self::THEME_ID_KEY )
+    final public function getActiveThemeID()
     {
-        $failure = NULL;
-        if ( $format == self::THEME_ID_KEY || $format == self::THEME_NAME_KEY ) {
-            return $this->get( $format );
-        }
-        else {
-            return $failure;
-        }
+        return $this->get( self::ACTIVE_THEME_ID_KEY, '' );
     }
     
     
