@@ -190,4 +190,3 @@ class TimeZone extends \DateTimeZone
         return $this->dateTime->format( $format );
     }
 }
-?>

@@ -23,4 +23,3 @@ class WordPress
         return get_bloginfo( 'version' );
     }
 }
-?>

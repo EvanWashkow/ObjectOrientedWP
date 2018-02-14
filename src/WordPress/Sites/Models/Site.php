@@ -356,4 +356,3 @@ class Site
         return trim( $key );
     }
 }
-?>
