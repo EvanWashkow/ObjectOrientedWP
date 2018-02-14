@@ -118,7 +118,7 @@ class Sites
     /**
      * Create cache instance
      */
-    private static function initializeCache()
+    protected static function initializeCache()
     {
         if ( !isset( self::$cache )) {
             self::$cache = new \PHP\Cache();
