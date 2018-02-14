@@ -247,11 +247,11 @@ class Site
     
     
     /**
-     * Get the default user role
+     * Get the default user role identifier
      *
      * @return string
      */
-    public function getDefaultRole()
+    public function getDefaultRoleID()
     {
         return $this->get( 'default_role', '' );
     }
