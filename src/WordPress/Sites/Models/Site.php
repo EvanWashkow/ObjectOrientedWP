@@ -180,8 +180,7 @@ class Site
     /**
      * Returns "http" or "https" for the primary URL
      *
-     * @param type var Description
-     * @return return type
+     * @return string
      */
     final public function getProtocol()
     {
