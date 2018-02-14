@@ -191,11 +191,20 @@ class Site
     }
     
     
-    //
-    // PLUGINS/THEMES
+    /***************************************************************************
+    *                           PLUGINS AND THEMES
+    ***************************************************************************/
     
-    // Get the current theme
-    public function getTheme( $format = self::THEME_ID_KEY ) {
+    /**
+     * Get the current site theme
+     *
+     * @todo Drop name support. Instead, build \WordPress\Themes support.
+     *
+     * @param string $format Retrieve the theme name or ID
+     * @return string
+     */
+    public function getTheme( $format = self::THEME_ID_KEY )
+    {
         $failure = NULL;
         if ( $format == self::THEME_ID_KEY || $format == self::THEME_NAME_KEY ) {
             return $this->get( $format );
@@ -205,11 +214,17 @@ class Site
         }
     }
     
-    // Switch theme
-    public function setTheme( $themeFolder ) {
-        $themeFolder = trim( $themeFolder );
-        if ( !empty( $themeFolder )) {
-            switch_theme( $themeFolder );
+    
+    /**
+     * Switch the site theme
+     *
+     * @param string $themeID The theme id
+     */
+    public function setTheme( string $themeID )
+    {
+        $themeID = trim( $themeID );
+        if ( !empty( $themeID )) {
+            switch_theme( $themeID );
         }
     }
     
