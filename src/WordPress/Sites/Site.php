@@ -191,17 +191,6 @@ class Site
     }
     
     
-    /**
-     * Is this site secured on SSL?
-     *
-     * @return bool
-     */
-    public function isSSL()
-    {
-        return is_ssl();
-    }
-    
-    
     //
     // PLUGINS/THEMES
     
