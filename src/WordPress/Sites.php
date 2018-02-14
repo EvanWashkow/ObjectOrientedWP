@@ -8,13 +8,6 @@ class Sites
 {
     
     /**
-     * Specifies current site
-     *
-     * @var int
-     */
-    const CURRENT = -1;
-    
-    /**
      * Cache of all sites
      *
      * @var \PHP\Cache
@@ -29,14 +22,13 @@ class Sites
     /**
      * Retrieve site(s)
      *
-     * @param int $id CURRENT or the site ID to lookup
+     * @param int $id The site ID to lookup
      * @return Sites\Site|array
      */
     public static function Get( int $id = NULL )
     {
         // Setup
         self::initializeCache();
-        $id = self::sanitizeSiteID( $id );
         
         // Return site(s)
         if ( isset( $id )) {
@@ -45,6 +37,17 @@ class Sites
         else {
             return self::getAll();
         }
+    }
+    
+    
+    /**
+     * Retrieve the current site ID
+     *
+     * @return int
+     */
+    final public static function GetCurrentSiteID()
+    {
+        return get_current_blog_id();
     }
     
     
@@ -123,20 +126,5 @@ class Sites
         if ( !isset( self::$cache )) {
             self::$cache = new \PHP\Cache();
         }
-    }
-    
-    
-    /**
-     * Sanitize the site ID
-     *
-     * @param int $id The site (blog) ID
-     * @return int
-     */
-    protected static function sanitizeSiteID( int $id )
-    {
-        if ( self::CURRENT === $id ) {
-            $id = get_current_blog_id();
-        }
-        return $id;
     }
 }
