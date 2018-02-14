@@ -77,7 +77,7 @@ class Site
      *
      * @param int $id The site (blog) id
      */
-    public function __construct( int $id )
+    final public function __construct( int $id )
     {
         $this->id = $id;
     }
@@ -92,7 +92,7 @@ class Site
      *
      * @return int
      */
-    public function getID()
+    final public function getID()
     {
         return $this->id;
     }
@@ -103,7 +103,7 @@ class Site
      *
      * @return string
      */
-    public function getTitle()
+    final public function getTitle()
     {
         return $this->get( self::TITLE_KEY, '' );
     }
@@ -114,7 +114,7 @@ class Site
      *
      * @param string $title The new site title
      */
-    public function setTitle( string $title )
+    final public function setTitle( string $title )
     {
         $title = trim( $title );
         if ( !empty( $title )) {
@@ -128,7 +128,7 @@ class Site
      *
      * @return string
      */
-    public function getDescription()
+    final public function getDescription()
     {
         return $this->get( self::DESECRIPTION_KEY, '' );
     }
@@ -139,7 +139,7 @@ class Site
      *
      * @param string $description The new site description
      */
-    public function setDescription( string $description )
+    final public function setDescription( string $description )
     {
         $description = trim( $description );
         $this->set( self::DESECRIPTION_KEY, $description );
@@ -157,7 +157,7 @@ class Site
      *
      * @return string
      */
-    public function getURL()
+    final public function getURL()
     {
         return $this->get( self::SITE_URL_KEY, '' );
     }
@@ -168,7 +168,7 @@ class Site
      *
      * @return array
      */
-    public function getURLs()
+    final public function getURLs()
     {
         return [
             self::HOME_URL_KEY => $this->get( self::HOME_URL_KEY, '' ),
@@ -183,7 +183,7 @@ class Site
      * @param type var Description
      * @return return type
      */
-    public function getProtocol()
+    final public function getProtocol()
     {
         preg_match( '/^(\S+):\/\//', $this->getURL(), $protocol );
         $protocol = $protocol[ 1 ];
@@ -205,7 +205,7 @@ class Site
      * @param string $format Retrieve the theme name or ID
      * @return string
      */
-    public function getTheme( $format = self::THEME_ID_KEY )
+    final public function getTheme( $format = self::THEME_ID_KEY )
     {
         $failure = NULL;
         if ( $format == self::THEME_ID_KEY || $format == self::THEME_NAME_KEY ) {
@@ -226,7 +226,7 @@ class Site
      *
      * @return string
      */
-    public function getAdministratorEmail()
+    final public function getAdministratorEmail()
     {
         return $this->get( self::ADMINISTRATOR_EMAIL_KEY, '' );
     }
@@ -237,7 +237,7 @@ class Site
      *
      * @param string $email The new administrator email address
      */
-    public function setAdministratorEmail( string $email )
+    final public function setAdministratorEmail( string $email )
     {
         $email = trim( $email );
         if ( is_email( $email )) {
@@ -251,7 +251,7 @@ class Site
      *
      * @return string
      */
-    public function getDefaultRoleID()
+    final public function getDefaultRoleID()
     {
         return $this->get( 'default_role', '' );
     }
@@ -262,7 +262,7 @@ class Site
      *
      * @return \WordPress\TimeZone
      */
-    public function getTimeZone()
+    final public function getTimeZone()
     {
         // WordPress stores either the GMT or timezone string, but not both
         $_timezone_gmt    = $this->get( 'gmt_offset' );
