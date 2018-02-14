@@ -26,11 +26,18 @@ class Site
     const ACTIVE_PLUGINS_KEY = 'active_plugins';
     
     /**
-     * Option key for the site's admistor email address
+     * Option key for the site's administrator email address
      *
      * @var string
      */
     const ADMINISTRATOR_EMAIL_KEY = 'admin_email';
+    
+    /**
+     * Option key for the site's default user role
+     *
+     * @var string
+     */
+    const DEFAULT_USER_ROLE_ID_KEY = 'default_role';
     
     /**
      * Option key for the site description
@@ -258,11 +265,13 @@ class Site
     /**
      * Get the default user role identifier
      *
+     * Use \WordPress\Users\Roles for related user role management
+     *
      * @return string
      */
-    final public function getDefaultRoleID()
+    final public function getDefaultUserRoleID()
     {
-        return $this->get( 'default_role', '' );
+        return $this->get( self::DEFAULT_USER_ROLE_ID_KEY, '' );
     }
     
     
