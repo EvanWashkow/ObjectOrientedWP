@@ -198,6 +198,8 @@ class Site
     /**
      * Get the current site theme
      *
+     * Use \WordPress\Themes to change themes
+     *
      * @todo Drop name support. Instead, build \WordPress\Themes support.
      *
      * @param string $format Retrieve the theme name or ID
@@ -211,20 +213,6 @@ class Site
         }
         else {
             return $failure;
-        }
-    }
-    
-    
-    /**
-     * Switch the site theme
-     *
-     * @param string $themeID The theme id
-     */
-    public function setTheme( string $themeID )
-    {
-        $themeID = trim( $themeID );
-        if ( !empty( $themeID )) {
-            switch_theme( $themeID );
         }
     }
     
