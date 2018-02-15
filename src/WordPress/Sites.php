@@ -20,7 +20,7 @@ class Sites
     ***************************************************************************/
     
     /**
-     * Add a new site
+     * Add a new site. IMPORTANT: Call after `init`.
      *
      * @param string $url     The site URL
      * @param string $title   The site title
