@@ -169,9 +169,34 @@ class TimeZone extends \DateTimeZone
      *
      * @return string
      */
-    public function toGMT() {
+    public function toGMT()
+    {
         return $this->format( 'P' );
     }
+    
+    
+    /**
+     * Convert to a floating-point number, similar to how WordPress stores it
+     *
+     * @return float
+     */
+    public function toFloat()
+    {
+        // Extract components
+        $gmt     = $this->toGMT();
+        $operand = substr( $gmt, 0, 1 );
+        $gmt     = substr( $gmt, 1 );
+        $pieces  = explode( ':', $gmt );
+        $hours   = floatval( $pieces[ 0 ] );
+        $minutes = floatval( $pieces[ 1 ] );
+        
+        // Build float
+        $minutes  = $minutes / 60.0;
+        $multiple = floatval( $operand . '1.0' );
+        $float    = $multiple * ( $hours + $minutes );
+        return $float;
+    }
+    
     
     /**
      * Convert this time zone to the given format string
