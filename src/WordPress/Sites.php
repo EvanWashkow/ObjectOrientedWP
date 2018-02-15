@@ -87,6 +87,21 @@ class Sites
     }
     
     
+    /**
+     * Remove (or "Deactivate") site (not permanent)
+     *
+     * Since WordPress does not allow you to remove the root site, neither do we.
+     *
+     * @param int $siteID The site (blog) ID to remove
+     */
+    final public static function Remove( int $siteID )
+    {
+        if ( is_multisite() && self::IsValidSiteID( $siteID ) && ( 1 !== $siteID )) {
+            wpmu_delete_blog( $siteID, false );
+        }
+    }
+    
+    
     /***************************************************************************
     *                              SITE SWITCHING
     ***************************************************************************/
