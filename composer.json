@@ -1,7 +1,7 @@
 {
     "name":        "evanwashkow/object-oriented-wordpress",
     "description": "Access all of WordPress in an object-oriented way",
-    "version":     "0.0.0",
+    "version":     "0.1.0",
     "autoload": {
         "classmap": [
             "src/WordPress.php"

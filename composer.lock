@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b91a9afe34768dd8e18f69749a9e3f4b",
+    "content-hash": "1a145b83c30467ff49d805441c6de582",
     "packages": [
         {
             "name": "evanwashkow/php-libraries",
