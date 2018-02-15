@@ -20,6 +20,40 @@ class Sites
     ***************************************************************************/
     
     /**
+     * Add a new site
+     *
+     * @param string $url     The site URL
+     * @param string $title   The site title
+     * @param int    $adminID User ID for the site administrator
+     * @return Sites\Models\Site|null Null on failure
+     */
+    public static function Add( string $url, string $title, int $adminID )
+    {
+        // Variables
+        $site = null;
+        
+        // Exit. Multisite is not enabled.
+        if ( !is_multisite() ) {
+            return $site;
+        }
+        
+        // Exit. Invalid URL.
+        if ( !\PHP\URL::IsValid( $url )) {
+            return $site;
+        }
+        
+        // Extract url properties and create site
+        \PHP\URL::Extract( $url, $protocol, $domain, $path );
+        $siteID = wpmu_create_blog( $domain, $path, $title, $adminID );
+        if ( !is_wp_error( $siteID )) {
+            $site = self::Get( $siteID );
+        }
+        
+        return $site;
+    }
+    
+    
+    /**
      * Retrieve site(s)
      *
      * @param int $id The site ID to lookup
