@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "47729f11cc8b5627d02413de6ac9a208",
+    "content-hash": "b91a9afe34768dd8e18f69749a9e3f4b",
     "packages": [
         {
             "name": "evanwashkow/php-libraries",
@@ -45,6 +45,46 @@
                 "issues": "https://github.com/EvanWashkow/php-libraries/issues"
             },
             "time": "2018-02-15T04:37:18+00:00"
+        },
+        {
+            "name": "evanwashkow/php-utilities",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EvanWashkow/php-utilities.git",
+                "reference": "96a2251f0f88c89d457f54a8794fbcff5ba2c515"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EvanWashkow/php-utilities/zipball/96a2251f0f88c89d457f54a8794fbcff5ba2c515",
+                "reference": "96a2251f0f88c89d457f54a8794fbcff5ba2c515",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHP\\": "src/PHP/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Evan Washkow",
+                    "email": "epwashkow@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Foundational shared utilities for PHP",
+            "support": {
+                "source": "https://github.com/EvanWashkow/php-utilities/tree/0.1.0",
+                "issues": "https://github.com/EvanWashkow/php-utilities/issues"
+            },
+            "time": "2018-02-15T04:58:05+00:00"
         }
     ],
     "packages-dev": [],

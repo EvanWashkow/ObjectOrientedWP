@@ -18,11 +18,16 @@
         {
             "type": "vcs",
             "url":  "https://github.com/EvanWashkow/php-libraries"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://github.com/EvanWashkow/php-utilities"
         }
     ],
     "require": {
         "php": ">=5.4",
-        "evanwashkow/php-libraries": "0.1.0"
+        "evanwashkow/php-libraries": "0.1.0",
+        "evanwashkow/php-utilities": "0.1.0"
     },
     "authors": [
         {
