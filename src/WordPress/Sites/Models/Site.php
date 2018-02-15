@@ -173,16 +173,13 @@ class Site
     
     
     /**
-     * Retrieve all URLs associated with this site
+     * Retrieve the home page URL for this site
      *
      * @return array
      */
-    final public function getURLs()
+    final public function getHomePageURL()
     {
-        return [
-            self::HOME_URL_KEY => $this->get( self::HOME_URL_KEY, '' ),
-            self::SITE_URL_KEY => $this->getURL()
-        ];
+        return $this->get( self::HOME_URL_KEY, '' );
     }
     
     
