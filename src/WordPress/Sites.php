@@ -23,7 +23,7 @@ class Sites
      * Retrieve site(s)
      *
      * @param int $id The site ID to lookup
-     * @return Sites\Site|array
+     * @return Sites\Models\Site|array
      */
     public static function Get( int $id = NULL )
     {
@@ -88,7 +88,7 @@ class Sites
      * Retrieve single site
      *
      * @param int $id Site ID to lookup
-     * @return Sites\Site
+     * @return Sites\Models\Site
      */
     private static function getSingle( int $id )
     {
