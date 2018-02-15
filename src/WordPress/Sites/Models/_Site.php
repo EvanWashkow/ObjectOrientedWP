@@ -66,6 +66,15 @@ abstract class _Site
      */
     abstract public function getURL();
     
+    /**
+     * Set the primary site URL
+     *
+     * If you want to set the front-facing home URL, see setHomePageURL()
+     *
+     * @param string $url The new URL
+     */
+    abstract public function setURL( string $url );
+    
     
     /**
      * Retrieve the home page URL for this site

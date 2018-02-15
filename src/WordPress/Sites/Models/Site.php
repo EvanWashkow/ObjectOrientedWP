@@ -152,6 +152,35 @@ class Site extends _Site
     }
     
     
+    final public function setURL( string $url )
+    {
+        // Exit. Invalid URL.
+        $url = \PHP\URL::Sanitize( $url );
+        if ( '' == $url ) {
+            return;
+        }
+        
+        // Site-/Multi-site
+        $this->set( self::SITE_URL_KEY, $url );
+        
+        // Multi-site
+        if ( is_multisite() ) {
+            global $wpdb;
+            \PHP\URL::Extract( $url, $protocol, $domain, $path );
+            $wpdb->update(
+                $wpdb->blogs,
+                [
+                    'domain' => $domain,
+                    'path'   => $path
+                ],
+                [
+                    'blog_id' => $this->getID()
+                ]
+            );
+        }
+    }
+    
+    
     final public function getHomePageURL()
     {
         return $this->get( self::HOME_URL_KEY, '' );
