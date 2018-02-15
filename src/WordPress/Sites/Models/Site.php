@@ -165,7 +165,7 @@ class Site extends _Site
             return;
         }
         
-        // Update blog table info
+        // Multi-site: update blog table info
         elseif ( is_multisite() ) {
             global $wpdb;
             \PHP\URL::Extract( $url, $protocol, $domain, $path );
@@ -181,7 +181,7 @@ class Site extends _Site
             );
         }
         
-        // Site-/Multi-site
+        // Single-/Multi-site
         $this->set( self::SITE_URL_KEY, $url );
     }
     
