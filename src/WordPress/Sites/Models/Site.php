@@ -158,6 +158,14 @@ class Site extends _Site
     }
     
     
+    final public function setHomePageURL( string $url )
+    {
+        if ( \PHP\URL::IsValid( $url )) {
+            $this->set( self::HOME_URL_KEY, $url );
+        }
+    }
+    
+    
     final public function getProtocol()
     {
         \PHP\URL::Extract( $this->getURL(), $protocol );

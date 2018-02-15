@@ -76,6 +76,14 @@ abstract class _Site
     
     
     /**
+     * Set the home page URL for this site
+     *
+     * @param string $url The new URL
+     */
+    abstract public function setHomePageURL( string $url );
+    
+    
+    /**
      * Returns "http" or "https" for the primary URL
      *
      * @return string
