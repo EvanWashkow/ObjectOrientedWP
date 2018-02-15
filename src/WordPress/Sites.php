@@ -159,19 +159,25 @@ class Sites
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
                     $id = $wp_site->blog_id;
-                    $sites[ $id ] = Sites\Models::Create( $id );
+                    if ( !self::$cache->isSet( $id )) {
+                        $site = Sites\Models::Create( $id );
+                        self::$cache->add( $id, $site );
+                    }
                 }
             }
             
             // Retrieve site from default, non-multisite setup
             else {
-                $sites[ 1 ] = Sites\Models::Create( 1 );
+                $site = Sites\Models::Create( 1 );
+                self::$cache->add( 1, $site );
             }
             
-            // Set cache, marking it complete
-            self::$cache->set( $sites );
+            // Mark the cache complete
+            self::$cache->markComplete();
         }
         
+        // Read sites from cache
+        $sites = self::$cache->get();
         return $sites;
     }
     
