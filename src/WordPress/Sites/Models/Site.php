@@ -160,11 +160,13 @@ class Site extends _Site
             return;
         }
         
-        // Site-/Multi-site
-        $this->set( self::SITE_URL_KEY, $url );
+        // Exit. Primary URL for network cannot be changed.
+        if ( is_multisite() && ( 1 === $this->getID() )) {
+            return;
+        }
         
-        // Multi-site
-        if ( is_multisite() ) {
+        // Update blog table info
+        elseif ( is_multisite() ) {
             global $wpdb;
             \PHP\URL::Extract( $url, $protocol, $domain, $path );
             $wpdb->update(
@@ -178,6 +180,9 @@ class Site extends _Site
                 ]
             );
         }
+        
+        // Site-/Multi-site
+        $this->set( self::SITE_URL_KEY, $url );
     }
     
     
