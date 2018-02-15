@@ -73,17 +73,17 @@ class Sites
     /**
      * Retrieve site(s)
      *
-     * @param int $id The site ID to lookup
+     * @param int $siteID The site ID to lookup
      * @return Sites\Models\Site|array
      */
-    public static function Get( int $id = null )
+    public static function Get( int $siteID = null )
     {
         // Setup
         self::initializeCache();
         
         // Return site(s)
-        if ( isset( $id )) {
-            return self::getSingle( $id );
+        if ( isset( $siteID )) {
+            return self::getSingle( $siteID );
         }
         else {
             return self::getAll();
@@ -169,21 +169,21 @@ class Sites
     /**
      * Retrieve single site
      *
-     * @param int $id Site ID to lookup
+     * @param int $siteID Site ID to lookup
      * @return Sites\Models\Site
      */
-    private static function getSingle( int $id )
+    private static function getSingle( int $siteID )
     {
         // Exit. Invalid site id.
         $site = null;
-        if ( !self::IsValidSiteID( $id )) {
+        if ( !self::IsValidSiteID( $siteID )) {
             return $site;
         }
         
         // Retrieve site from site list array
         $sites = self::getAll();
-        if ( array_key_exists( $id, $sites )) {
-            $site = $sites[ $id ];
+        if ( array_key_exists( $siteID, $sites )) {
+            $site = $sites[ $siteID ];
         }
         return $site;
     }
@@ -212,10 +212,10 @@ class Sites
             if ( is_multisite() ) {
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
-                    $id = $wp_site->blog_id;
-                    if ( !self::$cache->isSet( $id )) {
-                        $site = Sites\Models::Create( $id );
-                        self::$cache->add( $id, $site );
+                    $siteID = $wp_site->blog_id;
+                    if ( !self::$cache->isSet( $siteID )) {
+                        $site = Sites\Models::Create( $siteID );
+                        self::$cache->add( $siteID, $site );
                     }
                 }
             }
