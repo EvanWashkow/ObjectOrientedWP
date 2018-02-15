@@ -3,6 +3,10 @@ namespace WordPress;
 
 /**
  * Manages WordPress sites
+ *
+ * IMPORTANT: Some calls may bomb if the WordPress functions are not yet loaded.
+ * If this happens, you will either want to 1) delay the call the routine, or
+ * 2) load the needed WordPress files by hand.
  */
 class Sites
 {
@@ -20,7 +24,7 @@ class Sites
     ***************************************************************************/
     
     /**
-     * Add a new site. IMPORTANT: Call after `init`.
+     * Add a new site
      *
      * @param string $url     The site URL
      * @param string $title   The site title
