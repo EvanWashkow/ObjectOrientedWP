@@ -160,8 +160,7 @@ class Site extends _Site
     
     final public function getProtocol()
     {
-        preg_match( '/^(\S+):\/\//', $this->getURL(), $protocol );
-        $protocol = $protocol[ 1 ];
+        \PHP\URL::Extract( $this->getURL(), $protocol );
         return $protocol;
     }
     
