@@ -61,7 +61,7 @@ class Sites
      * @param int $id The site ID to lookup
      * @return Sites\Models\Site|array
      */
-    public static function Get( int $id = NULL )
+    public static function Get( int $id = null )
     {
         // Setup
         self::initializeCache();
@@ -98,7 +98,7 @@ class Sites
      */
     final public static function SwitchTo( int $siteID )
     {
-        if ( is_multisite() ) {
+        if ( is_multisite() && self::IsValidSiteID( $siteID )) {
             switch_to_blog( $siteID );
         }
     }
@@ -116,6 +116,22 @@ class Sites
     
     
     /***************************************************************************
+    *                         SANITIZING / VALIDATION
+    ***************************************************************************/
+    
+    /**
+     * Is the given site ID valid?
+     *
+     * @param int $id The site (blog) ID to evaluate
+     * @return bool
+     */
+    final public static function IsValidSiteID( int $id )
+    {
+        return ( 0 < $id && array_key_exists( $id, self::Get() ));
+    }
+    
+    
+    /***************************************************************************
     *                               SUB-ROUTINES
     ***************************************************************************/
     
@@ -128,7 +144,13 @@ class Sites
      */
     private static function getSingle( int $id )
     {
-        $site  = NULL;
+        // Exit. Invalid site id.
+        $site = null;
+        if ( !self::IsValidSiteID( $id )) {
+            return $site;
+        }
+        
+        // Retrieve site from site list array
         $sites = self::getAll();
         if ( array_key_exists( $id, $sites )) {
             $site = $sites[ $id ];
