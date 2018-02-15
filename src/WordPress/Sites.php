@@ -46,6 +46,7 @@ class Sites
         \PHP\URL::Extract( $url, $protocol, $domain, $path );
         $siteID = wpmu_create_blog( $domain, $path, $title, $adminID );
         if ( !is_wp_error( $siteID )) {
+            self::$cache->markIncomplete();
             $site = self::Get( $siteID );
         }
         
