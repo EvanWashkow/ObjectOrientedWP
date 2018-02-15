@@ -138,11 +138,19 @@ abstract class _Site
     
     
     /**
-     * Get timezone for this site
+     * Get time zone for this site
      *
      * @return \WordPress\TimeZone
      */
     abstract public function getTimeZone();
+    
+    
+    /**
+     * Set time zone for this site
+     *
+     * @param \WordPress\TimeZone $timeZone
+     */
+    abstract public function setTimeZone( \WordPress\TimeZone $timeZone );
     
     
     /***************************************************************************

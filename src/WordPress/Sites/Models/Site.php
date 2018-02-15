@@ -47,6 +47,13 @@ class Site extends _Site
     const DESECRIPTION_KEY = 'blogdescription';
     
     /**
+     * Option key for setting the GMT time
+     *
+     * @var string
+     */
+    const GMT_KEY = 'gmt_offset';
+    
+    /**
      * Option key for the site's home (front-facing) url
      *
      * @var string
@@ -59,6 +66,13 @@ class Site extends _Site
      * @var string
      */
     const SITE_URL_KEY = 'siteurl';
+    
+    /**
+     * Option key for the time zone identifier ('America/Los_Angeles')
+     *
+     * @var string
+     */
+    const TIME_ZONE_KEY = 'timezone_string';
     
     /**
      * Option key for the site title
@@ -202,8 +216,8 @@ class Site extends _Site
     final public function getTimeZone()
     {
         // WordPress stores either the GMT or timezone string, but not both
-        $_timezone_gmt    = $this->get( 'gmt_offset' );
-        $_timezone_string = $this->get( 'timezone_string' );
+        $_timezone_gmt    = $this->get( self::GMT_KEY );
+        $_timezone_string = $this->get( self::TIME_ZONE_KEY );
         
         // Create timezone
         $timezone = NULL;
@@ -215,5 +229,19 @@ class Site extends _Site
         }
         
         return $timezone;
+    }
+    
+    
+    final public function setTimeZone( \WordPress\TimeZone $timeZone )
+    {
+        $string = $timeZone->toIdentifier( false );
+        if ( isset( $string )) {
+            $this->set( self::GMT_KEY,       '' );
+            $this->set( self::TIME_ZONE_KEY, $string );
+        }
+        else {
+            $this->set( self::GMT_KEY,       $timeZone->toFloat() );
+            $this->set( self::TIME_ZONE_KEY, '' );
+        }
     }
 }
