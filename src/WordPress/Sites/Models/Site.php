@@ -1,12 +1,10 @@
 <?php
 namespace WordPress\Sites\Models;
 
-use \WordPress\Sites;
-
 /**
  * Defines a single site
  */
-class Site
+class Site extends _Site
 {
     
     /***************************************************************************
@@ -96,33 +94,18 @@ class Site
     *                             GENERAL INFORMATION
     ***************************************************************************/
     
-    /**
-     * Get the unique identifier for this site
-     *
-     * @return int
-     */
     final public function getID()
     {
         return $this->id;
     }
     
     
-    /**
-     * Get the site title
-     *
-     * @return string
-     */
     final public function getTitle()
     {
         return $this->get( self::TITLE_KEY, '' );
     }
     
     
-    /**
-     * Set the site title
-     *
-     * @param string $title The new site title
-     */
     final public function setTitle( string $title )
     {
         $title = trim( $title );
@@ -132,22 +115,12 @@ class Site
     }
     
     
-    /**
-     * Get the site description
-     *
-     * @return string
-     */
     final public function getDescription()
     {
         return $this->get( self::DESECRIPTION_KEY, '' );
     }
     
     
-    /**
-     * Set the site description
-     *
-     * @param string $description The new site description
-     */
     final public function setDescription( string $description )
     {
         $description = trim( $description );
@@ -159,35 +132,18 @@ class Site
     *                                    URLS
     ***************************************************************************/
     
-    /**
-     * Retrieve the primary site URL
-     *
-     * If you want the front-facing home URL, see getURLs()
-     *
-     * @return string
-     */
     final public function getURL()
     {
         return $this->get( self::SITE_URL_KEY, '' );
     }
     
     
-    /**
-     * Retrieve the home page URL for this site
-     *
-     * @return array
-     */
     final public function getHomePageURL()
     {
         return $this->get( self::HOME_URL_KEY, '' );
     }
     
     
-    /**
-     * Returns "http" or "https" for the primary URL
-     *
-     * @return string
-     */
     final public function getProtocol()
     {
         preg_match( '/^(\S+):\/\//', $this->getURL(), $protocol );
@@ -200,26 +156,12 @@ class Site
     *                           PLUGINS AND THEMES
     ***************************************************************************/
     
-    /**
-     * Retrieve the currently-active theme ID
-     *
-     * Use \WordPress\Themes for related theme management
-     *
-     * @return string
-     */
     final public function getActiveThemeID()
     {
         return $this->get( self::ACTIVE_THEME_ID_KEY, '' );
     }
     
     
-    /**
-     * Retrieve the active plugin IDs for this site (does not include network)
-     *
-     * Use \WordPress\Plugins for related plugin management
-     *
-     * @return array
-     */
     final public function getActivePluginIDs()
     {
         $pluginIDs   = [];
@@ -236,22 +178,12 @@ class Site
     *                               ADMINISTRATION
     ***************************************************************************/
     
-    /**
-     * Retrieve the administator's email address
-     *
-     * @return string
-     */
     final public function getAdministratorEmail()
     {
         return $this->get( self::ADMINISTRATOR_EMAIL_KEY, '' );
     }
     
     
-    /**
-     * Change the administator's email address
-     *
-     * @param string $email The new administrator email address
-     */
     final public function setAdministratorEmail( string $email )
     {
         $email = trim( $email );
@@ -261,24 +193,12 @@ class Site
     }
     
     
-    /**
-     * Get the default user role identifier
-     *
-     * Use \WordPress\Users\Roles for related user role management
-     *
-     * @return string
-     */
     final public function getDefaultUserRoleID()
     {
         return $this->get( self::DEFAULT_USER_ROLE_ID_KEY, '' );
     }
     
     
-    /**
-     * Get timezone for this site
-     *
-     * @return \WordPress\TimeZone
-     */
     final public function getTimeZone()
     {
         // WordPress stores either the GMT or timezone string, but not both
@@ -295,63 +215,5 @@ class Site
         }
         
         return $timezone;
-    }
-    
-    
-    /***************************************************************************
-    *                               UTILITIES
-    ***************************************************************************/
-    
-    /**
-     * Retrieve a property for this site
-     *
-     * @param string $key          The property key
-     * @param mixed  $defaultValue The property's default value
-     * @return mixed The property value
-     */
-    final public function get( string $key, $defaultValue = NULL )
-    {
-        // Variables
-        $key   = self::sanitizeKey( $key );
-        $value = $defaultValue;
-        
-        // Retrieve value
-        if ( '' != $key ) {
-            Sites::SwitchTo( $this->getID() );
-            $value = get_option( $key, $defaultValue );
-            Sites::SwitchBack();
-        }
-        return $value;
-    }
-    
-    /**
-     * Set a property on this site
-     *
-     * @param string $key   The property key
-     * @param mixed  $value The new value for the property
-     */
-    final public function set( string $key, $value )
-    {
-        // Variables
-        $key = self::sanitizeKey( $key );
-        
-        // Set value
-        if ( '' != $key ) {
-            Sites::SwitchTo( $this->getID() );
-            update_option( $key, $value );
-            Sites::SwitchBack();
-        }
-    }
-    
-    
-    /**
-     * Sanitize the site property key
-     *
-     * @param string $key The property key
-     * @return string
-     */
-    final protected static function sanitizeKey( string $key )
-    {
-        return trim( $key );
     }
 }
