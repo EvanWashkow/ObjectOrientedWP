@@ -160,7 +160,8 @@ class Site extends _Site
     
     final public function setHomePageURL( string $url )
     {
-        if ( \PHP\URL::IsValid( $url )) {
+        $url = \PHP\URL::Sanitize( $url );
+        if ( '' != $url ) {
             $this->set( self::HOME_URL_KEY, $url );
         }
     }
