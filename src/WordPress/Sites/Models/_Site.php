@@ -60,7 +60,7 @@ abstract class _Site
     /**
      * Retrieve the primary site URL
      *
-     * If you want the front-facing home URL, see getURLs()
+     * If you want to retrieve the front-facing home URL, see getHomePageURL()
      *
      * @return string
      */
