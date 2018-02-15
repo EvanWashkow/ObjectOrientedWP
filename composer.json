@@ -17,12 +17,12 @@
     "repositories": [
         {
             "type": "vcs",
-            "url":  "https://github.com/EvanWashkow/php-cache"
+            "url":  "https://github.com/EvanWashkow/php-libraries"
         }
     ],
     "require": {
         "php": ">=5.4",
-        "evanwashkow/php-cache": "1.0.0"
+        "evanwashkow/php-libraries": "0.1.0"
     },
     "authors": [
         {
