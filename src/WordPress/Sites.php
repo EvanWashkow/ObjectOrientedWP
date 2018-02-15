@@ -56,6 +56,21 @@ class Sites
     
     
     /**
+     * Delete a site (permanent)
+     *
+     * Since WordPress does not allow you to delete the root site, neither do we.
+     *
+     * @param int $siteID The site (blog) ID to delete
+     */
+    final public static function Delete( int $siteID )
+    {
+        if ( is_multisite() && self::IsValidSiteID( $siteID ) && ( 1 !== $siteID )) {
+            wpmu_delete_blog( $siteID, true );
+        }
+    }
+    
+    
+    /**
      * Retrieve site(s)
      *
      * @param int $id The site ID to lookup
