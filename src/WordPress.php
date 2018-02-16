@@ -6,6 +6,10 @@ if ( file_exists( $autoloaderFile )) {
     require_once( $autoloaderFile );
 }
 
+// Set up class autoloading
+new \PHP\ClassFramework\Autoloader( 'WordPress', __DIR__ . '/WordPress/libraries' );
+new \PHP\ClassFramework\Autoloader( 'WordPress', __DIR__ . '/WordPress' );
+
 
 /**
  * Root WordPress class
