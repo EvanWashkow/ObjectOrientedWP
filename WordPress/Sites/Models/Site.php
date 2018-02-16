@@ -122,10 +122,12 @@ class Site extends _Site
     
     final public function setTitle( string $title )
     {
-        $title = trim( $title );
+        $title        = trim( $title );
+        $isSuccessful = false;
         if ( !empty( $title )) {
-            $this->set( self::TITLE_KEY, $title );
+            $isSuccessful = $this->set( self::TITLE_KEY, $title );
         }
+        return $isSuccessful;
     }
     
     
@@ -138,7 +140,7 @@ class Site extends _Site
     final public function setDescription( string $description )
     {
         $description = trim( $description );
-        $this->set( self::DESECRIPTION_KEY, $description );
+        return $this->set( self::DESECRIPTION_KEY, $description );
     }
     
     
@@ -154,35 +156,46 @@ class Site extends _Site
     
     final public function setURL( string $url )
     {
-        // Exit. Invalid URL.
-        $url = \PHP\URL::Sanitize( $url );
+        // Variables
+        $url          = \PHP\URL::Sanitize( $url );
+        $isSuccessful = true;
+        
+        // Invalid URL.
         if ( '' == $url ) {
-            return;
+            $isSuccessful = false;
         }
         
-        // Exit. Primary URL for network cannot be changed.
-        if ( is_multisite() && ( 1 === $this->getID() )) {
-            return;
-        }
-        
-        // Multi-site: update blog table info
+        // Multi-site only: update blog table info
         elseif ( is_multisite() ) {
-            global $wpdb;
-            \PHP\URL::Extract( $url, $protocol, $domain, $path );
-            $wpdb->update(
-                $wpdb->blogs,
-                [
-                    'domain' => $domain,
-                    'path'   => $path
-                ],
-                [
-                    'blog_id' => $this->getID()
-                ]
-            );
+            
+            // Primary URL for network cannot be changed.
+            if ( 1 === $this->getID() ) {
+                $isSuccessful = false;
+            }
+            
+            // Change blog table url
+            else {
+                global $wpdb;
+                \PHP\URL::Extract( $url, $protocol, $domain, $path );
+                $isSuccessful = false !== $wpdb->update(
+                    $wpdb->blogs,
+                    [
+                        'domain' => $domain,
+                        'path'   => $path
+                    ],
+                    [
+                        'blog_id' => $this->getID()
+                    ]
+                );
+            }
         }
         
         // Single-/Multi-site
-        $this->set( self::SITE_URL_KEY, $url );
+        if ( $isSuccessful ) {
+            $isSuccessful = $this->set( self::SITE_URL_KEY, $url );
+        }
+        
+        return $isSuccessful;
     }
     
     
@@ -195,9 +208,11 @@ class Site extends _Site
     final public function setHomePageURL( string $url )
     {
         $url = \PHP\URL::Sanitize( $url );
+        $isSuccessful = false;
         if ( '' != $url ) {
-            $this->set( self::HOME_URL_KEY, $url );
+            $isSuccessful = $this->set( self::HOME_URL_KEY, $url );
         }
+        return $isSuccessful;
     }
     
     
@@ -243,9 +258,11 @@ class Site extends _Site
     final public function setAdministratorEmail( string $email )
     {
         $email = trim( $email );
+        $isSuccessful = false;
         if ( is_email( $email )) {
-            $this->set( self::ADMINISTRATOR_EMAIL_KEY, $email );
+            $isSuccessful = $this->set( self::ADMINISTRATOR_EMAIL_KEY, $email );
         }
+        return $isSuccessful;
     }
     
     
@@ -276,14 +293,24 @@ class Site extends _Site
     
     final public function setTimeZone( \WordPress\TimeZone $timeZone )
     {
-        $string = $timeZone->toIdentifier( false );
+        // Variables
+        $string       = $timeZone->toIdentifier( false );
+        $isSuccessful = false;
+        
+        // Set timezone identifier string ('America/Los_Angeles')
         if ( isset( $string )) {
-            $this->set( self::GMT_KEY,       '' );
-            $this->set( self::TIME_ZONE_KEY, $string );
+            $isSuccessful = $this->set( self::GMT_KEY, '' );
+            $isSuccessful = $isSuccessful &&
+                            $this->set( self::TIME_ZONE_KEY, $string );
         }
+        
+        // Set floating-point GMT offset
         else {
-            $this->set( self::GMT_KEY,       $timeZone->toFloat() );
-            $this->set( self::TIME_ZONE_KEY, '' );
+            $isSuccessful = $this->set( self::GMT_KEY, $timeZone->toFloat() );
+            $isSuccessful = $isSuccessful &&
+                            $this->set( self::TIME_ZONE_KEY, '' );
         }
+        
+        return $isSuccessful;
     }
 }

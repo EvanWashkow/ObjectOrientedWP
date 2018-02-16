@@ -33,6 +33,7 @@ abstract class _Site
      * Set the site title
      *
      * @param string $title The new site title
+     * @return bool Whether or not the title change was successful
      */
     abstract public function setTitle( string $title );
     
@@ -49,6 +50,7 @@ abstract class _Site
      * Set the site description
      *
      * @param string $description The new site description
+     * @return bool Whether or not the description change was successful
      */
     abstract public function setDescription( string $description );
     
@@ -72,6 +74,7 @@ abstract class _Site
      * If you want to set the front-facing home URL, see setHomePageURL()
      *
      * @param string $url The new URL
+     * @return bool Whether or not the URL change was successful
      */
     abstract public function setURL( string $url );
     
@@ -88,6 +91,7 @@ abstract class _Site
      * Set the home page URL for this site
      *
      * @param string $url The new URL
+     * @return bool Whether or not the URL change was successful
      */
     abstract public function setHomePageURL( string $url );
     
@@ -140,6 +144,7 @@ abstract class _Site
      * Change the administator's email address
      *
      * @param string $email The new administrator email address
+     * @return bool Whether or not the change was successful
      */
     abstract public function setAdministratorEmail( string $email );
     
@@ -166,6 +171,7 @@ abstract class _Site
      * Set time zone for this site
      *
      * @param \WordPress\TimeZone $timeZone
+     * @return bool Whether or not the TimeZone change was successful
      */
     abstract public function setTimeZone( \WordPress\TimeZone $timeZone );
     
