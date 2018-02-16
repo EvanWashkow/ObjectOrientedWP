@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a145b83c30467ff49d805441c6de582",
+    "content-hash": "5df3a2e36877fca0555711ac78533efd",
     "packages": [
+        {
+            "name": "evanwashkow/php-class-framework",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EvanWashkow/php-class-framework.git",
+                "reference": "dffae5abb15613dd689ae1a8b048ee2da7160362"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EvanWashkow/php-class-framework/zipball/dffae5abb15613dd689ae1a8b048ee2da7160362",
+                "reference": "dffae5abb15613dd689ae1a8b048ee2da7160362",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHP\\ClassFramework\\": "ClassFramework/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Evan Washkow",
+                    "email": "epwashkow@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple PHP class framework with autoloading capabilties",
+            "support": {
+                "source": "https://github.com/EvanWashkow/php-class-framework/tree/1.1.0",
+                "issues": "https://github.com/EvanWashkow/php-class-framework/issues"
+            },
+            "time": "2018-02-04T07:06:21+00:00"
+        },
         {
             "name": "evanwashkow/php-libraries",
             "version": "0.1.0",
