@@ -4,7 +4,7 @@ namespace WordPress\Plugins\Models;
 /**
  * Represents a single WordPress plugin
  */
-class Plugin
+class Plugin extends _Plugin
 {
     
     /**
@@ -22,5 +22,11 @@ class Plugin
     final public function __construct( string $id )
     {
         $this->id = $id;
+    }
+    
+    
+    final public function getID()
+    {
+        return $this->id;
     }
 }
