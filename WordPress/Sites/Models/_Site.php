@@ -201,18 +201,23 @@ abstract class _Site
      *
      * @param string $key   The property key
      * @param mixed  $value The new value for the property
+     * @return bool If the property was successfully set or not
      */
     final public function set( string $key, $value )
     {
         // Variables
         $key = self::sanitizeKey( $key );
+        $isSuccessful = false;
         
         // Set value
         if ( '' != $key ) {
             Sites::SwitchTo( $this->getID() );
             update_option( $key, $value );
+            $isSuccessful = true;
             Sites::SwitchBack();
         }
+        
+        return $isSuccessful;
     }
     
     
