@@ -10,8 +10,7 @@ abstract class _Plugin
     /**
      * Retrieve this plugin's ID
      *
-     * @param type var Description
-     * @return return type
+     * @return string
      */
     abstract public function getID();
 }
