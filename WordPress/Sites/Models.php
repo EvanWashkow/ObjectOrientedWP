@@ -12,7 +12,7 @@ class Models
      * @param int $id The site (blog) id
      * @return Models\Site
      */
-    public static function Create( int $id )
+    final public static function Create( int $id )
     {
         return new Models\Site( $id );
     }
