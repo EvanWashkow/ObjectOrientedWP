@@ -3,9 +3,15 @@
     "description": "Access all of WordPress in an object-oriented way",
     "version":     "0.1.1",
     "autoload": {
-        "files": [
+        "classmap": [
             "WordPress.php"
-        ]
+        ],
+        "psr-4": {
+            "WordPress\\": [
+                "WordPress",
+                "WordPress/libraries"
+            ]
+        }
     },
     "repositories": [
         {

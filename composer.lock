@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5df3a2e36877fca0555711ac78533efd",
+    "hash": "c9a3588bd213bc9993aaf4e2cf6a589f",
+    "content-hash": "b299e8cf8199ed89582bd65c35126452",
     "packages": [
         {
             "name": "evanwashkow/php-class-framework",
@@ -44,7 +45,7 @@
                 "source": "https://github.com/EvanWashkow/php-class-framework/tree/1.1.0",
                 "issues": "https://github.com/EvanWashkow/php-class-framework/issues"
             },
-            "time": "2018-02-04T07:06:21+00:00"
+            "time": "2018-02-04 07:06:21"
         },
         {
             "name": "evanwashkow/php-libraries",
@@ -84,7 +85,7 @@
                 "source": "https://github.com/EvanWashkow/php-libraries/tree/0.1.0",
                 "issues": "https://github.com/EvanWashkow/php-libraries/issues"
             },
-            "time": "2018-02-15T04:37:18+00:00"
+            "time": "2018-02-15 04:37:18"
         },
         {
             "name": "evanwashkow/php-utilities",
@@ -124,7 +125,7 @@
                 "source": "https://github.com/EvanWashkow/php-utilities/tree/0.1.0",
                 "issues": "https://github.com/EvanWashkow/php-utilities/issues"
             },
-            "time": "2018-02-15T04:58:05+00:00"
+            "time": "2018-02-15 04:58:05"
         }
     ],
     "packages-dev": [],
