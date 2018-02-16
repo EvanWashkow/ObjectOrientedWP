@@ -19,6 +19,17 @@ class Sites
     private static $cache;
     
     
+    /**
+     * Initializes the sites manager (automatically invoked on class load)
+     */
+    public static function Initialize()
+    {
+        if ( !isset( self::$cache )) {
+            self::$cache = new \PHP\Cache();
+        }
+    }
+    
+    
     /***************************************************************************
     *                                   MAIN
     ***************************************************************************/
@@ -50,7 +61,6 @@ class Sites
         \PHP\URL::Extract( $url, $protocol, $domain, $path );
         $siteID = wpmu_create_blog( $domain, $path, $title, $adminID );
         if ( !is_wp_error( $siteID )) {
-            self::initializeCache();
             self::$cache->markIncomplete();
             $site = self::Get( $siteID );
         }
@@ -82,10 +92,6 @@ class Sites
      */
     public static function Get( int $siteID = null )
     {
-        // Setup
-        self::initializeCache();
-        
-        // Return site(s)
         if ( isset( $siteID )) {
             return self::getSingle( $siteID );
         }
@@ -223,19 +229,5 @@ class Sites
         $sites = self::$cache->get();
         return $sites;
     }
-    
-    
-    /***************************************************************************
-    *                               UTILITIES
-    ***************************************************************************/
-    
-    /**
-     * Create cache instance
-     */
-    protected static function initializeCache()
-    {
-        if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache();
-        }
-    }
 }
+Sites::Initialize();
