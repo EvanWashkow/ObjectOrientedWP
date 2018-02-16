@@ -1,9 +1,8 @@
 <?php
 
-// Load the autoloader locally
-$autoloaderFile = __DIR__ . '/../vendor/autoload.php';
-if ( file_exists( $autoloaderFile )) {
-    require_once( $autoloaderFile );
+// Load composer's autoloader if on a local build
+if ( file_exists( __DIR__ . '/vendor/autoload.php' )) {
+    require_once( __DIR__ . '/vendor/autoload.php' );
 }
 
 // Set up class autoloading
