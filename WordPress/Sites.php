@@ -80,6 +80,7 @@ class Sites
     {
         if ( is_multisite() && self::IsValidSiteID( $siteID ) && ( 1 !== $siteID )) {
             wpmu_delete_blog( $siteID, true );
+            self::$cache->delete( $siteID );
         }
     }
     
