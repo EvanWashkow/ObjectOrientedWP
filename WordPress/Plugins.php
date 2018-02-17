@@ -8,17 +8,45 @@ class Plugins
 {
     
     /**
+     * Cache of all WordPress plugins
+     *
+     * @var \PHP\Cache
+     */
+    private static $cache;
+    
+    
+    /**
+     * Initializes the plugins manager (automatically-invoked on class load)
+     */
+    public static function Initialize()
+    {
+        if ( !isset( self::$cache )) {
+            self::$cache = new \PHP\Cache();
+        }
+    }
+    
+    
+    /**
      * Retrieve all plugin(s)
      *
      * @return Plugins\Models\Plugin
      */
     public static function Get()
     {
-        $plugins = [];
-        foreach ( get_plugins() as $pluginFile => $pluginData ) {
-            $plugin    = Plugins\Models::Create( $pluginFile, $pluginData );
-            $plugins[] = $plugin;
+        // Build cache
+        if ( !self::$cache->isComplete() ) {
+            $plugins = get_plugins();
+            foreach ( $plugins as $pluginFile => $pluginData ) {
+                $plugin = Plugins\Models::Create( $pluginFile, $pluginData );
+                self::$cache->add( $plugin->getID(), $plugin );
+            }
+            
+            // Mark cache complete
+            self::$cache->markComplete();
         }
-        return $plugins;
+        
+        // Return plugins
+        return self::$cache->get();
     }
 }
+Plugins::Initialize();
