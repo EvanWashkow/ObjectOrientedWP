@@ -15,18 +15,112 @@ class Plugin extends _Plugin
     private $id;
     
     /**
+     * Name of the plugin's author
+     *
+     * @var string
+     */
+    private $authorName;
+    
+    /**
+     * Link to the author's website
+     *
+     * @var string
+     */
+    private $authorURL;
+    
+    /**
+     * Description of the plugin's purpose
+     *
+     * @var string
+     */
+    private $description;
+    
+    /**
+     * User-friendly name for the plugin
+     *
+     * @var string
+     */
+    private $name;
+    
+    /**
+    * Path to plugin file, relative to the plugins directory
+    *
+    * @var string
+    */
+    private $relativePath;
+    
+    /**
+     * Plugin version number
+     *
+     * @var string
+     */
+    private $version;
+    
+    
+    /**
      * Instantiate a new Plugin instance
      *
-     * @param string $id This plugin's unique identifier
+     * @param string $relativePath Path to plugin file, relative to the plugins directory
+     * @param string $version      Plugin version number
+     * @param string $name         User-friendly name for the plugin
+     * @param string $description  Description of the plugin's purpose
+     * @param string $authorName   Name of the plugin's author
+     * @param string $authorURL    Link to the author's website
      */
-    final public function __construct( string $id )
+    final public function __construct( string $relativePath,
+                                       string $version,
+                                       string $name,
+                                       string $description,
+                                       string $authorName,
+                                       string $authorURL )
     {
-        $this->id = $id;
+        // Extract plugin ID from it's relative path
+        $pieces = explode( '/', $relativePath );
+        $id     = $pieces[ 0 ];
+        
+        // Set properties
+        $this->id           = $id;
+        $this->relativePath = $relativePath;
+        $this->version      = $version;
+        $this->name         = $name;
+        $this->description  = $description;
+        $this->authorName   = $authorName;
+        $this->authorURL    = $authorURL;
     }
     
     
     final public function getID()
     {
         return $this->id;
+    }
+    
+    final public function getAuthorName()
+    {
+        return $this->authorName;
+    }
+    
+    final public function getAuthorURL()
+    {
+        return $this->authorURL;
+    }
+    
+    final public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    final public function getName()
+    {
+        return $this->name;
+    }
+    
+    final public function getRelativePath()
+    {
+        return $this->relativePath;
+    }
+    
+    final public function getVersion()
+    {
+        return $this->version;
     }
 }
