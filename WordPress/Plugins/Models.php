@@ -10,11 +10,15 @@ class Models
     /**
      * Create a new plugin model instance
      *
-     * @param string $pluginID The plugin identifier
+     * @param string $pluginFile The relative file path (from the template directory) to the plugin file
+     * @param array  $pluginData The mapped array of plugin details
      * @return Models\Plugin
      */
-    final public static function Create( string $pluginID )
+    final public static function Create( string $pluginFile, array $pluginData )
     {
-        return new Models\Plugin( $pluginID );
+        $pieces = explode( '/', $pluginFile );
+        $id     = $pieces[ 0 ];
+        
+        return new Models\Plugin( $id );
     }
 }

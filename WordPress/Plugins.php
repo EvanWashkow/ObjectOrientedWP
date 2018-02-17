@@ -16,9 +16,8 @@ class Plugins
     {
         $plugins = [];
         foreach ( get_plugins() as $pluginFile => $pluginData ) {
-            $pieces   = explode( '/', $pluginFile );
-            $pluginID = $pieces[ 0 ];
-            $plugins[ $pluginID ] = Plugins\Models::Create( $pluginID );
+            $plugin    = Plugins\Models::Create( $pluginFile, $pluginData );
+            $plugins[] = $plugin;
         }
         return $plugins;
     }
