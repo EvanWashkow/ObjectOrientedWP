@@ -102,7 +102,7 @@ class Plugins
         }
         
         // Get plugins activated for the site ID
-        else {
+        elseif ( \WordPress\Sites::IsValidID( $siteID )) {
             $site        = \WordPress\Sites::Get( $siteID );
             $pluginPaths = $site->get( 'active_plugins', [] );
         }
