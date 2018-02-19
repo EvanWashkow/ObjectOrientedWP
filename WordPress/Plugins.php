@@ -86,8 +86,12 @@ class Plugins
      */
     private static function getMultiple( array $pluginIDs )
     {
-        $plugins = self::getAll();
-        return array_intersect_key( $plugins, array_flip( $pluginIDs ) );
+        $plugins = [];
+        if ( 0 < count( $pluginIDs )) {
+            $plugins = self::getAll();
+            $plugins = array_intersect_key( $plugins, array_flip( $pluginIDs ) );
+        }
+        return $plugins;
     }
     
     
