@@ -92,7 +92,7 @@ class Plugins
         
         // Site ID is the current site when not on multisite
         if ( !is_multisite() ) {
-            $siteID = \WordPress\Sites::GetCurrentSiteID();
+            $siteID = \WordPress\Sites::GetCurrentID();
         }
         
         // Get globally-activated plugins for the multi-site install
