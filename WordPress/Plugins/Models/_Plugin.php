@@ -7,6 +7,26 @@ namespace WordPress\Plugins\Models;
 abstract class _Plugin
 {
     
+    /***************************************************************************
+    *                              PUBLIC UTILITIES
+    ***************************************************************************/
+
+    /**
+     * Retrieve a plugin's ID for its file path (relative to the plugins directory)
+     *
+     * @param string $relativePath Path to plugin file, relative to the plugins directory
+     * @return string
+     */
+    final public static function ExtractID( string $relativePath )
+    {
+        return explode( '/', $relativePath )[ 0 ];
+    }
+    
+    
+    /***************************************************************************
+    *                                  PROPERTIES
+    ***************************************************************************/
+    
     /**
      * Retrieve this plugin's ID
      *

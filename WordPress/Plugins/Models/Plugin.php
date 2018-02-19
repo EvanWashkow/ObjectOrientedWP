@@ -74,7 +74,7 @@ class Plugin extends _Plugin
                                        string $authorName,
                                        string $authorURL )
     {
-        $this->id           = explode( '/', $relativePath )[ 0 ];
+        $this->id           = static::ExtractID( $relativePath );
         $this->relativePath = $relativePath;
         $this->version      = $version;
         $this->name         = $name;
