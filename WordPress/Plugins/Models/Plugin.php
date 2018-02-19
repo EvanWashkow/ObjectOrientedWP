@@ -74,12 +74,7 @@ class Plugin extends _Plugin
                                        string $authorName,
                                        string $authorURL )
     {
-        // Extract plugin ID from it's relative path
-        $pieces = explode( '/', $relativePath );
-        $id     = $pieces[ 0 ];
-        
-        // Set properties
-        $this->id           = $id;
+        $this->id           = $relativePath;
         $this->relativePath = $relativePath;
         $this->version      = $version;
         $this->name         = $name;
