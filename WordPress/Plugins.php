@@ -29,18 +29,24 @@ class Plugins
     /**
      * Retrieve all plugin(s)
      *
-     * @param string $pluginID The plugin ID
+     * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
      * @return Plugins\Models\Plugin|null|array
      */
-    public static function Get( string $pluginID = '' )
+    public static function Get( $mixed = null )
     {
         // Route to the corresponding function
-        if ( '' == $pluginID ) {
+        if ( null == $mixed ) {
             return self::getAll();
         }
-        else {
-            return self::getSingle( $pluginID );
+        elseif ( is_array( $mixed )) {
+            return self::getMultiple( $mixed );
         }
+        elseif ( is_string( $mixed )) {
+            return self::getSingle( $mixed );
+        }
+        
+        // Parameter was invalid. Returning null.
+        return null;
     }
     
     
@@ -69,6 +75,19 @@ class Plugins
         
         // Return plugins
         return self::$cache->get();
+    }
+    
+    
+    /**
+     * Get multiple plugins by their IDs
+     *
+     * @param array $pluginIDs List of plugin ids to return
+     * @return array Plugins indexed by their corresponding IDs
+     */
+    private static function getMultiple( array $pluginIDs )
+    {
+        $plugins = self::getAll();
+        return array_intersect_key( $plugins, array_flip( $pluginIDs ) );
     }
     
     
