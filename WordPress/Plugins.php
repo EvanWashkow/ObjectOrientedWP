@@ -35,7 +35,7 @@ class Plugins
     public static function Get( $mixed = null )
     {
         // Route to the corresponding function
-        if ( null == $mixed ) {
+        if ( null === $mixed ) {
             return self::getAll();
         }
         elseif ( is_array( $mixed )) {
