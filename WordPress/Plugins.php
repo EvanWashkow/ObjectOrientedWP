@@ -29,9 +29,31 @@ class Plugins
     /**
      * Retrieve all plugin(s)
      *
-     * @return Plugins\Models\Plugin
+     * @param string $pluginID The plugin ID
+     * @return Plugins\Models\Plugin|null|array
      */
-    public static function Get()
+    public static function Get( string $pluginID = '' )
+    {
+        // Route to the corresponding function
+        if ( '' == $pluginID ) {
+            return self::getAll();
+        }
+        else {
+            return self::getSingle( $pluginID );
+        }
+    }
+    
+    
+    /***************************************************************************
+    *                               SUB-ROUTINES
+    ***************************************************************************/
+    
+    /**
+     * Retrieve all plugin(s)
+     *
+     * @return array
+     */
+    private static function getAll()
     {
         // Build cache
         if ( !self::$cache->isComplete() ) {
@@ -47,6 +69,23 @@ class Plugins
         
         // Return plugins
         return self::$cache->get();
+    }
+    
+    
+    /**
+     * Retrieve a single plugin by its ID
+     *
+     * @param string $pluginID The plugin ID
+     * @return Plugins\Models\Plugin|null
+     */
+    private static function getSingle( string $pluginID )
+    {
+        $plugin  = null;
+        $plugins = self::getAll();
+        if ( array_key_exists( $pluginID, $plugins )) {
+            $plugin = $plugins[ $pluginID ];
+        }
+        return $plugin;
     }
 }
 Plugins::Initialize();
