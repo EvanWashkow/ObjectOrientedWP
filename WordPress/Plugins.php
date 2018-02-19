@@ -71,9 +71,9 @@ class Plugins
      * @param int $siteID The site ID; ALL_SITES for globally-activated plugins
      * @return array
      */
-    final public static function GetActivePlugins( int $siteID )
+    final public static function GetActive( int $siteID )
     {
-        $pluginIDs = self::GetActivePluginIDs( $siteID );
+        $pluginIDs = self::GetActiveIDs( $siteID );
         return static::Get( $pluginIDs );
     }
     
@@ -84,7 +84,7 @@ class Plugins
      * @param int $siteID The site ID; ALL_SITES for globally-activated plugins
      * @return array
      */
-    final public static function GetActivePluginIDs( int $siteID )
+    final public static function GetActiveIDs( int $siteID )
     {
         // Variables
         $pluginIDs   = [];
