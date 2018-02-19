@@ -224,28 +224,6 @@ class Site extends _Site
     
     
     /***************************************************************************
-    *                           PLUGINS AND THEMES
-    ***************************************************************************/
-    
-    final public function getActiveThemeID()
-    {
-        return $this->get( self::ACTIVE_THEME_ID_KEY, '' );
-    }
-    
-    
-    final public function getActivePluginIDs()
-    {
-        $pluginIDs   = [];
-        $pluginFiles = $this->get( self::ACTIVE_PLUGINS_KEY, [] );
-        foreach ( $pluginFiles as $pluginFile ) {
-            $elements = explode( '/', $pluginFile );
-            $pluginIDs[] = $elements[ 0 ];
-        }
-        return $pluginIDs;
-    }
-    
-    
-    /***************************************************************************
     *                               ADMINISTRATION
     ***************************************************************************/
     
@@ -263,12 +241,6 @@ class Site extends _Site
             $isSuccessful = $this->set( self::ADMINISTRATOR_EMAIL_KEY, $email );
         }
         return $isSuccessful;
-    }
-    
-    
-    final public function getDefaultUserRoleID()
-    {
-        return $this->get( self::DEFAULT_USER_ROLE_ID_KEY, '' );
     }
     
     

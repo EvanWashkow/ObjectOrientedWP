@@ -105,30 +105,6 @@ abstract class _Site
     
     
     /***************************************************************************
-    *                           PLUGINS AND THEMES
-    ***************************************************************************/
-    
-    /**
-     * Retrieve the currently-active theme ID
-     *
-     * Use \WordPress\Themes for related theme management
-     *
-     * @return string
-     */
-    abstract public function getActiveThemeID();
-    
-    
-    /**
-     * Retrieve the active plugin IDs for this site (does not include network)
-     *
-     * Use \WordPress\Plugins for related plugin management
-     *
-     * @return array
-     */
-    abstract public function getActivePluginIDs();
-    
-    
-    /***************************************************************************
     *                               ADMINISTRATION
     ***************************************************************************/
     
@@ -147,16 +123,6 @@ abstract class _Site
      * @return bool Whether or not the change was successful
      */
     abstract public function setAdministratorEmail( string $email );
-    
-    
-    /**
-     * Get the default user role identifier
-     *
-     * Use \WordPress\Users\Roles for related user role management
-     *
-     * @return string
-     */
-    abstract public function getDefaultUserRoleID();
     
     
     /**
