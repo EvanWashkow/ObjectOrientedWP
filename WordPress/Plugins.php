@@ -63,6 +63,11 @@ class Plugins
     {
         // Build cache
         if ( !self::$cache->isComplete() ) {
+            
+            // Include WordPress plugins function
+            require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+            
+            // For each WordPress plugin, create and cache our own object
             $plugins = get_plugins();
             foreach ( $plugins as $pluginFile => $pluginData ) {
                 $plugin = Plugins\Models::Create( $pluginFile, $pluginData );
