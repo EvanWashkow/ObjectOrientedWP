@@ -139,6 +139,24 @@ class Plugin extends _Plugin
     *                                 ACTIVATING
     ***************************************************************************/
     
+    final public function activate( int $siteID )
+    {
+        $isActive = false;
+        if ( $this->canActivate( $siteID )) {
+            if ( self::ALL_SITES === $siteID ) {
+                $result   = activate_plugin( $this->getRelativePath(), null, true );
+                $isActive = !is_wp_error( $result );
+            }
+            else {
+                \WordPress\Sites::SwitchTo( $siteID );
+                $result   = activate_plugin( $this->getRelativePath() );
+                $isActive = !is_wp_error( $result );
+                \WordPress\Sites::SwitchBack();
+            }
+        }
+        return $isActive;
+    }
+    
     final public function canActivate( int $siteID )
     {
         $canActivate = false;

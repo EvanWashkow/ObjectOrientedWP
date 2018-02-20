@@ -93,6 +93,14 @@ abstract class _Plugin
     ***************************************************************************/
     
     /**
+     * Activate the plugin on the site or multisite
+     *
+     * @param int $siteID The site ID to activate the plugin on or ALL_SITES
+     * @return bool Whether or not the plugin was successfully activated.
+     */
+    abstract public function activate( int $siteID );
+    
+    /**
      * Can the plugin be activated on the site?
      *
      * @param int $siteID The site ID to activate the plugin on or ALL_SITES
