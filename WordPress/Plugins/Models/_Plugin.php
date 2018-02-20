@@ -7,9 +7,13 @@ namespace WordPress\Plugins\Models;
 abstract class _Plugin
 {
     
-    /***************************************************************************
-    *                              PUBLIC UTILITIES
-    ***************************************************************************/
+    /**
+     * Constant specifier for all sites
+     *
+     * @var int
+     */
+    const ALL_SITES = 0;
+    
 
     /**
      * Retrieve a plugin's ID for its file path (relative to the plugins directory)
@@ -82,4 +86,17 @@ abstract class _Plugin
      * @return bool
      */
     abstract public function isMultiSite();
+    
+    
+    /***************************************************************************
+    *                                 ACTIVATING
+    ***************************************************************************/
+    
+    /**
+     * Can the plugin be activated on the site?
+     *
+     * @param int $siteID The site ID to activate the plugin on or ALL_SITES
+     * @return bool
+     */
+    abstract public function canActivate( int $siteID );
 }

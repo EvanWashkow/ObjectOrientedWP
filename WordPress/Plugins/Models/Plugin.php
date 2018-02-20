@@ -133,4 +133,21 @@ class Plugin extends _Plugin
     {
         return $this->isMultiSite;
     }
+    
+    
+    /***************************************************************************
+    *                                 ACTIVATING
+    ***************************************************************************/
+    
+    final public function canActivate( int $siteID )
+    {
+        $canActivate = false;
+        if ( $this->isMultiSite() ) {
+            $canActivate = is_multisite() && ( self::ALL_SITES === $siteID );
+        }
+        else {
+            $canActivate = \WordPress\Sites::IsValidID( $siteID );
+        }
+        return $canActivate;
+    }
 }
