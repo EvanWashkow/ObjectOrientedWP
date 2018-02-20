@@ -12,7 +12,7 @@ abstract class _Plugin
      *
      * @var int
      */
-    const ALL_SITES = 0;
+    const ALL_SITES = \WordPress\Plugins::ALL_SITES;
     
 
     /**
