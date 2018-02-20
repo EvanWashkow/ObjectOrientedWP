@@ -8,6 +8,13 @@ class Plugin extends _Plugin
 {
     
     /**
+     * Constant specifier for all sites
+     *
+     * @var int
+     */
+    const ALL_SITES = \WordPress\Plugins::ALL_SITES;
+    
+    /**
      * This plugin's unique identifier
      *
      * @var string
@@ -139,7 +146,13 @@ class Plugin extends _Plugin
     *                                 ACTIVATING
     ***************************************************************************/
     
-    final public function activate( int $siteID )
+    /**
+     * Activate the plugin on the site or multisite
+     *
+     * @param int $siteID The site ID to activate the plugin on or ALL_SITES
+     * @return bool Whether or not the plugin was successfully activated.
+     */
+    final public function activate( int $siteID = self::ALL_SITES )
     {
         $isActive = false;
         if ( $this->canActivate( $siteID )) {
@@ -157,7 +170,14 @@ class Plugin extends _Plugin
         return $isActive;
     }
     
-    final public function canActivate( int $siteID )
+    
+    /**
+     * Can the plugin be activated on the site?
+     *
+     * @param int $siteID The site ID to activate the plugin on or ALL_SITES
+     * @return bool
+     */
+    final public function canActivate( int $siteID = self::ALL_SITES )
     {
         $canActivate = false;
         if ( $this->isMultiSite() ) {
