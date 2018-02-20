@@ -75,4 +75,11 @@ abstract class _Plugin
      * @return string
      */
     abstract public function getVersion();
+    
+    /**
+     * Indicates this is a multi-site plugin: only to be activated on the network
+     *
+     * @return bool
+     */
+    abstract public function isMultiSite();
 }

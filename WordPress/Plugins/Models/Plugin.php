@@ -50,6 +50,13 @@ class Plugin extends _Plugin
     private $relativePath;
     
     /**
+    * Indicates this is a multi-site plugin: only to be activated on the network
+    *
+    * @var string
+    */
+    private $isMultiSite;
+    
+    /**
      * Plugin version number
      *
      * @var string
@@ -61,6 +68,7 @@ class Plugin extends _Plugin
      * Instantiate a new Plugin instance
      *
      * @param string $relativePath Path to plugin file, relative to the plugins directory
+     * @param bool   $isMultiSite  Indicates this is a multi-site plugin: only to be activated on the network
      * @param string $version      Plugin version number
      * @param string $name         User-friendly name for the plugin
      * @param string $description  Description of the plugin's purpose
@@ -68,6 +76,7 @@ class Plugin extends _Plugin
      * @param string $authorURL    Link to the author's website
      */
     final public function __construct( string $relativePath,
+                                       bool   $isMultiSite,
                                        string $version,
                                        string $name,
                                        string $description,
@@ -76,6 +85,7 @@ class Plugin extends _Plugin
     {
         $this->id           = static::ExtractID( $relativePath );
         $this->relativePath = $relativePath;
+        $this->isMultiSite  = $isMultiSite;
         $this->version      = $version;
         $this->name         = $name;
         $this->description  = $description;
@@ -117,5 +127,10 @@ class Plugin extends _Plugin
     final public function getVersion()
     {
         return $this->version;
+    }
+    
+    final public function isMultiSite()
+    {
+        return $this->isMultiSite;
     }
 }
