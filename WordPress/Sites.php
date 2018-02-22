@@ -12,6 +12,28 @@ class Sites
 {
     
     /**
+     * Pseudo-ID for all sites
+     *
+     * @var int
+     */
+    const ALL = -1;
+    
+    /**
+     * Pseudo-ID for the current site
+     *
+     * @var int
+     */
+    const CURRENT = 0;
+    
+    /**
+     * Pseudo-ID for an invalid site ID
+     *
+     * @var int
+     */
+    const INVALID = -2;
+    
+    
+    /**
      * Cache of all sites
      *
      * @var \PHP\Cache
