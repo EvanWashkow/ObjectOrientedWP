@@ -136,6 +136,22 @@ class Sites
     
     
     /***************************************************************************
+    *                     SITE ID SANITIZATION / VALIDATION
+    ***************************************************************************/
+    
+    /**
+     * Is the given site ID valid?
+     *
+     * @param int $id The site (blog) ID to evaluate
+     * @return bool
+     */
+    final public static function IsValidSiteID( int $id )
+    {
+        return ( 0 < $id && array_key_exists( $id, self::Get() ));
+    }
+    
+    
+    /***************************************************************************
     *                              SITE SWITCHING
     ***************************************************************************/
     
@@ -160,22 +176,6 @@ class Sites
         if ( is_multisite() ) {
             restore_current_blog();
         }
-    }
-    
-    
-    /***************************************************************************
-    *                         SANITIZING / VALIDATION
-    ***************************************************************************/
-    
-    /**
-     * Is the given site ID valid?
-     *
-     * @param int $id The site (blog) ID to evaluate
-     * @return bool
-     */
-    final public static function IsValidSiteID( int $id )
-    {
-        return ( 0 < $id && array_key_exists( $id, self::Get() ));
     }
     
     
