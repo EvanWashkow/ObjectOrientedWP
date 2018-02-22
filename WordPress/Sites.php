@@ -221,7 +221,12 @@ class Sites
      */
     final public static function SwitchTo( int $siteID )
     {
-        if ( is_multisite() && self::IsValidID( $siteID )) {
+        $siteID = self::SanitizeID( $siteID );
+        if (
+            is_multisite()                &&
+            ( self::INVALID !== $siteID ) &&
+            ( self::ALL     !== $siteID )
+        ) {
             switch_to_blog( $siteID );
         }
     }
