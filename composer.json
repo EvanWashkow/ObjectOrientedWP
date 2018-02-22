@@ -16,10 +16,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url":  "https://github.com/EvanWashkow/php-class-framework"
-        },
-        {
-            "type": "vcs",
             "url":  "https://github.com/EvanWashkow/php-libraries"
         },
         {
@@ -29,9 +25,8 @@
     ],
     "require": {
         "php": ">=5.4",
-        "evanwashkow/php-class-framework": "1.1.0",
-        "evanwashkow/php-libraries":       "0.1.0",
-        "evanwashkow/php-utilities":       "0.1.0"
+        "evanwashkow/php-libraries": ">=0.1.2",
+        "evanwashkow/php-utilities": ">=0.2.0"
     },
     "authors": [
         {

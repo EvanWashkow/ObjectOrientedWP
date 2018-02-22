@@ -12,6 +12,28 @@ class Sites
 {
     
     /**
+     * Pseudo-ID for all sites
+     *
+     * @var int
+     */
+    const ALL = -1;
+    
+    /**
+     * Pseudo-ID for the current site
+     *
+     * @var int
+     */
+    const CURRENT = 0;
+    
+    /**
+     * Pseudo-ID for an invalid site ID
+     *
+     * @var int
+     */
+    const INVALID = -2;
+    
+    
+    /**
      * Cache of all sites
      *
      * @var \PHP\Cache
@@ -78,7 +100,18 @@ class Sites
      */
     final public static function Delete( int $siteID )
     {
-        if ( is_multisite() && self::IsValidSiteID( $siteID ) && ( 1 !== $siteID )) {
+        $siteID = static::SanitizeID( $siteID );
+        if (
+            is_multisite()                &&
+            ( self::INVALID !== $siteID ) &&
+            ( self::ALL     !== $siteID ) &&
+            ( 1             !== $siteID )
+        ) {
+            // Include WordPress multisite functions before attempting to
+            // delete the site
+            require_once(ABSPATH . 'wp-admin/includes/ms.php');
+            
+            // Delete the site
             wpmu_delete_blog( $siteID, true );
             self::$cache->delete( $siteID );
         }
@@ -88,17 +121,35 @@ class Sites
     /**
      * Retrieve site(s)
      *
-     * @param int $siteID The site ID to lookup
-     * @return Sites\Models\Site|array
+     * @param int $siteID The site ID, ALL, or CURRENT
+     * @return Sites\Models\Site|array|null
      */
-    public static function Get( int $siteID = null )
+    public static function Get( int $siteID = self::ALL )
     {
-        if ( isset( $siteID )) {
-            return self::getSingle( $siteID );
+        // Exit. Invalid site ID.
+        $siteID = static::SanitizeID( $siteID );
+        if ( self::INVALID === $siteID ) {
+            return null;
         }
-        else {
+        
+        // Route to corresponding lookup method
+        if ( self::ALL === $siteID ) {
             return self::getAll();
         }
+        else {
+            return self::getSingle( $siteID );
+        }
+    }
+    
+    
+    /**
+     * Retrieve the current site object
+     *
+     * @return Sites\Models\Site
+     */
+    final public static function GetCurrent()
+    {
+        return self::Get( self::GetCurrentID() );
     }
     
     
@@ -107,9 +158,55 @@ class Sites
      *
      * @return int
      */
-    final public static function GetCurrentSiteID()
+    final public static function GetCurrentID()
     {
         return get_current_blog_id();
+    }
+    
+    
+    /***************************************************************************
+    *                     SITE ID SANITIZATION / VALIDATION
+    ***************************************************************************/
+    
+    /**
+     * Is the given site / pseudo ID valid?
+     *
+     * @param int $siteID The site (blog) ID to evaluate
+     * @return bool
+     */
+    final public static function IsValidID( int $siteID )
+    {
+        return self::INVALID !== static::SanitizeID( $siteID );
+    }
+    
+    
+    /**
+     * Sanitize the site ID, resolving any pseudo-identifiers to their
+     * corresponding site ID
+     *
+     * Register all pseudo-IDs here
+     *
+     * @param int $siteID The site ID or pseudo-site ID
+     * @return int The corresponding site ID; ALL, or INVALID
+     */
+    public static function SanitizeID( int $siteID )
+    {
+        // Resolve CURRENT pseudo identifier to the current site ID
+        if ( self::CURRENT === $siteID ) {
+            $siteID = self::GetCurrentID();
+        }
+        
+        // Given an invalid site ID
+        elseif (
+            ( self::ALL !== $siteID ) &&
+            (
+                ( $siteID < 0 ) ||
+                !array_key_exists( $siteID, self::getAll() )
+            )
+        ) {
+            $siteID = self::INVALID;
+        }
+        return $siteID;
     }
     
     
@@ -124,7 +221,12 @@ class Sites
      */
     final public static function SwitchTo( int $siteID )
     {
-        if ( is_multisite() && self::IsValidSiteID( $siteID )) {
+        $siteID = self::SanitizeID( $siteID );
+        if (
+            is_multisite()                &&
+            ( self::INVALID !== $siteID ) &&
+            ( self::ALL     !== $siteID )
+        ) {
             switch_to_blog( $siteID );
         }
     }
@@ -142,22 +244,6 @@ class Sites
     
     
     /***************************************************************************
-    *                         SANITIZING / VALIDATION
-    ***************************************************************************/
-    
-    /**
-     * Is the given site ID valid?
-     *
-     * @param int $id The site (blog) ID to evaluate
-     * @return bool
-     */
-    final public static function IsValidSiteID( int $id )
-    {
-        return ( 0 < $id && array_key_exists( $id, self::Get() ));
-    }
-    
-    
-    /***************************************************************************
     *                               SUB-ROUTINES
     ***************************************************************************/
     
@@ -165,23 +251,13 @@ class Sites
     /**
      * Retrieve single site
      *
-     * @param int $siteID Site ID to lookup
-     * @return Sites\Models\Site
+     * @param int $siteID The site ID to lookup
+     * @return Sites\Models\Site|null
      */
     private static function getSingle( int $siteID )
     {
-        // Exit. Invalid site id.
-        $site = null;
-        if ( !self::IsValidSiteID( $siteID )) {
-            return $site;
-        }
-        
-        // Retrieve site from site list array
         $sites = self::getAll();
-        if ( array_key_exists( $siteID, $sites )) {
-            $site = $sites[ $siteID ];
-        }
-        return $site;
+        return $sites[ $siteID ];
     }
     
     
