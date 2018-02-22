@@ -140,14 +140,14 @@ class Sites
     ***************************************************************************/
     
     /**
-     * Is the given site ID valid?
+     * Is the given site / pseudo ID valid?
      *
      * @param int $id The site (blog) ID to evaluate
      * @return bool
      */
     final public static function IsValidID( int $id )
     {
-        return ( 0 < $id && array_key_exists( $id, self::Get() ));
+        return self::INVALID !== static::SanitizeID( $id );
     }
     
     
