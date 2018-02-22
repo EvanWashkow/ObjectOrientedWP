@@ -62,62 +62,6 @@ class Plugins
     
     
     /***************************************************************************
-    *                             ACTIVE PLUGINS
-    ***************************************************************************/
-    
-    /**
-     * Retrieve active plugin IDs for the site ID
-     *
-     * @param int $siteID The site ID; ALL_SITES for globally-activated plugins
-     * @return array
-     */
-    final public static function GetActive( int $siteID )
-    {
-        $pluginIDs = self::GetActiveIDs( $siteID );
-        return static::Get( $pluginIDs );
-    }
-    
-    
-    /**
-     * Retrieve active plugin IDs for the site ID
-     *
-     * @param int $siteID The site ID; ALL_SITES for globally-activated plugins
-     * @return array
-     */
-    final public static function GetActiveIDs( int $siteID )
-    {
-        // Variables
-        $pluginIDs   = [];
-        $pluginPaths = [];
-        
-        // Site ID is the current site when not on multisite
-        if ( !is_multisite() ) {
-            $siteID = \WordPress\Sites::GetCurrentID();
-        }
-        
-        // Get globally-activated plugins for the multi-site install
-        if ( self::ALL_SITES === $siteID ) {
-            $pluginPaths = get_site_option( 'active_sitewide_plugins', [] );
-            $pluginPaths = array_keys( $pluginPaths );
-        }
-        
-        // Get plugins activated for the site ID
-        elseif ( \WordPress\Sites::IsValidID( $siteID )) {
-            $site        = \WordPress\Sites::Get( $siteID );
-            $pluginPaths = $site->get( 'active_plugins', [] );
-        }
-        
-        // For each plugin file path, convert to its corresponding ID
-        foreach ( $pluginPaths as $pluginPath ) {
-            $pluginIDs[] = Plugins\Models\Plugin::ExtractID( $pluginPath );
-        }
-        
-        // Return active plugins
-        return $pluginIDs;
-    }
-    
-    
-    /***************************************************************************
     *                               SUB-ROUTINES
     ***************************************************************************/
     
