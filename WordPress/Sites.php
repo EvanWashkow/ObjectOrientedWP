@@ -100,7 +100,7 @@ class Sites
      */
     final public static function Delete( int $siteID )
     {
-        if ( is_multisite() && self::IsValidSiteID( $siteID ) && ( 1 !== $siteID )) {
+        if ( is_multisite() && self::IsValidID( $siteID ) && ( 1 !== $siteID )) {
             wpmu_delete_blog( $siteID, true );
             self::$cache->delete( $siteID );
         }
@@ -145,7 +145,7 @@ class Sites
      * @param int $id The site (blog) ID to evaluate
      * @return bool
      */
-    final public static function IsValidSiteID( int $id )
+    final public static function IsValidID( int $id )
     {
         return ( 0 < $id && array_key_exists( $id, self::Get() ));
     }
@@ -162,7 +162,7 @@ class Sites
      */
     final public static function SwitchTo( int $siteID )
     {
-        if ( is_multisite() && self::IsValidSiteID( $siteID )) {
+        if ( is_multisite() && self::IsValidID( $siteID )) {
             switch_to_blog( $siteID );
         }
     }
@@ -194,7 +194,7 @@ class Sites
     {
         // Exit. Invalid site id.
         $site = null;
-        if ( !self::IsValidSiteID( $siteID )) {
+        if ( !self::IsValidID( $siteID )) {
             return $site;
         }
         
