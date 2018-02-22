@@ -100,7 +100,13 @@ class Sites
      */
     final public static function Delete( int $siteID )
     {
-        if ( is_multisite() && self::IsValidID( $siteID ) && ( 1 !== $siteID )) {
+        $siteID = static::SanitizeID( $siteID );
+        if (
+            is_multisite()                &&
+            ( self::INVALID !== $siteID ) &&
+            ( self::ALL     !== $siteID ) &&
+            ( 1             !== $siteID )
+        ) {
             wpmu_delete_blog( $siteID, true );
             self::$cache->delete( $siteID );
         }
