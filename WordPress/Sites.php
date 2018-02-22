@@ -107,6 +107,11 @@ class Sites
             ( self::ALL     !== $siteID ) &&
             ( 1             !== $siteID )
         ) {
+            // Include WordPress multisite functions before attempting to
+            // delete the site
+            require_once(ABSPATH . 'wp-admin/includes/ms.php');
+            
+            // Delete the site
             wpmu_delete_blog( $siteID, true );
             self::$cache->delete( $siteID );
         }
