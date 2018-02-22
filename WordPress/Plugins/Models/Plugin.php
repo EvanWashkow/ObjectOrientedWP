@@ -1,6 +1,8 @@
 <?php
 namespace WordPress\Plugins\Models;
 
+use WordPress\Sites;
+
 /**
  * Represents a single WordPress plugin
  */
@@ -177,15 +179,16 @@ class Plugin extends _Plugin
      * @param int $siteID The site ID to activate the plugin on or ALL_SITES
      * @return bool
      */
-    final public function canActivate( int $siteID = self::ALL_SITES )
+    final public function canActivate( int $siteID = Sites::ALL )
     {
-        $canActivate = false;
-        if ( $this->isMultiSite() ) {
-            $canActivate = is_multisite() && ( self::ALL_SITES === $siteID );
-        }
-        else {
-            $canActivate = \WordPress\Sites::IsValidID( $siteID );
-        }
-        return $canActivate;
+        $siteID = Sites::SanitizeID( $siteID );
+        return (
+            Sites::INVALID !== $siteID &&
+            (
+                !is_multisite()       ||
+                !$this->isMultiSite() ||
+                Sites::ALL === $siteID
+            )
+        );
     }
 }
