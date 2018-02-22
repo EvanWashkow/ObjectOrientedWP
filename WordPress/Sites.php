@@ -155,12 +155,12 @@ class Sites
     /**
      * Is the given site / pseudo ID valid?
      *
-     * @param int $id The site (blog) ID to evaluate
+     * @param int $siteID The site (blog) ID to evaluate
      * @return bool
      */
-    final public static function IsValidID( int $id )
+    final public static function IsValidID( int $siteID )
     {
-        return self::INVALID !== static::SanitizeID( $id );
+        return self::INVALID !== static::SanitizeID( $siteID );
     }
     
     
