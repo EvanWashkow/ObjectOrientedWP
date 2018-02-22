@@ -151,6 +151,36 @@ class Sites
     }
     
     
+    /**
+     * Sanitize the site ID, resolving any pseudo-identifiers to their
+     * corresponding site ID
+     *
+     * Register all pseudo-IDs here
+     *
+     * @param int $siteID The site ID or pseudo-site ID
+     * @return int The corresponding site ID; ALL, or INVALID
+     */
+    public static function SanitizeID( int $siteID )
+    {
+        // Resolve CURRENT pseudo identifier to the current site ID
+        if ( self::CURRENT === $siteID ) {
+            $siteID = self::GetCurrentID();
+        }
+        
+        // Given an invalid site ID
+        elseif (
+            ( self::ALL !== $siteID ) &&
+            (
+                ( $siteID < 0 ) ||
+                !array_key_exists( $siteID, self::getAll() )
+            )
+        ) {
+            $siteID = self::INVALID;
+        }
+        return $siteID;
+    }
+    
+    
     /***************************************************************************
     *                              SITE SWITCHING
     ***************************************************************************/
