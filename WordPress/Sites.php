@@ -110,16 +110,23 @@ class Sites
     /**
      * Retrieve site(s)
      *
-     * @param int $siteID The site ID to lookup
-     * @return Sites\Models\Site|array
+     * @param int $siteID The site ID, ALL, or CURRENT
+     * @return Sites\Models\Site|array|null
      */
-    public static function Get( int $siteID = null )
+    public static function Get( int $siteID = self::ALL )
     {
-        if ( isset( $siteID )) {
-            return self::getSingle( $siteID );
+        // Exit. Invalid site ID.
+        $siteID = static::SanitizeID( $siteID );
+        if ( self::INVALID === $siteID ) {
+            return null;
+        }
+        
+        // Route to corresponding lookup method
+        if ( self::ALL === $siteID ) {
+            return self::getAll();
         }
         else {
-            return self::getAll();
+            return self::getSingle( $siteID );
         }
     }
     
@@ -217,23 +224,13 @@ class Sites
     /**
      * Retrieve single site
      *
-     * @param int $siteID Site ID to lookup
-     * @return Sites\Models\Site
+     * @param int $siteID The site ID to lookup
+     * @return Sites\Models\Site|null
      */
     private static function getSingle( int $siteID )
     {
-        // Exit. Invalid site id.
-        $site = null;
-        if ( !self::IsValidID( $siteID )) {
-            return $site;
-        }
-        
-        // Retrieve site from site list array
         $sites = self::getAll();
-        if ( array_key_exists( $siteID, $sites )) {
-            $site = $sites[ $siteID ];
-        }
-        return $site;
+        return $sites[ $siteID ];
     }
     
     
