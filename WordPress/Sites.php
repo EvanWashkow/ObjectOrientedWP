@@ -138,6 +138,17 @@ class Sites
     
     
     /**
+     * Retrieve the current site object
+     *
+     * @return Sites\Models\Site
+     */
+    final public static function GetCurrent()
+    {
+        return self::Get( self::GetCurrentID() );
+    }
+    
+    
+    /**
      * Retrieve the current site ID
      *
      * @return int
