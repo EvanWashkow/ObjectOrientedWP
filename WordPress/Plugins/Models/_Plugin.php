@@ -101,7 +101,7 @@ abstract class _Plugin
      *
      * @return bool
      */
-    abstract public function isActivated();
+    abstract public function isActive();
     
     
     /***************************************************************************

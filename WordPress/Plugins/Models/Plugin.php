@@ -173,7 +173,7 @@ class Plugin extends _Plugin
         // Evaluate
         return (
             Sites::INVALID !== $siteID     &&
-            !$this->isActivated( $siteID ) &&
+            !$this->isActive( $siteID ) &&
             (
                 !is_multisite()                    ||
                 !$this->requiresGlobalActivation() ||
@@ -197,7 +197,7 @@ class Plugin extends _Plugin
         // Deactivate globally, for all sites
         if ( Sites::ALL === $siteID ) {
             deactivate_plugins( $this->getRelativePath(), false, true );
-            $isSuccessful = !$this->isActivated( Sites::ALL );
+            $isSuccessful = !$this->isActive( Sites::ALL );
         }
         
         // Deactivate for a single site
@@ -206,8 +206,8 @@ class Plugin extends _Plugin
             deactivate_plugins( $this->getRelativePath(), false, false );
             $isSuccessful = (
                 // Ignore global activation, only check single site
-                $this->isActivated( Sites::ALL ) ||
-                !$this->isActivated( $siteID )
+                $this->isActive( Sites::ALL ) ||
+                !$this->isActive( $siteID )
             );
             Sites::SwitchBack();
         }
@@ -225,15 +225,15 @@ class Plugin extends _Plugin
      * @param int $siteID The site ID or a \WordPress\Sites constant
      * @return bool
      */
-    final public function isActivated( int $siteID = Sites::ALL )
+    final public function isActive( int $siteID = Sites::ALL )
     {
         // Variables
-        $isActivated = false;
-        $siteID      = Sites::SanitizeID( $siteID );
+        $isActive = false;
+        $siteID   = Sites::SanitizeID( $siteID );
         
         // Determine if plugin is activate globally, for all sites
         if ( Sites::ALL === $siteID ) {
-            $isActivated = is_plugin_active_for_network( $this->getRelativePath() );
+            $isActive = is_plugin_active_for_network( $this->getRelativePath() );
         }
         
         // Determine if plugin is activated for a single site
@@ -244,11 +244,11 @@ class Plugin extends _Plugin
             
             // Lookup active plugins for the site
             Sites::SwitchTo( $siteID );
-            $isActivated = is_plugin_active( $this->getRelativePath() );
+            $isActive = is_plugin_active( $this->getRelativePath() );
             Sites::SwitchBack();
         }
         
         // Plugin not active
-        return $isActivated;
+        return $isActive;
     }
 }
