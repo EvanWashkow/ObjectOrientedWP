@@ -203,7 +203,8 @@ class Plugin extends _Plugin
     /**
      * Is the plugin activated?
      *
-     * When checking a single-site, this does not also check the network.
+     * When checking activated plugins for a single site, also check the
+     * globally-activated plugins.
      *
      * @param int $siteID The site ID or a \WordPress\Sites constant
      * @return bool
@@ -215,14 +216,24 @@ class Plugin extends _Plugin
         $pluginPaths = [];
         $siteID      = Sites::SanitizeID( $siteID );
         
-        // Lookup active plugins on network
+        // Lookup globally-activated plugins
         if ( Sites::ALL === $siteID ) {
             $pluginPaths = get_site_option( 'active_sitewide_plugins', [] );
             $pluginPaths = array_keys( $pluginPaths );
         }
         
-        // Lookup active plugins on the site
+        // Lookup activated plugins for this site
         elseif ( Sites::INVALID !== $siteID ) {
+            
+            // EXIT if plugin is globally activated.
+            if ( Sites::ALL === Sites::SanitizeID( Sites::ALL )) {
+                $isActivated = $this->isActivated( Sites::ALL );
+                if ( $isActivated ) {
+                    return $isActivated;
+                }
+            }
+            
+            // Lookup active plugins for the site
             Sites::SwitchTo( $siteID );
             $pluginPaths = get_option( 'active_plugins', [] );
             Sites::SwitchBack();
@@ -232,11 +243,12 @@ class Plugin extends _Plugin
         foreach ( $pluginPaths as $pluginPath ) {
             $pluginID = self::extractID( $pluginPath );
             if ( $this->getID() === $pluginID ) {
-                return true;
+                $isActivated = true;
+                break;
             }
         }
         
         // Plugin not active
-        return false;
+        return $isActivated;
     }
 }
