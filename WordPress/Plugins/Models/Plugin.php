@@ -85,7 +85,7 @@ class Plugin extends _Plugin
                                        string $authorName,
                                        string $authorURL )
     {
-        $this->id           = static::ExtractID( $relativePath );
+        $this->id           = self::extractID( $relativePath );
         $this->relativePath = $relativePath;
         $this->isMultiSite  = $isMultiSite;
         $this->version      = $version;

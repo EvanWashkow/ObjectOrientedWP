@@ -6,18 +6,6 @@ namespace WordPress\Plugins\Models;
  */
 abstract class _Plugin
 {
-
-    /**
-     * Retrieve a plugin's ID for its file path (relative to the plugins directory)
-     *
-     * @param string $relativePath Path to plugin file, relative to the plugins directory
-     * @return string
-     */
-    final public static function ExtractID( string $relativePath )
-    {
-        return explode( '/', $relativePath )[ 0 ];
-    }
-    
     
     /***************************************************************************
     *                                  PROPERTIES
@@ -97,4 +85,21 @@ abstract class _Plugin
      * @return bool
      */
     abstract public function canActivate();
+    
+    
+    /***************************************************************************
+    *                                 UTILITIES
+    ***************************************************************************/
+    
+    
+    /**
+     * Retrieve a plugin's ID for its file path (relative to the plugins directory)
+     *
+     * @param string $relativePath Path to plugin file, relative to the plugins directory
+     * @return string
+     */
+    final protected static function extractID( string $relativePath )
+    {
+        return explode( '/', $relativePath )[ 0 ];
+    }
 }
