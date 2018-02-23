@@ -189,14 +189,15 @@ class Sites
             $siteID = self::GetCurrentID();
         }
         
+        // Convert ALL to current site ID if not on multisite
+        elseif ( self::ALL === $siteID ) {
+            if ( !is_multisite() ) {
+                $siteID = self::GetCurrentID();
+            }
+        }
+        
         // Given an invalid site ID
-        elseif (
-            ( self::ALL !== $siteID ) &&
-            (
-                ( $siteID < 0 ) ||
-                !array_key_exists( $siteID, self::getAll() )
-            )
-        ) {
+        elseif (( $siteID < 0 ) || !array_key_exists( $siteID, self::getAll() )) {
             $siteID = self::INVALID;
         }
         return $siteID;
