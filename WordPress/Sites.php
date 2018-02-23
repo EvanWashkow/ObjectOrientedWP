@@ -174,9 +174,17 @@ class Sites
     
     
     /**
-     * Sanitize the site ID, resolving any pseudo-identifiers to their
-     * corresponding site ID, implicitly converting ALL to the current site ID
-     * when not on a multi-site install
+     * Sanitize the site ID, always returning 1) the actual site ID, 2) ALL, or
+     * 3) INVALID.
+     *
+     * ALL implicitly resolves to the current site ID if on a single-site
+     * install. The choice to do this should be self-evident, but, if not, think
+     * of it this way: the context for "all sites" is actually the current site
+     * context, since there is no global context in which to execute. In fact,
+     * attempting to execute multi-site procedures will always bomb if on a
+     * single-site install. If a user wants to retrieve users, plugins, themes,
+     * etc. for all sites, the context should always resolve to the current site
+     * in order to correctly execute.
      *
      * Register all pseudo-IDs here
      *
@@ -190,7 +198,7 @@ class Sites
             $siteID = self::GetCurrentID();
         }
         
-        // Convert ALL to current site ID if not on multisite
+        // Convert ALL to the current site ID if on a single-site install
         elseif ( self::ALL === $siteID ) {
             if ( !is_multisite() ) {
                 $siteID = self::GetCurrentID();
