@@ -73,14 +73,14 @@ abstract class _Plugin
     ***************************************************************************/
     
     /**
-     * Activate the plugin on the site or multisite
+     * Activate the plugin
      *
      * @return bool Whether or not the plugin was successfully activated.
      */
     abstract public function activate();
     
     /**
-     * Can the plugin be activated on the site?
+     * Can the plugin be activated?
      *
      * @return bool
      */

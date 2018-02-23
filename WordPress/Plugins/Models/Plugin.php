@@ -142,7 +142,7 @@ class Plugin extends _Plugin
     ***************************************************************************/
     
     /**
-     * Activate the plugin on the site or multisite
+     * Activate the plugin
      *
      * @param int $siteID The site ID or a \WordPress\Sites constant
      * @return bool Whether or not the plugin was successfully activated.
@@ -174,7 +174,7 @@ class Plugin extends _Plugin
     
     
     /**
-     * Can the plugin be activated on the site?
+     * Can the plugin be activated?
      *
      * @param int $siteID The site ID or a \WordPress\Sites constant
      * @return bool
