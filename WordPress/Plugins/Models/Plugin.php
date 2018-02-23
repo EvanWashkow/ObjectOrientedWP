@@ -229,39 +229,23 @@ class Plugin extends _Plugin
     {
         // Variables
         $isActivated = false;
-        $pluginPaths = [];
         $siteID      = Sites::SanitizeID( $siteID );
         
-        // Lookup globally-activated plugins
+        // Determine if plugin is activate globally, for all sites
         if ( Sites::ALL === $siteID ) {
-            $pluginPaths = get_site_option( 'active_sitewide_plugins', [] );
-            $pluginPaths = array_keys( $pluginPaths );
+            $isActivated = is_plugin_active_for_network( $this->getRelativePath() );
         }
         
-        // Lookup activated plugins for this site
+        // Determine if plugin is activated for a single site
         elseif ( Sites::INVALID !== $siteID ) {
             
-            // EXIT if plugin is globally activated.
-            if ( Sites::ALL === Sites::SanitizeID( Sites::ALL )) {
-                $isActivated = $this->isActivated( Sites::ALL );
-                if ( $isActivated ) {
-                    return $isActivated;
-                }
-            }
+            // Include files
+            require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
             
             // Lookup active plugins for the site
             Sites::SwitchTo( $siteID );
-            $pluginPaths = get_option( 'active_plugins', [] );
+            $isActivated = is_plugin_active( $this->getRelativePath() );
             Sites::SwitchBack();
-        }
-        
-        // For each plugin path, convert to the plugin ID
-        foreach ( $pluginPaths as $pluginPath ) {
-            $pluginID = self::extractID( $pluginPath );
-            if ( $this->getID() === $pluginID ) {
-                $isActivated = true;
-                break;
-            }
         }
         
         // Plugin not active
