@@ -8,13 +8,6 @@ class Plugins
 {
     
     /**
-     * Constant specifier for all sites
-     *
-     * @var int
-     */
-    const ALL_SITES = 0;
-    
-    /**
      * Cache of all WordPress plugins
      *
      * @var \PHP\Cache

@@ -10,13 +10,6 @@ class Plugin extends _Plugin
 {
     
     /**
-     * Constant specifier for all sites
-     *
-     * @var int
-     */
-    const ALL_SITES = \WordPress\Plugins::ALL_SITES;
-    
-    /**
      * This plugin's unique identifier
      *
      * @var string
@@ -151,17 +144,24 @@ class Plugin extends _Plugin
     /**
      * Activate the plugin on the site or multisite
      *
-     * @param int $siteID The site ID to activate the plugin on or ALL_SITES
+     * @param int $siteID The site ID or a \WordPress\Sites constant
      * @return bool Whether or not the plugin was successfully activated.
      */
-    final public function activate( int $siteID = self::ALL_SITES )
+    final public function activate( int $siteID = Sites::ALL )
     {
+        // Variables
+        $siteID   = Sites::SanitizeID( $siteID );
         $isActive = false;
+        
         if ( $this->canActivate( $siteID )) {
-            if ( self::ALL_SITES === $siteID ) {
+            
+            // Activate globally, for all sites
+            if ( Sites::ALL === $siteID ) {
                 $result   = activate_plugin( $this->getRelativePath(), null, true );
                 $isActive = !is_wp_error( $result );
             }
+            
+            // Activate on the single site
             else {
                 \WordPress\Sites::SwitchTo( $siteID );
                 $result   = activate_plugin( $this->getRelativePath() );
@@ -176,7 +176,7 @@ class Plugin extends _Plugin
     /**
      * Can the plugin be activated on the site?
      *
-     * @param int $siteID The site ID to activate the plugin on or ALL_SITES
+     * @param int $siteID The site ID or a \WordPress\Sites constant
      * @return bool
      */
     final public function canActivate( int $siteID = Sites::ALL )
