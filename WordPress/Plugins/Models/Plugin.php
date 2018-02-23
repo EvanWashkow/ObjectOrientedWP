@@ -181,9 +181,16 @@ class Plugin extends _Plugin
      */
     final public function canActivate( int $siteID = Sites::ALL )
     {
-        $siteID = Sites::SanitizeID( $siteID );
+        // Variables
+        $siteID                 = Sites::SanitizeID( $siteID );
+        $isActivatedForAllSites = $this->isActivated( Sites::ALL );
+        $isActivatedForThisSite = $this->isActivated( $siteID );
+        
+        // Evaluate
         return (
             Sites::INVALID !== $siteID &&
+            !$isActivatedForAllSites   &&
+            !$isActivatedForThisSite   &&
             (
                 !is_multisite()       ||
                 !$this->isMultiSite() ||
