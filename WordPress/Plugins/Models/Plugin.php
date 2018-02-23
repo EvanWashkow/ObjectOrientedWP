@@ -10,13 +10,6 @@ class Plugin extends _Plugin
 {
     
     /**
-     * This plugin's unique identifier
-     *
-     * @var string
-     */
-    private $id;
-    
-    /**
      * Name of the plugin's author
      *
      * @var string
@@ -85,20 +78,13 @@ class Plugin extends _Plugin
                                        string $authorName,
                                        string $authorURL )
     {
-        $this->id           = self::extractID( $relativePath );
-        $this->relativePath = $relativePath;
+        $this->relativePath             = $relativePath;
         $this->requiresGlobalActivation = $requiresGlobalActivation;
-        $this->version      = $version;
-        $this->name         = $name;
-        $this->description  = $description;
-        $this->authorName   = $authorName;
-        $this->authorURL    = $authorURL;
-    }
-    
-    
-    final public function getID()
-    {
-        return $this->id;
+        $this->version                  = $version;
+        $this->name                     = $name;
+        $this->description              = $description;
+        $this->authorName               = $authorName;
+        $this->authorURL                = $authorURL;
     }
     
     final public function getAuthorName()

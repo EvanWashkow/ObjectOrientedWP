@@ -16,7 +16,10 @@ abstract class _Plugin
      *
      * @return string
      */
-    abstract public function getID();
+    final public function getID()
+    {
+        return self::extractID( $this->getRelativePath() );
+    }
     
     /**
      * Retrieves this plugin's author name
