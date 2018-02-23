@@ -87,6 +87,13 @@ abstract class _Plugin
     abstract public function canActivate();
     
     /**
+     * Deactivate the plugin
+     *
+     * @return bool Whether or not the plugin was successfully deactivated
+     */
+    abstract public function deactivate();
+    
+    /**
      * Is the plugin activated?
      *
      * @return bool

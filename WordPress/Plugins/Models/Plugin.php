@@ -196,6 +196,39 @@ class Plugin extends _Plugin
         );
     }
     
+    /**
+     * Deactivate the plugin
+     *
+     * @param int $siteID The site ID or a \WordPress\Sites constant
+     * @return bool Whether or not the plugin was successfully deactivated
+     */
+    final public function deactivate( int $siteID = Sites::ALL )
+    {
+        // Variables
+        $isSuccessful = true;
+        $siteID       = Sites::SanitizeID( $siteID );
+        
+        // Deactivate globally, for all sites
+        if ( Sites::ALL === $siteID ) {
+            deactivate_plugins( $this->getRelativePath(), false, true );
+            $isSuccessful = !$this->isActivated( Sites::ALL );
+        }
+        
+        // Deactivate for a single site
+        elseif ( Sites::INVALID !== $siteID ) {
+            Sites::SwitchTo( $siteID );
+            deactivate_plugins( $this->getRelativePath(), false, false );
+            $isSuccessful = (
+                // Ignore global activation, only check single site
+                $this->isActivated( Sites::ALL ) ||
+                !$this->isActivated( $siteID )
+            );
+            Sites::SwitchBack();
+        }
+        
+        return $isSuccessful;
+    }
+    
     
     /**
      * Is the plugin activated?
