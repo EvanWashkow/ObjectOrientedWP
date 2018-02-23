@@ -223,7 +223,9 @@ class Plugin extends _Plugin
         
         // Lookup active plugins on the site
         elseif ( Sites::INVALID !== $siteID ) {
+            Sites::SwitchTo( $siteID );
             $pluginPaths = get_option( 'active_plugins', [] );
+            Sites::SwitchBack();
         }
         
         // For each plugin path, convert to the plugin ID
