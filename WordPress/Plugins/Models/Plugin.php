@@ -191,4 +191,43 @@ class Plugin extends _Plugin
             )
         );
     }
+    
+    
+    /**
+     * Is the plugin activated?
+     *
+     * When checking a single-site, this does not also check the network.
+     *
+     * @param int $siteID The site ID or a \WordPress\Sites constant
+     * @return bool
+     */
+    final public function isActivated( int $siteID = Sites::ALL )
+    {
+        // Variables
+        $isActivated = false;
+        $pluginPaths = [];
+        $siteID      = Sites::SanitizeID( $siteID );
+        
+        // Lookup active plugins on network
+        if ( Sites::ALL === $siteID ) {
+            $pluginPaths = get_site_option( 'active_sitewide_plugins', [] );
+            $pluginPaths = array_keys( $pluginPaths );
+        }
+        
+        // Lookup active plugins on the site
+        elseif ( Sites::INVALID !== $siteID ) {
+            $pluginPaths = get_option( 'active_plugins', [] );
+        }
+        
+        // For each plugin path, convert to the plugin ID
+        foreach ( $pluginPaths as $pluginPath ) {
+            $pluginID = self::extractID( $pluginPath );
+            if ( $this->getID() === $pluginID ) {
+                return true;
+            }
+        }
+        
+        // Plugin not active
+        return false;
+    }
 }

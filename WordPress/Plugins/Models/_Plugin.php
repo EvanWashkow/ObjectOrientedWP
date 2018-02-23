@@ -86,6 +86,13 @@ abstract class _Plugin
      */
     abstract public function canActivate();
     
+    /**
+     * Is the plugin activated?
+     *
+     * @return bool
+     */
+    abstract public function isActivated();
+    
     
     /***************************************************************************
     *                                 UTILITIES
