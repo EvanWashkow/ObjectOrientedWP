@@ -126,13 +126,6 @@ class Sites
      */
     public static function Get( int $siteID = self::ALL )
     {
-        // Exit. Invalid site ID.
-        $siteID = static::SanitizeID( $siteID );
-        if ( self::INVALID === $siteID ) {
-            return null;
-        }
-        
-        // Route to corresponding lookup method
         if ( self::ALL === $siteID ) {
             return self::getAll();
         }
@@ -256,8 +249,19 @@ class Sites
      */
     private static function getSingle( int $siteID )
     {
-        $sites = self::getAll();
-        return $sites[ $siteID ];
+        // Variables
+        $siteID = static::SanitizeID( $siteID );
+        $site   = null;
+        
+        // Lookup site by ID
+        if ( self::INVALID !== $siteID ) {
+            $sites = self::getAll();
+            if ( array_key_exists( $siteID, $sites )) {
+                $site = $sites[ $siteID ];
+            }
+        }
+        
+        return $site;
     }
     
     
