@@ -175,7 +175,8 @@ class Sites
     
     /**
      * Sanitize the site ID, resolving any pseudo-identifiers to their
-     * corresponding site ID
+     * corresponding site ID, implicitly converting ALL to the current site ID
+     * when not on a multi-site install
      *
      * Register all pseudo-IDs here
      *
