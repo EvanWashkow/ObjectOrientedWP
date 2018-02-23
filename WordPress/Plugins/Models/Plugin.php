@@ -52,11 +52,11 @@ class Plugin extends _Plugin
     private $relativePath;
     
     /**
-    * Indicates this is a multi-site plugin: only to be activated on the network
+    * Indicates this plugin requires global activation on all sites
     *
     * @var string
     */
-    private $isMultiSite;
+    private $requiresGlobalActivation;
     
     /**
      * Plugin version number
@@ -70,7 +70,7 @@ class Plugin extends _Plugin
      * Instantiate a new Plugin instance
      *
      * @param string $relativePath Path to plugin file, relative to the plugins directory
-     * @param bool   $isMultiSite  Indicates this is a multi-site plugin: only to be activated on the network
+     * @param bool   $requiresGlobalActivation Indicates this plugin requires global activation on all sites
      * @param string $version      Plugin version number
      * @param string $name         User-friendly name for the plugin
      * @param string $description  Description of the plugin's purpose
@@ -78,7 +78,7 @@ class Plugin extends _Plugin
      * @param string $authorURL    Link to the author's website
      */
     final public function __construct( string $relativePath,
-                                       bool   $isMultiSite,
+                                       bool   $requiresGlobalActivation,
                                        string $version,
                                        string $name,
                                        string $description,
@@ -87,7 +87,7 @@ class Plugin extends _Plugin
     {
         $this->id           = self::extractID( $relativePath );
         $this->relativePath = $relativePath;
-        $this->isMultiSite  = $isMultiSite;
+        $this->requiresGlobalActivation = $requiresGlobalActivation;
         $this->version      = $version;
         $this->name         = $name;
         $this->description  = $description;
@@ -131,9 +131,9 @@ class Plugin extends _Plugin
         return $this->version;
     }
     
-    final public function isMultiSite()
+    final public function requiresGlobalActivation()
     {
-        return $this->isMultiSite;
+        return $this->requiresGlobalActivation;
     }
     
     
@@ -192,8 +192,8 @@ class Plugin extends _Plugin
             !$isActivatedForAllSites   &&
             !$isActivatedForThisSite   &&
             (
-                !is_multisite()       ||
-                !$this->isMultiSite() ||
+                !is_multisite()                    ||
+                !$this->requiresGlobalActivation() ||
                 Sites::ALL === $siteID
             )
         );

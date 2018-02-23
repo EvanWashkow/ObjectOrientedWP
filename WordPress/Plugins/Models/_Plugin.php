@@ -61,11 +61,11 @@ abstract class _Plugin
     abstract public function getVersion();
     
     /**
-     * Indicates this is a multi-site plugin: only to be activated on the network
+     * Indicates this plugin requires global activation on all sites
      *
      * @return bool
      */
-    abstract public function isMultiSite();
+    abstract public function requiresGlobalActivation();
     
     
     /***************************************************************************
