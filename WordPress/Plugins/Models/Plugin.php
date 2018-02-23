@@ -131,31 +131,29 @@ class Plugin extends _Plugin
      * Activate the plugin
      *
      * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool Whether or not the plugin was successfully activated.
+     * @return bool True if the plugin is active
      */
     final public function activate( int $siteID = Sites::ALL )
     {
-        // Variables
-        $siteID   = Sites::SanitizeID( $siteID );
-        $isActive = false;
-        
         if ( $this->canActivate( $siteID )) {
+            
+            // Variables
+            $siteID = Sites::SanitizeID( $siteID );
             
             // Activate globally, for all sites
             if ( Sites::ALL === $siteID ) {
                 $result   = activate_plugin( $this->getRelativePath(), null, true );
-                $isActive = !is_wp_error( $result );
             }
             
             // Activate on the single site
             else {
                 \WordPress\Sites::SwitchTo( $siteID );
-                $result   = activate_plugin( $this->getRelativePath() );
-                $isActive = !is_wp_error( $result );
+                $result = activate_plugin( $this->getRelativePath() );
                 \WordPress\Sites::SwitchBack();
             }
         }
-        return $isActive;
+        
+        return $this->isActive( $siteID );
     }
     
     
@@ -186,33 +184,26 @@ class Plugin extends _Plugin
      * Deactivate the plugin
      *
      * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool Whether or not the plugin was successfully deactivated
+     * @return bool True if the plugin is no longer active
      */
     final public function deactivate( int $siteID = Sites::ALL )
     {
         // Variables
-        $isSuccessful = true;
-        $siteID       = Sites::SanitizeID( $siteID );
+        $siteID = Sites::SanitizeID( $siteID );
         
         // Deactivate globally, for all sites
         if ( Sites::ALL === $siteID ) {
             deactivate_plugins( $this->getRelativePath(), false, true );
-            $isSuccessful = !$this->isActive( Sites::ALL );
         }
         
         // Deactivate for a single site
         elseif ( Sites::INVALID !== $siteID ) {
             Sites::SwitchTo( $siteID );
             deactivate_plugins( $this->getRelativePath(), false, false );
-            $isSuccessful = (
-                // Ignore global activation, only check single site
-                $this->isActive( Sites::ALL ) ||
-                !$this->isActive( $siteID )
-            );
             Sites::SwitchBack();
         }
         
-        return $isSuccessful;
+        return !$this->isActive( $siteID );
     }
     
     

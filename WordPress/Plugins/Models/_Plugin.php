@@ -78,7 +78,7 @@ abstract class _Plugin
     /**
      * Activate the plugin
      *
-     * @return bool Whether or not the plugin was successfully activated.
+     * @return bool True if the plugin is active
      */
     abstract public function activate();
     
@@ -92,7 +92,7 @@ abstract class _Plugin
     /**
      * Deactivate the plugin
      *
-     * @return bool Whether or not the plugin was successfully deactivated
+     * @return bool True if the plugin is no longer active
      */
     abstract public function deactivate();
     
