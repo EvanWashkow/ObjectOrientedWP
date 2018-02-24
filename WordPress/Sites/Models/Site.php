@@ -224,28 +224,6 @@ class Site extends _Site
     
     
     /***************************************************************************
-    *                           PLUGINS AND THEMES
-    ***************************************************************************/
-    
-    final public function getActiveThemeID()
-    {
-        return $this->get( self::ACTIVE_THEME_ID_KEY, '' );
-    }
-    
-    
-    final public function getActivePluginIDs()
-    {
-        $pluginIDs   = [];
-        $pluginFiles = $this->get( self::ACTIVE_PLUGINS_KEY, [] );
-        foreach ( $pluginFiles as $pluginFile ) {
-            $elements = explode( '/', $pluginFile );
-            $pluginIDs[] = $elements[ 0 ];
-        }
-        return $pluginIDs;
-    }
-    
-    
-    /***************************************************************************
     *                               ADMINISTRATION
     ***************************************************************************/
     
@@ -266,12 +244,6 @@ class Site extends _Site
     }
     
     
-    final public function getDefaultUserRoleID()
-    {
-        return $this->get( self::DEFAULT_USER_ROLE_ID_KEY, '' );
-    }
-    
-    
     final public function getTimeZone()
     {
         // WordPress stores either the GMT or timezone string, but not both
@@ -281,17 +253,17 @@ class Site extends _Site
         // Create timezone
         $timezone = NULL;
         if ( '' != $_timezone_string ) {
-            $timezone = new \WordPress\TimeZone( $_timezone_string );
+            $timezone = new \WordPress\Sites\TimeZone( $_timezone_string );
         }
         elseif ( '' != $_timezone_gmt ) {
-            $timezone = new \WordPress\TimeZone( $_timezone_gmt );
+            $timezone = new \WordPress\Sites\TimeZone( $_timezone_gmt );
         }
         
         return $timezone;
     }
     
     
-    final public function setTimeZone( \WordPress\TimeZone $timeZone )
+    final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone )
     {
         // Variables
         $string       = $timeZone->toIdentifier( false );

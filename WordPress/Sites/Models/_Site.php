@@ -105,30 +105,6 @@ abstract class _Site
     
     
     /***************************************************************************
-    *                           PLUGINS AND THEMES
-    ***************************************************************************/
-    
-    /**
-     * Retrieve the currently-active theme ID
-     *
-     * Use \WordPress\Themes for related theme management
-     *
-     * @return string
-     */
-    abstract public function getActiveThemeID();
-    
-    
-    /**
-     * Retrieve the active plugin IDs for this site (does not include network)
-     *
-     * Use \WordPress\Plugins for related plugin management
-     *
-     * @return array
-     */
-    abstract public function getActivePluginIDs();
-    
-    
-    /***************************************************************************
     *                               ADMINISTRATION
     ***************************************************************************/
     
@@ -150,19 +126,9 @@ abstract class _Site
     
     
     /**
-     * Get the default user role identifier
-     *
-     * Use \WordPress\Users\Roles for related user role management
-     *
-     * @return string
-     */
-    abstract public function getDefaultUserRoleID();
-    
-    
-    /**
      * Get time zone for this site
      *
-     * @return \WordPress\TimeZone
+     * @return \WordPress\Sites\TimeZone
      */
     abstract public function getTimeZone();
     
@@ -170,10 +136,10 @@ abstract class _Site
     /**
      * Set time zone for this site
      *
-     * @param \WordPress\TimeZone $timeZone
+     * @param \WordPress\Sites\TimeZone $timeZone
      * @return bool Whether or not the TimeZone change was successful
      */
-    abstract public function setTimeZone( \WordPress\TimeZone $timeZone );
+    abstract public function setTimeZone( \WordPress\Sites\TimeZone $timeZone );
     
     
     /***************************************************************************
