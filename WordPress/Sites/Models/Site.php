@@ -253,17 +253,17 @@ class Site extends _Site
         // Create timezone
         $timezone = NULL;
         if ( '' != $_timezone_string ) {
-            $timezone = new \WordPress\TimeZone( $_timezone_string );
+            $timezone = new \WordPress\Sites\TimeZone( $_timezone_string );
         }
         elseif ( '' != $_timezone_gmt ) {
-            $timezone = new \WordPress\TimeZone( $_timezone_gmt );
+            $timezone = new \WordPress\Sites\TimeZone( $_timezone_gmt );
         }
         
         return $timezone;
     }
     
     
-    final public function setTimeZone( \WordPress\TimeZone $timeZone )
+    final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone )
     {
         // Variables
         $string       = $timeZone->toIdentifier( false );

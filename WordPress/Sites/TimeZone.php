@@ -1,5 +1,5 @@
 <?php
-namespace WordPress;
+namespace WordPress\Sites;
 
 /**
  * Defines a time zone, compatible with WordPress's numeric GMT format

@@ -128,7 +128,7 @@ abstract class _Site
     /**
      * Get time zone for this site
      *
-     * @return \WordPress\TimeZone
+     * @return \WordPress\Sites\TimeZone
      */
     abstract public function getTimeZone();
     
@@ -136,10 +136,10 @@ abstract class _Site
     /**
      * Set time zone for this site
      *
-     * @param \WordPress\TimeZone $timeZone
+     * @param \WordPress\Sites\TimeZone $timeZone
      * @return bool Whether or not the TimeZone change was successful
      */
-    abstract public function setTimeZone( \WordPress\TimeZone $timeZone );
+    abstract public function setTimeZone( \WordPress\Sites\TimeZone $timeZone );
     
     
     /***************************************************************************
