@@ -142,7 +142,7 @@ class Plugin extends _Plugin
             
             // Activate globally, for all sites
             if ( Sites::ALL === $siteID ) {
-                $result   = activate_plugin( $this->getRelativePath(), null, true );
+                $result = activate_plugin( $this->getRelativePath(), null, true );
             }
             
             // Activate on the single site
@@ -170,7 +170,7 @@ class Plugin extends _Plugin
         
         // Evaluate
         return (
-            Sites::INVALID !== $siteID     &&
+            Sites::INVALID !== $siteID  &&
             !$this->isActive( $siteID ) &&
             (
                 !is_multisite()                    ||
