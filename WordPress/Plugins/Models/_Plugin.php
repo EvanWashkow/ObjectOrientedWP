@@ -6,6 +6,7 @@ namespace WordPress\Plugins\Models;
  */
 abstract class _Plugin extends \WordPress\Shared\_Model
 {
+    
     /**
      * The unique identifier for this plugin
      *
@@ -27,6 +28,7 @@ abstract class _Plugin extends \WordPress\Shared\_Model
      */
     private $relativePath;
     
+    
     /**
      * Create a new plugin instance
      *
@@ -34,7 +36,7 @@ abstract class _Plugin extends \WordPress\Shared\_Model
      */
     final public function __construct( string $relativePath, array $properties )
     {
-        $this->id           = self::extractID( $relativePath );
+        $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
         $this->relativePath = $relativePath;
         $this->properties   = $properties;
     }
@@ -161,21 +163,4 @@ abstract class _Plugin extends \WordPress\Shared\_Model
      * @return bool
      */
     abstract public function isActive();
-    
-    
-    /***************************************************************************
-    *                                 UTILITIES
-    ***************************************************************************/
-    
-    
-    /**
-     * Retrieve a plugin's ID for its file path (relative to the plugins directory)
-     *
-     * @param string $relativePath Path to plugin file, relative to the plugins directory
-     * @return string
-     */
-    final protected static function extractID( string $relativePath )
-    {
-        return explode( '/', $relativePath )[ 0 ];
-    }
 }
