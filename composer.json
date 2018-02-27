@@ -8,8 +8,10 @@
         ],
         "psr-4": {
             "WordPress\\": [
-                "WordPress",
-                "WordPress/libraries"
+                "WordPress"
+            ],
+            "WordPress\\Shared\\": [
+                "WordPress/Shared/interfaces"
             ]
         }
     },
