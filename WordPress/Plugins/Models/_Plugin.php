@@ -4,7 +4,7 @@ namespace WordPress\Plugins\Models;
 /**
  * Defines the structure for a single plugin
  */
-abstract class _Plugin
+abstract class _Plugin extends \WordPress\Shared\_Model
 {
     /**
      * The unique identifier for this plugin
