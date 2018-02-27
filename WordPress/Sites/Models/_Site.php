@@ -6,7 +6,7 @@ use \WordPress\Sites;
 /**
  * Defines the basic structure for a Site model
  */
-abstract class _Site
+abstract class _Site extends \WordPress\Shared\_Model
 {
     
     /***************************************************************************
