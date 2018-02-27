@@ -4,8 +4,43 @@ namespace WordPress\Plugins\Models;
 /**
  * Defines the structure for a single plugin
  */
-abstract class _Plugin
+abstract class _Plugin extends \WordPress\Shared\_Model
 {
+    
+    /**
+     * The unique identifier for this plugin
+     *
+     * @var string
+     */
+    private $id;
+    
+    /**
+     * Mapped array of arbitrary properties
+     *
+     * @var array
+     */
+    private $properties;
+    
+    /**
+     * Path to plugin file, relative to the plugins directory
+     *
+     * @var string
+     */
+    private $relativePath;
+    
+    
+    /**
+     * Create a new plugin instance
+     *
+     * @param array $properties Mapped array of this plugin's properties
+     */
+    final public function __construct( string $relativePath, array $properties )
+    {
+        $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
+        $this->relativePath = $relativePath;
+        $this->properties   = $properties;
+    }
+    
     
     /***************************************************************************
     *                                  PROPERTIES
@@ -18,8 +53,41 @@ abstract class _Plugin
      */
     final public function getID()
     {
-        return self::extractID( $this->getRelativePath() );
+        return $this->id;
     }
+    
+    
+    /**
+    * Retrieves the path to this plugin's file, relative to the plugins directory
+    *
+    * @return string
+    */
+    final public function getRelativePath()
+    {
+        return $this->relativePath;
+    }
+    
+    
+    /**
+     * Retrieve a property for this plugin
+     *
+     * @param string $key          The property key
+     * @param mixed  $defaultValue The property's default value
+     * @return mixed The property value
+     */
+    final public function get( string $key, $defaultValue = '' )
+    {
+        $value = $defaultValue;
+        if ( array_key_exists( $key, $this->properties )) {
+            $value = $this->properties[ $key ];
+        }
+        return $value;
+    }
+    
+    
+    /***************************************************************************
+    *                                  ABSTRACT
+    ***************************************************************************/
     
     /**
      * Retrieves this plugin's author name
@@ -48,13 +116,6 @@ abstract class _Plugin
      * @return string
      */
     abstract public function getName();
-    
-    /**
-    * Retrieves the path to this plugin's file, relative to the plugins directory
-    *
-    * @return string
-    */
-    abstract public function getRelativePath();
     
     /**
      * Retrieves this plugin's version number
@@ -102,21 +163,4 @@ abstract class _Plugin
      * @return bool
      */
     abstract public function isActive();
-    
-    
-    /***************************************************************************
-    *                                 UTILITIES
-    ***************************************************************************/
-    
-    
-    /**
-     * Retrieve a plugin's ID for its file path (relative to the plugins directory)
-     *
-     * @param string $relativePath Path to plugin file, relative to the plugins directory
-     * @return string
-     */
-    final protected static function extractID( string $relativePath )
-    {
-        return explode( '/', $relativePath )[ 0 ];
-    }
 }

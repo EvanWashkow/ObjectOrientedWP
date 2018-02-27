@@ -26,6 +26,18 @@ class Plugins
     }
     
     
+    /**
+     * Retrieve a plugin's ID for its file path (relative to the plugins directory)
+     *
+     * @param string $relativePath Path to plugin file, relative to the plugins directory
+     * @return string
+     */
+    final public static function ExtractID( string $relativePath )
+    {
+        return explode( '/', $relativePath )[ 0 ];
+    }
+    
+    
     /***************************************************************************
     *                                   MAIN
     ***************************************************************************/

@@ -16,21 +16,6 @@ class Models
      */
     final public static function Create( string $relativePath, array $pluginData )
     {
-        // Optional variables
-        $authorURL = '';
-        if ( array_key_exists( 'AuthorURI', $pluginData )) {
-            $authorURL = $pluginData[ 'AuthorURI' ];
-        }
-        
-        // Create new Plugin instance and return
-        return new Models\Plugin(
-            $relativePath,
-            $pluginData[ 'Network' ],
-            $pluginData[ 'Version' ],
-            $pluginData[ 'Name' ],
-            $pluginData[ 'Description' ],
-            $pluginData[ 'Author' ],
-            $authorURL
-        );
+        return new Models\Plugin( $relativePath, $pluginData );
     }
 }
