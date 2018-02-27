@@ -9,117 +9,34 @@ use WordPress\Sites;
 class Plugin extends _Plugin
 {
     
-    /**
-     * Name of the plugin's author
-     *
-     * @var string
-     */
-    private $authorName;
-    
-    /**
-     * Link to the author's website
-     *
-     * @var string
-     */
-    private $authorURL;
-    
-    /**
-     * Description of the plugin's purpose
-     *
-     * @var string
-     */
-    private $description;
-    
-    /**
-     * User-friendly name for the plugin
-     *
-     * @var string
-     */
-    private $name;
-    
-    /**
-    * Path to plugin file, relative to the plugins directory
-    *
-    * @var string
-    */
-    private $relativePath;
-    
-    /**
-    * Indicates this plugin requires global activation on all sites
-    *
-    * @var string
-    */
-    private $requiresGlobalActivation;
-    
-    /**
-     * Plugin version number
-     *
-     * @var string
-     */
-    private $version;
-    
-    
-    /**
-     * Instantiate a new Plugin instance
-     *
-     * @param string $relativePath Path to plugin file, relative to the plugins directory
-     * @param bool   $requiresGlobalActivation Indicates this plugin requires global activation on all sites
-     * @param string $version      Plugin version number
-     * @param string $name         User-friendly name for the plugin
-     * @param string $description  Description of the plugin's purpose
-     * @param string $authorName   Name of the plugin's author
-     * @param string $authorURL    Link to the author's website
-     */
-    final public function __construct( string $relativePath,
-                                       bool   $requiresGlobalActivation,
-                                       string $version,
-                                       string $name,
-                                       string $description,
-                                       string $authorName,
-                                       string $authorURL )
-    {
-        $this->relativePath             = $relativePath;
-        $this->requiresGlobalActivation = $requiresGlobalActivation;
-        $this->version                  = $version;
-        $this->name                     = $name;
-        $this->description              = $description;
-        $this->authorName               = $authorName;
-        $this->authorURL                = $authorURL;
-    }
-    
     final public function getAuthorName()
     {
-        return $this->authorName;
+        return $this->get( 'Author', '' );
     }
     
     final public function getAuthorURL()
     {
-        return $this->authorURL;
+        return $this->get( 'AuthorURI', '' );
     }
     
     final public function getDescription()
     {
-        return $this->description;
+        return $this->get( 'Description', '' );
     }
     
     final public function getName()
     {
-        return $this->name;
-    }
-    
-    final public function getRelativePath()
-    {
-        return $this->relativePath;
+        return $this->get( 'Name', '' );
     }
     
     final public function getVersion()
     {
-        return $this->version;
+        return $this->get( 'Version', '' );
     }
     
     final public function requiresGlobalActivation()
     {
-        return $this->requiresGlobalActivation;
+        return $this->get( 'Network', false );
     }
     
     
