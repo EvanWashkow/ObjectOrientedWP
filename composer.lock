@@ -4,27 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a317048e97eafa0390eb6ac987956f73",
+    "content-hash": "eaa81fdc465bfd6bf1ea0510144ced86",
     "packages": [
         {
             "name": "evanwashkow/php-libraries",
-            "version": "0.1.2",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EvanWashkow/php-libraries.git",
-                "reference": "116d65a0983d7efacc4bcb368bd735c8f0a35b46"
+                "reference": "1a5ebd1bd8c6b80e44aa0367b3036fa23342e3d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/116d65a0983d7efacc4bcb368bd735c8f0a35b46",
-                "reference": "116d65a0983d7efacc4bcb368bd735c8f0a35b46",
+                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/1a5ebd1bd8c6b80e44aa0367b3036fa23342e3d2",
+                "reference": "1a5ebd1bd8c6b80e44aa0367b3036fa23342e3d2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4"
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "PHP/functions.php"
+                ],
                 "psr-4": {
                     "PHP\\": "PHP/"
                 }
@@ -41,50 +44,10 @@
             ],
             "description": "Foundational shared libraries for PHP",
             "support": {
-                "source": "https://github.com/EvanWashkow/php-libraries/tree/0.1.2",
+                "source": "https://github.com/EvanWashkow/php-libraries/tree/0.3.0",
                 "issues": "https://github.com/EvanWashkow/php-libraries/issues"
             },
-            "time": "2018-02-21T20:22:09+00:00"
-        },
-        {
-            "name": "evanwashkow/php-utilities",
-            "version": "0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/EvanWashkow/php-utilities.git",
-                "reference": "bc3c7c3c0ccb053d35a190394b6bc720a238bb61"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/EvanWashkow/php-utilities/zipball/bc3c7c3c0ccb053d35a190394b6bc720a238bb61",
-                "reference": "bc3c7c3c0ccb053d35a190394b6bc720a238bb61",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PHP\\": "PHP/"
-                }
-            },
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Evan Washkow",
-                    "email": "epwashkow@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Foundational shared utilities for PHP",
-            "support": {
-                "source": "https://github.com/EvanWashkow/php-utilities/tree/master",
-                "issues": "https://github.com/EvanWashkow/php-utilities/issues"
-            },
-            "time": "2018-02-17T00:01:35+00:00"
+            "time": "2018-03-16T21:16:45+00:00"
         }
     ],
     "packages-dev": [],
