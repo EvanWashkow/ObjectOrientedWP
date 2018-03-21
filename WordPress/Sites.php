@@ -80,7 +80,9 @@ class Sites
         }
         
         // Extract url properties and create site
-        \PHP\URL::Extract( $url, $protocol, $domain, $path );
+        $url = new \PHP\URL( $url );
+        $domain = $url->getDomain();
+        $path   = $url->getPath();
         $siteID = wpmu_create_blog( $domain, $path, $title, $adminID );
         if ( !is_wp_error( $siteID )) {
             self::$cache->markIncomplete();
