@@ -50,7 +50,7 @@ class Sites
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache( 'integer', 'WordPress\Sites\Models\_Site' );
+            self::$cache = new \PHP\Cache( 'integer', 'WordPress\Sites\Models\SiteSpec' );
         }
     }
     

@@ -1,12 +1,12 @@
 <?php
 namespace WordPress\Sites\Models;
 
-use \WordPress\Sites;
+use WordPress\Shared\ModelSpec;
 
 /**
  * Defines the basic structure for a Site model
  */
-abstract class _Site extends \WordPress\Shared\_Model
+interface SiteSpec extends ModelSpec
 {
     
     /***************************************************************************
@@ -18,7 +18,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return int
      */
-    abstract public function getID();
+    public function getID();
     
     
     /**
@@ -26,7 +26,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return string
      */
-    abstract public function getTitle();
+    public function getTitle();
     
     
     /**
@@ -35,7 +35,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      * @param string $title The new site title
      * @return bool Whether or not the title change was successful
      */
-    abstract public function setTitle( string $title );
+    public function setTitle( string $title );
     
     
     /**
@@ -43,7 +43,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return string
      */
-    abstract public function getDescription();
+    public function getDescription();
     
     
     /**
@@ -52,7 +52,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      * @param string $description The new site description
      * @return bool Whether or not the description change was successful
      */
-    abstract public function setDescription( string $description );
+    public function setDescription( string $description );
     
     
     /***************************************************************************
@@ -66,7 +66,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return string
      */
-    abstract public function getURL();
+    public function getURL();
     
     /**
      * Set the primary site URL
@@ -76,7 +76,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      * @param string $url The new URL
      * @return bool Whether or not the URL change was successful
      */
-    abstract public function setURL( string $url );
+    public function setURL( string $url );
     
     
     /**
@@ -84,7 +84,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return array
      */
-    abstract public function getHomePageURL();
+    public function getHomePageURL();
     
     
     /**
@@ -93,7 +93,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      * @param string $url The new URL
      * @return bool Whether or not the URL change was successful
      */
-    abstract public function setHomePageURL( string $url );
+    public function setHomePageURL( string $url );
     
     
     /**
@@ -101,7 +101,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return string
      */
-    abstract public function getProtocol();
+    public function getProtocol();
     
     
     /***************************************************************************
@@ -113,7 +113,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return string
      */
-    abstract public function getAdministratorEmail();
+    public function getAdministratorEmail();
     
     
     /**
@@ -122,7 +122,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      * @param string $email The new administrator email address
      * @return bool Whether or not the change was successful
      */
-    abstract public function setAdministratorEmail( string $email );
+    public function setAdministratorEmail( string $email );
     
     
     /**
@@ -130,7 +130,7 @@ abstract class _Site extends \WordPress\Shared\_Model
      *
      * @return \WordPress\Sites\TimeZone
      */
-    abstract public function getTimeZone();
+    public function getTimeZone();
     
     
     /**
@@ -139,68 +139,5 @@ abstract class _Site extends \WordPress\Shared\_Model
      * @param \WordPress\Sites\TimeZone $timeZone
      * @return bool Whether or not the TimeZone change was successful
      */
-    abstract public function setTimeZone( \WordPress\Sites\TimeZone $timeZone );
-    
-    
-    /***************************************************************************
-    *                               UTILITIES
-    ***************************************************************************/
-    
-    /**
-     * Retrieve a property for this site
-     *
-     * @param string $key          The property key
-     * @param mixed  $defaultValue The property's default value
-     * @return mixed The property value
-     */
-    final public function get( string $key, $defaultValue = NULL )
-    {
-        // Variables
-        $key   = self::sanitizeKey( $key );
-        $value = $defaultValue;
-        
-        // Retrieve value
-        if ( '' != $key ) {
-            Sites::SwitchTo( $this->getID() );
-            $value = get_option( $key, $defaultValue );
-            Sites::SwitchBack();
-        }
-        return $value;
-    }
-    
-    /**
-     * Set a property on this site
-     *
-     * @param string $key   The property key
-     * @param mixed  $value The new value for the property
-     * @return bool If the property was successfully set or not
-     */
-    final public function set( string $key, $value )
-    {
-        // Variables
-        $key = self::sanitizeKey( $key );
-        $isSuccessful = false;
-        
-        // Set value
-        if ( '' != $key ) {
-            Sites::SwitchTo( $this->getID() );
-            update_option( $key, $value );
-            $isSuccessful = true;
-            Sites::SwitchBack();
-        }
-        
-        return $isSuccessful;
-    }
-    
-    
-    /**
-     * Sanitize the site property key
-     *
-     * @param string $key The property key
-     * @return string
-     */
-    final protected static function sanitizeKey( string $key )
-    {
-        return trim( $key );
-    }
+    public function setTimeZone( \WordPress\Sites\TimeZone $timeZone );
 }

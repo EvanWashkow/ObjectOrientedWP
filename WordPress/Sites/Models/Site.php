@@ -1,10 +1,12 @@
 <?php
 namespace WordPress\Sites\Models;
 
+use WordPress\Sites;
+
 /**
  * Defines a single site
  */
-class Site extends _Site
+class Site implements SiteSpec
 {
     
     /***************************************************************************
@@ -281,6 +283,42 @@ class Site extends _Site
             $isSuccessful = $this->set( self::GMT_KEY, $timeZone->toFloat() );
             $isSuccessful = $isSuccessful &&
                             $this->set( self::TIME_ZONE_KEY, '' );
+        }
+        
+        return $isSuccessful;
+    }
+    
+    
+    /***************************************************************************
+    *                               UTILITIES
+    ***************************************************************************/
+    
+    final public function get( string $key, $defaultValue = NULL )
+    {
+        // Variables
+        $value = $defaultValue;
+        
+        // Retrieve value
+        if ( '' != $key ) {
+            Sites::SwitchTo( $this->getID() );
+            $value = get_option( $key, $defaultValue );
+            Sites::SwitchBack();
+        }
+        return $value;
+    }
+    
+    
+    final public function set( string $key, $value )
+    {
+        // Variables
+        $isSuccessful = false;
+        
+        // Set value
+        if ( '' != $key ) {
+            Sites::SwitchTo( $this->getID() );
+            update_option( $key, $value );
+            $isSuccessful = true;
+            Sites::SwitchBack();
         }
         
         return $isSuccessful;
