@@ -110,19 +110,19 @@ class Site implements SiteSpec
     *                             GENERAL INFORMATION
     ***************************************************************************/
     
-    final public function getID()
+    final public function getID(): int
     {
         return $this->id;
     }
     
     
-    final public function getTitle()
+    final public function getTitle(): string
     {
         return $this->get( self::TITLE_KEY, '' );
     }
     
     
-    final public function setTitle( string $title )
+    final public function setTitle( string $title ): bool
     {
         $title        = trim( $title );
         $isSuccessful = false;
@@ -133,13 +133,13 @@ class Site implements SiteSpec
     }
     
     
-    final public function getDescription()
+    final public function getDescription(): string
     {
         return $this->get( self::DESECRIPTION_KEY, '' );
     }
     
     
-    final public function setDescription( string $description )
+    final public function setDescription( string $description ): bool
     {
         $description = trim( $description );
         return $this->set( self::DESECRIPTION_KEY, $description );
@@ -150,13 +150,13 @@ class Site implements SiteSpec
     *                                    URLS
     ***************************************************************************/
     
-    final public function getURL()
+    final public function getURL(): string
     {
         return $this->get( self::SITE_URL_KEY, '' );
     }
     
     
-    final public function setURL( string $url )
+    final public function setURL( string $url ): bool
     {
         // Variables
         $url          = \PHP\URL::Sanitize( $url );
@@ -203,13 +203,13 @@ class Site implements SiteSpec
     }
     
     
-    final public function getHomePageURL()
+    final public function getHomePageURL(): string
     {
         return $this->get( self::HOME_URL_KEY, '' );
     }
     
     
-    final public function setHomePageURL( string $url )
+    final public function setHomePageURL( string $url ): bool
     {
         $url = \PHP\URL::Sanitize( $url );
         $isSuccessful = false;
@@ -220,7 +220,7 @@ class Site implements SiteSpec
     }
     
     
-    final public function getProtocol()
+    final public function getProtocol(): string
     {
         \PHP\URL::Extract( $this->getURL(), $protocol );
         return $protocol;
@@ -231,13 +231,13 @@ class Site implements SiteSpec
     *                               ADMINISTRATION
     ***************************************************************************/
     
-    final public function getAdministratorEmail()
+    final public function getAdministratorEmail(): string
     {
         return $this->get( self::ADMINISTRATOR_EMAIL_KEY, '' );
     }
     
     
-    final public function setAdministratorEmail( string $email )
+    final public function setAdministratorEmail( string $email ): bool
     {
         $email = trim( $email );
         $isSuccessful = false;
@@ -248,7 +248,7 @@ class Site implements SiteSpec
     }
     
     
-    final public function getTimeZone()
+    final public function getTimeZone(): \WordPress\Sites\TimeZone
     {
         // WordPress stores either the GMT or timezone string, but not both
         $_timezone_gmt    = $this->get( self::GMT_KEY );
@@ -267,7 +267,7 @@ class Site implements SiteSpec
     }
     
     
-    final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone )
+    final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone ): bool
     {
         // Variables
         $string       = $timeZone->toIdentifier( false );

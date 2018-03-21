@@ -18,7 +18,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return int
      */
-    public function getID();
+    public function getID(): int;
     
     
     /**
@@ -26,7 +26,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return string
      */
-    public function getTitle();
+    public function getTitle(): string;
     
     
     /**
@@ -35,7 +35,7 @@ interface SiteSpec extends ModelSpec
      * @param string $title The new site title
      * @return bool Whether or not the title change was successful
      */
-    public function setTitle( string $title );
+    public function setTitle( string $title ): bool;
     
     
     /**
@@ -43,7 +43,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return string
      */
-    public function getDescription();
+    public function getDescription(): string;
     
     
     /**
@@ -52,7 +52,7 @@ interface SiteSpec extends ModelSpec
      * @param string $description The new site description
      * @return bool Whether or not the description change was successful
      */
-    public function setDescription( string $description );
+    public function setDescription( string $description ): bool;
     
     
     /***************************************************************************
@@ -66,7 +66,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return string
      */
-    public function getURL();
+    public function getURL(): string;
     
     /**
      * Set the primary site URL
@@ -76,7 +76,7 @@ interface SiteSpec extends ModelSpec
      * @param string $url The new URL
      * @return bool Whether or not the URL change was successful
      */
-    public function setURL( string $url );
+    public function setURL( string $url ): bool;
     
     
     /**
@@ -84,7 +84,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return array
      */
-    public function getHomePageURL();
+    public function getHomePageURL(): string;
     
     
     /**
@@ -93,7 +93,7 @@ interface SiteSpec extends ModelSpec
      * @param string $url The new URL
      * @return bool Whether or not the URL change was successful
      */
-    public function setHomePageURL( string $url );
+    public function setHomePageURL( string $url ): bool;
     
     
     /**
@@ -101,7 +101,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return string
      */
-    public function getProtocol();
+    public function getProtocol(): string;
     
     
     /***************************************************************************
@@ -113,7 +113,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return string
      */
-    public function getAdministratorEmail();
+    public function getAdministratorEmail(): string;
     
     
     /**
@@ -122,7 +122,7 @@ interface SiteSpec extends ModelSpec
      * @param string $email The new administrator email address
      * @return bool Whether or not the change was successful
      */
-    public function setAdministratorEmail( string $email );
+    public function setAdministratorEmail( string $email ): bool;
     
     
     /**
@@ -130,7 +130,7 @@ interface SiteSpec extends ModelSpec
      *
      * @return \WordPress\Sites\TimeZone
      */
-    public function getTimeZone();
+    public function getTimeZone(): \WordPress\Sites\TimeZone;
     
     
     /**
@@ -139,5 +139,5 @@ interface SiteSpec extends ModelSpec
      * @param \WordPress\Sites\TimeZone $timeZone
      * @return bool Whether or not the TimeZone change was successful
      */
-    public function setTimeZone( \WordPress\Sites\TimeZone $timeZone );
+    public function setTimeZone( \WordPress\Sites\TimeZone $timeZone ): bool;
 }
