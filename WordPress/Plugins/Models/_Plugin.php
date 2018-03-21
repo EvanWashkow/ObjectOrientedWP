@@ -1,10 +1,12 @@
 <?php
 namespace WordPress\Plugins\Models;
 
+use WordPress\Shared\Model\ReadOnlyModelSpec;
+
 /**
  * Defines the structure for a single plugin
  */
-abstract class _Plugin extends \WordPress\Shared\_Model
+abstract class _Plugin implements ReadOnlyModelSpec
 {
     
     /**
