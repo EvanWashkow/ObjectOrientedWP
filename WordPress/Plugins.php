@@ -1,6 +1,9 @@
 <?php
 namespace WordPress;
 
+use PHP\Collections\Dictionary\ReadOnlyDictionary;
+use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+
 /**
  * Manages WordPress plugins
  */
@@ -21,7 +24,7 @@ class Plugins
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache();
+            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\Plugin' );
         }
     }
     
@@ -75,7 +78,7 @@ class Plugins
      *
      * @return array
      */
-    private static function getAll()
+    private static function getAll(): ReadOnlyDictionarySpec
     {
         // Build cache
         if ( !self::$cache->isComplete() ) {
@@ -95,7 +98,7 @@ class Plugins
         }
         
         // Return plugins
-        return self::$cache->get();
+        return new ReadOnlyDictionary( self::$cache );
     }
     
     
