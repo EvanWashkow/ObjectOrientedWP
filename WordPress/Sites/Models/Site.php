@@ -222,8 +222,8 @@ class Site implements SiteSpec
     
     final public function getProtocol(): string
     {
-        \PHP\URL::Extract( $this->getURL(), $protocol );
-        return $protocol;
+        $url = new \PHP\URL( $this->getURL() );
+        return $url->getProtocol();
     }
     
     
