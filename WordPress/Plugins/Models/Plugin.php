@@ -6,8 +6,52 @@ use WordPress\Sites;
 /**
  * Represents a single WordPress plugin
  */
-class Plugin extends _Plugin
+class Plugin implements PluginSpec
 {
+    
+    /**
+     * The unique identifier for this plugin
+     *
+     * @var string
+     */
+    private $id;
+    
+    /**
+     * Mapped array of arbitrary properties
+     *
+     * @var array
+     */
+    private $properties;
+    
+    /**
+     * Path to plugin file, relative to the plugins directory
+     *
+     * @var string
+     */
+    private $relativePath;
+    
+    
+    /**
+     * Create a new plugin instance
+     *
+     * @param array $properties Mapped array of this plugin's properties
+     */
+    final public function __construct( string $relativePath, array $properties )
+    {
+        $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
+        $this->relativePath = $relativePath;
+        $this->properties   = $properties;
+    }
+    
+    final public function getID()
+    {
+        return $this->id;
+    }
+    
+    final public function getRelativePath()
+    {
+        return $this->relativePath;
+    }
     
     final public function getAuthorName()
     {
@@ -44,12 +88,6 @@ class Plugin extends _Plugin
     *                                 ACTIVATING
     ***************************************************************************/
     
-    /**
-     * Activate the plugin
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool True if the plugin is active
-     */
     final public function activate( int $siteID = Sites::ALL )
     {
         if ( $this->canActivate( $siteID )) {
@@ -74,12 +112,6 @@ class Plugin extends _Plugin
     }
     
     
-    /**
-     * Can the plugin be activated?
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool
-     */
     final public function canActivate( int $siteID = Sites::ALL )
     {
         // Variables
@@ -97,12 +129,7 @@ class Plugin extends _Plugin
         );
     }
     
-    /**
-     * Deactivate the plugin
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool True if the plugin is no longer active
-     */
+    
     final public function deactivate( int $siteID = Sites::ALL )
     {
         // Variables
@@ -124,15 +151,6 @@ class Plugin extends _Plugin
     }
     
     
-    /**
-     * Is the plugin activated?
-     *
-     * When checking activated plugins for a single site, also check the
-     * globally-activated plugins.
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool
-     */
     final public function isActive( int $siteID = Sites::ALL )
     {
         // Variables
@@ -158,5 +176,19 @@ class Plugin extends _Plugin
         
         // Plugin not active
         return $isActive;
+    }
+    
+    
+    /***************************************************************************
+    *                               UTILITIES
+    ***************************************************************************/
+    
+    final public function get( string $key, $defaultValue = '' )
+    {
+        $value = $defaultValue;
+        if ( array_key_exists( $key, $this->properties )) {
+            $value = $this->properties[ $key ];
+        }
+        return $value;
     }
 }
