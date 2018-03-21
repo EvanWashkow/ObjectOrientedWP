@@ -1,6 +1,7 @@
 <?php
 namespace WordPress;
 
+use PHP\Collections\Dictionary\ReadOnlyDictionary;
 use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
 
 /**
@@ -49,7 +50,7 @@ class Sites
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache( 'WordPress\Sites\Models\_Site' );
+            self::$cache = new \PHP\Cache( 'integer', 'WordPress\Sites\Models\_Site' );
         }
     }
     
@@ -171,7 +172,7 @@ class Sites
      * @param int $siteID The site (blog) ID to evaluate
      * @return bool
      */
-    final public static function IsValidID( int $siteID )
+    final public static function IsValidID( int $siteID ): bool
     {
         return self::INVALID !== static::SanitizeID( $siteID );
     }
@@ -195,7 +196,7 @@ class Sites
      * @param int $siteID The site ID or pseudo-site ID
      * @return int The corresponding site ID; ALL, or INVALID
      */
-    public static function SanitizeID( int $siteID )
+    public static function SanitizeID( int $siteID ): int
     {
         // Resolve CURRENT pseudo identifier to the current site ID
         if ( self::CURRENT === $siteID ) {
@@ -210,7 +211,7 @@ class Sites
         }
         
         // Given an invalid site ID
-        elseif (( $siteID < 0 ) || !array_key_exists( $siteID, self::getAll() )) {
+        elseif (( $siteID < 0 ) || !self::getAll()->hasIndex( $siteID )) {
             $siteID = self::INVALID;
         }
         return $siteID;
@@ -263,19 +264,8 @@ class Sites
      */
     private static function getSingle( int $siteID )
     {
-        // Variables
         $siteID = static::SanitizeID( $siteID );
-        $site   = null;
-        
-        // Lookup site by ID
-        if ( self::INVALID !== $siteID ) {
-            $sites = self::getAll();
-            if ( array_key_exists( $siteID, $sites )) {
-                $site = $sites[ $siteID ];
-            }
-        }
-        
-        return $site;
+        return self::getAll()->get( $siteID, null );
     }
     
     
@@ -302,7 +292,7 @@ class Sites
             if ( is_multisite() ) {
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
-                    $siteID = $wp_site->blog_id;
+                    $siteID = ( int ) $wp_site->blog_id;
                     if ( !self::$cache->hasIndex( $siteID )) {
                         $site = Sites\Models::Create( $siteID );
                         self::$cache->add( $siteID, $site );
@@ -321,7 +311,7 @@ class Sites
         }
         
         // Read sites from cache
-        $sites = self::$cache;
+        $sites = new ReadOnlyDictionary( self::$cache );
         return $sites;
     }
 }
