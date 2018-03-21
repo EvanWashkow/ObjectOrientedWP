@@ -43,42 +43,42 @@ class Plugin implements PluginSpec
         $this->properties   = $properties;
     }
     
-    final public function getID()
+    final public function getID(): string
     {
         return $this->id;
     }
     
-    final public function getRelativePath()
+    final public function getRelativePath(): string
     {
         return $this->relativePath;
     }
     
-    final public function getAuthorName()
+    final public function getAuthorName(): string
     {
         return $this->get( 'Author', '' );
     }
     
-    final public function getAuthorURL()
+    final public function getAuthorURL(): string
     {
         return $this->get( 'AuthorURI', '' );
     }
     
-    final public function getDescription()
+    final public function getDescription(): string
     {
         return $this->get( 'Description', '' );
     }
     
-    final public function getName()
+    final public function getName(): string
     {
         return $this->get( 'Name', '' );
     }
     
-    final public function getVersion()
+    final public function getVersion(): string
     {
         return $this->get( 'Version', '' );
     }
     
-    final public function requiresGlobalActivation()
+    final public function requiresGlobalActivation(): bool
     {
         return $this->get( 'Network', false );
     }
@@ -88,7 +88,7 @@ class Plugin implements PluginSpec
     *                                 ACTIVATING
     ***************************************************************************/
     
-    final public function activate( int $siteID = Sites::ALL )
+    final public function activate( int $siteID = Sites::ALL ): bool
     {
         if ( $this->canActivate( $siteID )) {
             
@@ -112,7 +112,7 @@ class Plugin implements PluginSpec
     }
     
     
-    final public function canActivate( int $siteID = Sites::ALL )
+    final public function canActivate( int $siteID = Sites::ALL ): bool
     {
         // Variables
         $siteID = Sites::SanitizeID( $siteID );
@@ -130,7 +130,7 @@ class Plugin implements PluginSpec
     }
     
     
-    final public function deactivate( int $siteID = Sites::ALL )
+    final public function deactivate( int $siteID = Sites::ALL ): bool
     {
         // Variables
         $siteID = Sites::SanitizeID( $siteID );
@@ -151,7 +151,7 @@ class Plugin implements PluginSpec
     }
     
     
-    final public function isActive( int $siteID = Sites::ALL )
+    final public function isActive( int $siteID = Sites::ALL ): bool
     {
         // Variables
         $isActive = false;
