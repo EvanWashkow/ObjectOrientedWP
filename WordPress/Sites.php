@@ -1,6 +1,8 @@
 <?php
 namespace WordPress;
 
+use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+
 /**
  * Manages WordPress sites
  *
@@ -47,7 +49,7 @@ class Sites
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache();
+            self::$cache = new \PHP\Cache( 'WordPress\Sites\Models\_Site' );
         }
     }
     
@@ -115,7 +117,7 @@ class Sites
             
             // Delete the site
             wpmu_delete_blog( $siteID, true );
-            self::$cache->delete( $siteID );
+            self::$cache->remove( $siteID );
         }
     }
     
@@ -124,7 +126,7 @@ class Sites
      * Retrieve site(s)
      *
      * @param int $siteID The site ID, ALL, or CURRENT
-     * @return Sites\Models\Site|array|null
+     * @return Sites\Models\Site|ReadOnlyDictionarySpec|null
      */
     public static function Get( int $siteID = self::ALL )
     {
@@ -280,9 +282,9 @@ class Sites
     /**
      * Retrieve all sites
      *
-     * @return array
+     * @return ReadOnlyDictionarySpec
      */
-    private static function getAll()
+    private static function getAll(): ReadOnlyDictionarySpec
     {
         
         // Variables
@@ -290,7 +292,7 @@ class Sites
         
         // Read all sites from cache.
         if ( self::$cache->isComplete() ) {
-            $sites = self::$cache->get();
+            $sites = self::$cache;
         }
         
         // Lookup sites
@@ -301,7 +303,7 @@ class Sites
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
                     $siteID = $wp_site->blog_id;
-                    if ( !self::$cache->isSet( $siteID )) {
+                    if ( !self::$cache->hasIndex( $siteID )) {
                         $site = Sites\Models::Create( $siteID );
                         self::$cache->add( $siteID, $site );
                     }
@@ -319,7 +321,7 @@ class Sites
         }
         
         // Read sites from cache
-        $sites = self::$cache->get();
+        $sites = self::$cache;
         return $sites;
     }
 }
