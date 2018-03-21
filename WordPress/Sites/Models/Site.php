@@ -178,7 +178,9 @@ class Site implements SiteSpec
             // Change blog table url
             else {
                 global $wpdb;
-                \PHP\URL::Extract( $url, $protocol, $domain, $path );
+                $urlObject = new \PHP\URL( $url );
+                $domain    = $urlObject->getDomain();
+                $path      = $urlObject->getPath();
                 $isSuccessful = false !== $wpdb->update(
                     $wpdb->blogs,
                     [
