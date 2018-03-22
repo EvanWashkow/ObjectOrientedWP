@@ -50,11 +50,6 @@ class Plugin implements PluginSpec
         return $this->id;
     }
     
-    final public function getRelativePath(): string
-    {
-        return $this->relativePath;
-    }
-    
     final public function getAuthorName(): string
     {
         return $this->get( 'Author' );
@@ -73,6 +68,11 @@ class Plugin implements PluginSpec
     final public function getName(): string
     {
         return $this->get( 'Name' );
+    }
+    
+    final public function getRelativePath(): string
+    {
+        return $this->relativePath;
     }
     
     final public function getVersion(): string

@@ -18,13 +18,6 @@ interface PluginSpec extends ReadOnlyModelSpec
     public function getID(): string;
     
     /**
-    * Retrieves the path to this plugin's file, relative to the plugins directory
-    *
-    * @return string
-    */
-    public function getRelativePath(): string;
-    
-    /**
      * Retrieves this plugin's author name
      *
      * @return string
@@ -51,6 +44,13 @@ interface PluginSpec extends ReadOnlyModelSpec
      * @return string
      */
     public function getName(): string;
+    
+    /**
+    * Retrieves the path to this plugin's file, relative to the plugins directory
+    *
+    * @return string
+    */
+    public function getRelativePath(): string;
     
     /**
      * Retrieves this plugin's version number
