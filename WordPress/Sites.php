@@ -152,7 +152,7 @@ class Sites
      *
      * @return Sites\Models\Site
      */
-    final public static function GetCurrent()
+    final public static function GetCurrent(): Sites\Models\Site
     {
         return self::Get( self::GetCurrentID() );
     }
