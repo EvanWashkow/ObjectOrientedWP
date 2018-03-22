@@ -49,7 +49,7 @@ class Plugins
      * Retrieve all plugin(s)
      *
      * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
-     * @return Plugins\Models\Plugin|null|array
+     * @return ReadOnlyDictionarySpec|Plugins\Models\Plugin
      */
     public static function Get( $mixed = null )
     {
@@ -130,11 +130,11 @@ class Plugins
      * Retrieve a single plugin by its ID
      *
      * @param string $pluginID The plugin ID
-     * @return Plugins\Models\Plugin|null
+     * @return Plugins\Models\Plugin
      */
-    private static function getSingle( string $pluginID )
+    private static function getSingle( string $pluginID ): Plugins\Models\Plugin
     {
-        return self::getAll()->get( $pluginID, null );
+        return self::getAll()->get( $pluginID );
     }
 }
 Plugins::Initialize();
