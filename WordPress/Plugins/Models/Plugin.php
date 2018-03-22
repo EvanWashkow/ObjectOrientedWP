@@ -1,6 +1,7 @@
 <?php
 namespace WordPress\Plugins\Models;
 
+use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
 use WordPress\Sites;
 
 /**
@@ -19,7 +20,7 @@ class Plugin implements PluginSpec
     /**
      * Mapped array of arbitrary properties
      *
-     * @var array
+     * @var ReadOnlyDictionarySpec
      */
     private $properties;
     
@@ -34,9 +35,10 @@ class Plugin implements PluginSpec
     /**
      * Create a new plugin instance
      *
-     * @param array $properties Mapped array of this plugin's properties
+     * @param string                 $relativePath File path to the main plugin file, relative to the plugins directory
+     * @param ReadOnlyDictionarySpec $properties   Mapped array of this plugin's properties
      */
-    final public function __construct( string $relativePath, array $properties )
+    final public function __construct( string $relativePath, ReadOnlyDictionarySpec $properties )
     {
         $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
         $this->relativePath = $relativePath;
@@ -185,10 +187,6 @@ class Plugin implements PluginSpec
     
     final public function get( string $key, $defaultValue = '' )
     {
-        $value = $defaultValue;
-        if ( array_key_exists( $key, $this->properties )) {
-            $value = $this->properties[ $key ];
-        }
-        return $value;
+        return $this->properties->get( $key, $defaultValue );
     }
 }

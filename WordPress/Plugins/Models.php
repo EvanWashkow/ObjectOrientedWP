@@ -1,6 +1,9 @@
 <?php
 namespace WordPress\Plugins;
 
+use PHP\Collections\Dictionary;
+use PHP\Collections\Dictionary\ReadOnlyDictionary;
+
 /**
  * Creates new plugin models using the factory method
  */
@@ -16,6 +19,11 @@ class Models
      */
     final public static function Create( string $relativePath, array $pluginData )
     {
-        return new Models\Plugin( $relativePath, $pluginData );
+        $properties = new Dictionary( 'string' );
+        foreach ( $pluginData as $index => $value ) {
+            $properties->add( $index, $value );
+        }
+        $properties = new ReadOnlyDictionary( $properties );
+        return new Models\Plugin( $relativePath, $properties );
     }
 }
