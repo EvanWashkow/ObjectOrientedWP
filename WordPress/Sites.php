@@ -3,7 +3,7 @@ namespace WordPress;
 
 use PHP\Collections\Dictionary\ReadOnlyDictionary;
 use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
-use WordPress\Sites\Models\Site;
+use WordPress\Sites\Models\SiteSpec;
 
 /**
  * Manages WordPress sites
@@ -66,9 +66,9 @@ class Sites
      * @param string $url     The site URL
      * @param string $title   The site title
      * @param int    $adminID User ID for the site administrator
-     * @return Site
+     * @return SiteSpec
      */
-    public static function Add( string $url, string $title, int $adminID ): Site
+    public static function Add( string $url, string $title, int $adminID ): SiteSpec
     {
         
         // Error. Multisite is not enabled.
@@ -140,7 +140,7 @@ class Sites
      * Retrieve site(s)
      *
      * @param int $siteID The site ID, ALL, or CURRENT
-     * @return Sites\Models\Site|ReadOnlyDictionarySpec
+     * @return SiteSpec|ReadOnlyDictionarySpec
      */
     public static function Get( int $siteID = self::ALL )
     {
@@ -156,9 +156,9 @@ class Sites
     /**
      * Retrieve the current site object
      *
-     * @return Sites\Models\Site
+     * @return SiteSpec
      */
-    final public static function GetCurrent(): Sites\Models\Site
+    final public static function GetCurrent(): SiteSpec
     {
         return self::Get( self::GetCurrentID() );
     }
@@ -273,9 +273,9 @@ class Sites
      * Retrieve single site
      *
      * @param int $siteID The site ID to lookup
-     * @return Sites\Models\Site
+     * @return SiteSpec
      */
-    private static function getSingle( int $siteID ): Sites\Models\Site
+    private static function getSingle( int $siteID ): SiteSpec
     {
         $siteID = static::SanitizeID( $siteID );
         if ( self::INVALID === $siteID ) {
