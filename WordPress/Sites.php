@@ -3,6 +3,7 @@ namespace WordPress;
 
 use PHP\Collections\Dictionary\ReadOnlyDictionary;
 use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use WordPress\Sites\Models\Site;
 
 /**
  * Manages WordPress sites
@@ -65,34 +66,39 @@ class Sites
      * @param string $url     The site URL
      * @param string $title   The site title
      * @param int    $adminID User ID for the site administrator
-     * @return Sites\Models\Site|null Null on failure
+     * @return Site
      */
-    public static function Add( string $url, string $title, int $adminID )
+    public static function Add( string $url, string $title, int $adminID ): Site
     {
-        // Variables
-        $site = null;
         
-        // Exit. Multisite is not enabled.
+        // Error. Multisite is not enabled.
         if ( !is_multisite() ) {
-            return $site;
+            throw new \Exception( 'Cannot create a new site when not on a multisite install' );
         }
         
-        // Exit. Invalid URL.
-        if ( !\PHP\URL::IsValid( $url )) {
-            return $site;
+        // Error. Invalid URL.
+        elseif ( !\PHP\URL::IsValid( $url )) {
+            throw new \Exception( 'The site URL is invalid' );
         }
         
-        // Extract url properties and create site
+        // Try to create site
         $url = new \PHP\URL( $url );
         $domain = $url->getDomain();
         $path   = $url->getPath();
         $siteID = wpmu_create_blog( $domain, $path, $title, $adminID );
-        if ( !is_wp_error( $siteID )) {
-            self::$cache->markIncomplete();
-            $site = self::Get( $siteID );
+        
+        // Error. Could not create site
+        if ( is_wp_error( $siteID )) {
+            $wp_error = $siteID;
+            $message  = $wp_error->get_error_message( $wp_error->get_error_code() );
+            throw new \Exception( $message );
         }
         
-        return $site;
+        // Return the newly-created site
+        else {
+            self::$cache->markIncomplete();
+            return self::Get( $siteID );
+        }
     }
     
     
