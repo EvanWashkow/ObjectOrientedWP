@@ -57,27 +57,27 @@ class Plugin implements PluginSpec
     
     final public function getAuthorName(): string
     {
-        return $this->get( 'Author', '' );
+        return $this->get( 'Author' );
     }
     
     final public function getAuthorURL(): string
     {
-        return $this->get( 'AuthorURI', '' );
+        return $this->get( 'AuthorURI' );
     }
     
     final public function getDescription(): string
     {
-        return $this->get( 'Description', '' );
+        return $this->get( 'Description' );
     }
     
     final public function getName(): string
     {
-        return $this->get( 'Name', '' );
+        return $this->get( 'Name' );
     }
     
     final public function getVersion(): string
     {
-        return $this->get( 'Version', '' );
+        return $this->get( 'Version' );
     }
     
     final public function requiresGlobalActivation(): bool
