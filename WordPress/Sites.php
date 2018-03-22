@@ -295,10 +295,8 @@ class Sites
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
                     $siteID = ( int ) $wp_site->blog_id;
-                    if ( !self::$cache->hasIndex( $siteID )) {
-                        $site = Sites\Models::Create( $siteID );
-                        self::$cache->add( $siteID, $site );
-                    }
+                    $site = Sites\Models::Create( $siteID );
+                    self::$cache->add( $siteID, $site );
                 }
             }
             
