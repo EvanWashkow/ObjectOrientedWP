@@ -187,6 +187,10 @@ class Plugin implements PluginSpec
     
     final public function get( string $key, $defaultValue = '' )
     {
-        return $this->properties->get( $key, $defaultValue );
+        $value = $defaultValue;
+        if ( $this->properties->hasIndex( $key )) {
+            $value = $this->properties->get( $key );
+        }
+        return $value;
     }
 }
