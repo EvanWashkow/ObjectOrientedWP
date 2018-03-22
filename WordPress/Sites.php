@@ -102,10 +102,15 @@ class Sites
      * Since WordPress does not allow you to delete the root site, neither do we.
      *
      * @param int $siteID The site (blog) ID to delete
+     * @return bool Whether or not the site was deleted
      */
-    final public static function Delete( int $siteID )
+    final public static function Delete( int $siteID ): bool
     {
-        $siteID = static::SanitizeID( $siteID );
+        // Variables
+        $isDeleted = false;
+        $siteID   = static::SanitizeID( $siteID );
+        
+        // Try to delete the site
         if (
             is_multisite()                &&
             ( self::INVALID !== $siteID ) &&
@@ -119,7 +124,9 @@ class Sites
             // Delete the site
             wpmu_delete_blog( $siteID, true );
             self::$cache->remove( $siteID );
+            $isDeleted = true;
         }
+        return $isDeleted;
     }
     
     
