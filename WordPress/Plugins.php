@@ -24,7 +24,7 @@ class Plugins
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\Plugin' );
+            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\PluginSpec' );
         }
     }
     
@@ -35,7 +35,7 @@ class Plugins
      * @param string $relativePath Path to plugin file, relative to the plugins directory
      * @return string
      */
-    final public static function ExtractID( string $relativePath )
+    final public static function ExtractID( string $relativePath ): string
     {
         return explode( '/', $relativePath )[ 0 ];
     }
@@ -76,7 +76,7 @@ class Plugins
     /**
      * Retrieve all plugin(s)
      *
-     * @return array
+     * @return ReadOnlyDictionarySpec
      */
     private static function getAll(): ReadOnlyDictionarySpec
     {
@@ -106,16 +106,23 @@ class Plugins
      * Get multiple plugins by their IDs
      *
      * @param array $pluginIDs List of plugin ids to return
-     * @return array Plugins indexed by their corresponding IDs
+     * @return ReadOnlyDictionarySpec Plugins indexed by their corresponding IDs
      */
-    private static function getMultiple( array $pluginIDs )
+    private static function getMultiple( array $pluginIDs ): ReadOnlyDictionarySpec
     {
-        $plugins = [];
-        if ( 0 < count( $pluginIDs )) {
-            $plugins = self::getAll();
-            $plugins = array_intersect_key( $plugins, array_flip( $pluginIDs ) );
+        // Variables
+        $plugins  = self::getAll();
+        $_plugins = new \PHP\Collections\Dictionary(
+            'string', 'WordPress\Plugins\Models\PluginSpec'
+        );
+        
+        // For each specified plugin ID, add it to the plugins dictionary
+        foreach ( $pluginIDs as $pluginID ) {
+            if ( $plugins->hasIndex( $pluginID )) {
+                $_plugins->add( $pluginID, $plugins->get( $pluginID ));
+            }
         }
-        return $plugins;
+        return new ReadOnlyDictionary( $_plugins );
     }
     
     
@@ -127,12 +134,7 @@ class Plugins
      */
     private static function getSingle( string $pluginID )
     {
-        $plugin  = null;
-        $plugins = self::getAll();
-        if ( array_key_exists( $pluginID, $plugins )) {
-            $plugin = $plugins[ $pluginID ];
-        }
-        return $plugin;
+        return self::getAll()->get( $pluginID, null );
     }
 }
 Plugins::Initialize();
