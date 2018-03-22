@@ -134,7 +134,7 @@ class Sites
      * Retrieve site(s)
      *
      * @param int $siteID The site ID, ALL, or CURRENT
-     * @return Sites\Models\Site|ReadOnlyDictionarySpec|null
+     * @return Sites\Models\Site|ReadOnlyDictionarySpec
      */
     public static function Get( int $siteID = self::ALL )
     {
