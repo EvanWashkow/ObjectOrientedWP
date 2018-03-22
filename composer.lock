@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "evanwashkow/php-libraries",
-            "version": "0.3.2",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EvanWashkow/php-libraries.git",
-                "reference": "4beccb3dad66998fc3e2b5bb5a664bdca45e9005"
+                "reference": "66d18f295a68610f94e43a196924ab15a2dc88cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/4beccb3dad66998fc3e2b5bb5a664bdca45e9005",
-                "reference": "4beccb3dad66998fc3e2b5bb5a664bdca45e9005",
+                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/66d18f295a68610f94e43a196924ab15a2dc88cb",
+                "reference": "66d18f295a68610f94e43a196924ab15a2dc88cb",
                 "shasum": ""
             },
             "require": {
@@ -44,10 +44,10 @@
             ],
             "description": "Foundational shared libraries for PHP",
             "support": {
-                "source": "https://github.com/EvanWashkow/php-libraries/tree/0.3.2",
+                "source": "https://github.com/EvanWashkow/php-libraries/tree/0.3.3",
                 "issues": "https://github.com/EvanWashkow/php-libraries/issues"
             },
-            "time": "2018-03-21T19:51:48+00:00"
+            "time": "2018-03-22T20:14:53+00:00"
         }
     ],
     "packages-dev": [],
