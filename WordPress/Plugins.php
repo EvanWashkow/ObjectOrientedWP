@@ -69,6 +69,18 @@ class Plugins
     }
     
     
+    /**
+     * Determine whether or not the plugin ID is valid
+     *
+     * @param string $pluginID The plugin ID to check
+     * @return bool
+     */
+    public static function IsValidID( string $pluginID ): bool
+    {
+        return self::getAll()->hasIndex( $pluginID );
+    }
+    
+    
     /***************************************************************************
     *                               SUB-ROUTINES
     ***************************************************************************/
@@ -134,6 +146,9 @@ class Plugins
      */
     private static function getSingle( string $pluginID ): Plugins\Models\Plugin
     {
+        if ( !self::IsValidID( $pluginID )) {
+            throw new \Exception( "Cannot retrieve invalid plugin ID: {$pluginID}" );
+        }
         return self::getAll()->get( $pluginID );
     }
 }
