@@ -267,12 +267,15 @@ class Sites
      * Retrieve single site
      *
      * @param int $siteID The site ID to lookup
-     * @return Sites\Models\Site|null
+     * @return Sites\Models\Site
      */
-    private static function getSingle( int $siteID )
+    private static function getSingle( int $siteID ): Sites\Models\Site
     {
         $siteID = static::SanitizeID( $siteID );
-        return self::getAll()->get( $siteID, null );
+        if ( self::INVALID === $siteID ) {
+            throw new \Exception( "Cannot retrieve site: the site ID does not exist" );
+        }
+        return self::getAll()->get( $siteID );
     }
     
     
