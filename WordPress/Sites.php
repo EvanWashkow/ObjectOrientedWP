@@ -97,7 +97,7 @@ class Sites
         // Return the newly-created site
         else {
             self::$cache->markIncomplete();
-            return self::Get( $siteID );
+            return static::Get( $siteID );
         }
     }
     
