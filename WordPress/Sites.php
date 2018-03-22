@@ -160,7 +160,7 @@ class Sites
      */
     final public static function GetCurrent(): SiteSpec
     {
-        return self::Get( self::GetCurrentID() );
+        return static::Get( self::GetCurrentID() );
     }
     
     
