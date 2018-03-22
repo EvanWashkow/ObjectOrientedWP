@@ -163,7 +163,7 @@ class Sites
      *
      * @return int
      */
-    final public static function GetCurrentID()
+    final public static function GetCurrentID(): int
     {
         return get_current_blog_id();
     }
