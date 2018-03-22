@@ -287,16 +287,8 @@ class Sites
     private static function getAll(): ReadOnlyDictionarySpec
     {
         
-        // Variables
-        $sites = [];
-        
-        // Read all sites from cache.
-        if ( self::$cache->isComplete() ) {
-            $sites = self::$cache;
-        }
-        
         // Lookup sites
-        else {
+        if ( !self::$cache->isComplete() ) {
             
             // Retrieve sites from the multisite setup
             if ( is_multisite() ) {
@@ -321,8 +313,7 @@ class Sites
         }
         
         // Read sites from cache
-        $sites = new ReadOnlyDictionary( self::$cache );
-        return $sites;
+        return new ReadOnlyDictionary( self::$cache );
     }
 }
 Sites::Initialize();
