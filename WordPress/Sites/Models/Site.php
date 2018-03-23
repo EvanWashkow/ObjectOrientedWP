@@ -270,7 +270,7 @@ class Site extends \PHP\Object implements SiteSpec
     final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone ): bool
     {
         // Variables
-        $string       = $timeZone->toIdentifier( false );
+        $string       = $timeZone->convertToID( false );
         $isSuccessful = false;
         
         // Set timezone identifier string ('America/Los_Angeles')
@@ -282,7 +282,7 @@ class Site extends \PHP\Object implements SiteSpec
         
         // Set floating-point GMT offset
         else {
-            $isSuccessful = $this->set( self::GMT_KEY, $timeZone->toFloat() );
+            $isSuccessful = $this->set( self::GMT_KEY, $timeZone->convertToFloat() );
             $isSuccessful = $isSuccessful &&
                             $this->set( self::TIME_ZONE_KEY, '' );
         }
