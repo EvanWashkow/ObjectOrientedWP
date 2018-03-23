@@ -130,18 +130,18 @@ class TimeZone extends \DateTimeZone
      * Try to convert to a time zone identifier ('America/Los_Angeles')
      *
      * @param bool $fallback If unable to convert to this format, try the next in line
-     * @return string|null
+     * @return string
      */
-    public function convertToID( bool $fallback = true )
+    public function convertToID( bool $fallback = true ): string
     {
-        $format = null;
+        $id = '';
         if ( self::IDENTIFICATION_TYPE == $this->timezone_type ) {
-            $format = $this->format( 'e' );
+            $id = $this->format( 'e' );
         }
         elseif ( $fallback ) {
-            $format = $this->convertToAbbreviation();
+            $id = $this->convertToAbbreviation();
         }
-        return $format;
+        return $id;
     }
     
     
@@ -149,18 +149,18 @@ class TimeZone extends \DateTimeZone
      * Try to convert to a time zone abbreviation ('PST')
      *
      * @param bool $fallback If unable to convert to this format, try the next in line
-     * @return string|null
+     * @return string
      */
-    public function convertToAbbreviation( bool $fallback = true )
+    public function convertToAbbreviation( bool $fallback = true ): string
     {
-        $format = null;
+        $abbreviation = '';
         if ( self::ABBREVIATION_TYPE <= $this->timezone_type ) {
-            $format = $this->format( 'T' );
+            $abbreviation = $this->format( 'T' );
         }
         elseif ( $fallback ) {
-            $format = $this->convertToGMT();
+            $abbreviation = $this->convertToGMT();
         }
-        return $format;
+        return $abbreviation;
     }
     
     
@@ -169,7 +169,7 @@ class TimeZone extends \DateTimeZone
      *
      * @return string
      */
-    public function convertToGMT()
+    public function convertToGMT(): string
     {
         return $this->format( 'P' );
     }
