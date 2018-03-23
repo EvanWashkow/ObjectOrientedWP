@@ -3,6 +3,7 @@ namespace WordPress;
 
 use PHP\Collections\Dictionary\ReadOnlyDictionary;
 use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use WordPress\Plugins\Models\PluginSpec;
 
 /**
  * Manages WordPress plugins
@@ -49,7 +50,7 @@ class Plugins
      * Retrieve all plugin(s)
      *
      * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
-     * @return ReadOnlyDictionarySpec|Plugins\Models\Plugin
+     * @return ReadOnlyDictionarySpec|PluginSpec
      */
     public static function Get( $mixed = null )
     {
@@ -142,9 +143,9 @@ class Plugins
      * Retrieve a single plugin by its ID
      *
      * @param string $pluginID The plugin ID
-     * @return Plugins\Models\Plugin
+     * @return PluginSpec
      */
-    private static function getSingle( string $pluginID ): Plugins\Models\Plugin
+    private static function getSingle( string $pluginID ): PluginSpec
     {
         if ( !self::IsValidID( $pluginID )) {
             throw new \Exception( "Cannot retrieve invalid plugin ID: {$pluginID}" );
