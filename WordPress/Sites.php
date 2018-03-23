@@ -71,9 +71,14 @@ class Sites
     public static function Add( string $url, string $title, int $adminID ): SiteSpec
     {
         
+        // Error. Too early in the execution stack.
+        if ( !did_action( 'after_setup_theme' )) {
+            throw new \Exception( 'Too early to create site. Try creating it after the \'after_setup_theme\' action.' );
+        }
+        
         // Error. Multisite is not enabled.
-        if ( !is_multisite() ) {
-            throw new \Exception( 'Cannot create a new site when not on a multisite install' );
+        elseif ( !is_multisite() ) {
+            throw new \Exception( 'The site could not be created: a multisite install is required.' );
         }
         
         // Error. Invalid URL.
