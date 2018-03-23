@@ -124,9 +124,9 @@ class Site implements SiteSpec
     
     final public function setTitle( string $title ): bool
     {
-        $title        = trim( $title );
         $isSuccessful = false;
-        if ( !empty( $title )) {
+        $title        = trim( $title );
+        if ( '' !== $title ) {
             $isSuccessful = $this->set( self::TITLE_KEY, $title );
         }
         return $isSuccessful;
