@@ -159,8 +159,8 @@ class Site implements SiteSpec
     final public function setURL( string $url ): bool
     {
         // Variables
-        $url          = \PHP\URL::Sanitize( $url );
         $isSuccessful = true;
+        $url          = \PHP\URL::Sanitize( $url );
         
         // Invalid URL.
         if ( '' == $url ) {
