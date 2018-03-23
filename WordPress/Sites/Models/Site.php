@@ -6,7 +6,7 @@ use WordPress\Sites;
 /**
  * Defines a single site
  */
-class Site implements SiteSpec
+class Site extends \PHP\Object implements SiteSpec
 {
     
     /***************************************************************************
