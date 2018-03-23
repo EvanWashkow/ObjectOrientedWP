@@ -1,10 +1,12 @@
 <?php
-namespace WordPress\Shared;
+namespace WordPress\Shared\Model;
+
+use PHP\ObjectSpec;
 
 /**
- * Defines the basic structure for a Model
+ * Defines the basic structure for a read-only Model
  */
-abstract class _Model
+interface ReadOnlyModelSpec extends ObjectSpec
 {
     
     /**
@@ -14,5 +16,5 @@ abstract class _Model
      * @param mixed  $defaultValue The property's default value
      * @return mixed The property value
      */
-    abstract public function get( string $key, $defaultValue = null );
+    public function get( string $key, $defaultValue = null );
 }

@@ -1,40 +1,86 @@
 <?php
 namespace WordPress\Plugins\Models;
 
+use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
 use WordPress\Sites;
 
 /**
  * Represents a single WordPress plugin
  */
-class Plugin extends _Plugin
+class Plugin extends \PHP\Object implements PluginSpec
 {
     
-    final public function getAuthorName()
+    /**
+     * The unique identifier for this plugin
+     *
+     * @var string
+     */
+    private $id;
+    
+    /**
+     * Mapped array of arbitrary properties
+     *
+     * @var ReadOnlyDictionarySpec
+     */
+    private $properties;
+    
+    /**
+     * Path to plugin file, relative to the plugins directory
+     *
+     * @var string
+     */
+    private $relativePath;
+    
+    
+    /**
+     * Create a new plugin instance
+     *
+     * @param string                 $relativePath File path to the main plugin file, relative to the plugins directory
+     * @param ReadOnlyDictionarySpec $properties   Mapped array of this plugin's properties
+     */
+    final public function __construct( string $relativePath, ReadOnlyDictionarySpec $properties )
     {
-        return $this->get( 'Author', '' );
+        $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
+        $this->relativePath = $relativePath;
+        $this->properties   = $properties;
     }
     
-    final public function getAuthorURL()
+    final public function getID(): string
     {
-        return $this->get( 'AuthorURI', '' );
+        return $this->id;
     }
     
-    final public function getDescription()
+    final public function getAuthorName(): string
     {
-        return $this->get( 'Description', '' );
+        return $this->get( 'Author' );
     }
     
-    final public function getName()
+    final public function getAuthorURL(): string
     {
-        return $this->get( 'Name', '' );
+        return $this->get( 'AuthorURI' );
     }
     
-    final public function getVersion()
+    final public function getDescription(): string
     {
-        return $this->get( 'Version', '' );
+        return $this->get( 'Description' );
     }
     
-    final public function requiresGlobalActivation()
+    final public function getName(): string
+    {
+        return $this->get( 'Name' );
+    }
+    
+    final public function getRelativePath(): string
+    {
+        return $this->relativePath;
+    }
+    
+    final public function getVersion(): string
+    {
+        return $this->get( 'Version' );
+    }
+    
+    final public function requiresGlobalActivation(): bool
     {
         return $this->get( 'Network', false );
     }
@@ -44,13 +90,7 @@ class Plugin extends _Plugin
     *                                 ACTIVATING
     ***************************************************************************/
     
-    /**
-     * Activate the plugin
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool True if the plugin is active
-     */
-    final public function activate( int $siteID = Sites::ALL )
+    final public function activate( int $siteID = Sites::ALL ): bool
     {
         if ( $this->canActivate( $siteID )) {
             
@@ -74,13 +114,7 @@ class Plugin extends _Plugin
     }
     
     
-    /**
-     * Can the plugin be activated?
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool
-     */
-    final public function canActivate( int $siteID = Sites::ALL )
+    final public function canActivate( int $siteID = Sites::ALL ): bool
     {
         // Variables
         $siteID = Sites::SanitizeID( $siteID );
@@ -97,13 +131,8 @@ class Plugin extends _Plugin
         );
     }
     
-    /**
-     * Deactivate the plugin
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool True if the plugin is no longer active
-     */
-    final public function deactivate( int $siteID = Sites::ALL )
+    
+    final public function deactivate( int $siteID = Sites::ALL ): bool
     {
         // Variables
         $siteID = Sites::SanitizeID( $siteID );
@@ -124,16 +153,7 @@ class Plugin extends _Plugin
     }
     
     
-    /**
-     * Is the plugin activated?
-     *
-     * When checking activated plugins for a single site, also check the
-     * globally-activated plugins.
-     *
-     * @param int $siteID The site ID or a \WordPress\Sites constant
-     * @return bool
-     */
-    final public function isActive( int $siteID = Sites::ALL )
+    final public function isActive( int $siteID = Sites::ALL ): bool
     {
         // Variables
         $isActive = false;
@@ -158,5 +178,19 @@ class Plugin extends _Plugin
         
         // Plugin not active
         return $isActive;
+    }
+    
+    
+    /***************************************************************************
+    *                               UTILITIES
+    ***************************************************************************/
+    
+    final public function get( string $key, $defaultValue = '' )
+    {
+        $value = $defaultValue;
+        if ( $this->properties->hasIndex( $key )) {
+            $value = $this->properties->get( $key );
+        }
+        return $value;
     }
 }

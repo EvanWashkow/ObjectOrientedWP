@@ -1,10 +1,12 @@
 <?php
 namespace WordPress\Sites\Models;
 
+use WordPress\Sites;
+
 /**
  * Defines a single site
  */
-class Site extends _Site
+class Site extends \PHP\Object implements SiteSpec
 {
     
     /***************************************************************************
@@ -108,36 +110,36 @@ class Site extends _Site
     *                             GENERAL INFORMATION
     ***************************************************************************/
     
-    final public function getID()
+    final public function getID(): int
     {
         return $this->id;
     }
     
     
-    final public function getTitle()
+    final public function getTitle(): string
     {
         return $this->get( self::TITLE_KEY, '' );
     }
     
     
-    final public function setTitle( string $title )
+    final public function setTitle( string $title ): bool
     {
-        $title        = trim( $title );
         $isSuccessful = false;
-        if ( !empty( $title )) {
+        $title        = trim( $title );
+        if ( '' !== $title ) {
             $isSuccessful = $this->set( self::TITLE_KEY, $title );
         }
         return $isSuccessful;
     }
     
     
-    final public function getDescription()
+    final public function getDescription(): string
     {
         return $this->get( self::DESECRIPTION_KEY, '' );
     }
     
     
-    final public function setDescription( string $description )
+    final public function setDescription( string $description ): bool
     {
         $description = trim( $description );
         return $this->set( self::DESECRIPTION_KEY, $description );
@@ -148,17 +150,17 @@ class Site extends _Site
     *                                    URLS
     ***************************************************************************/
     
-    final public function getURL()
+    final public function getURL(): string
     {
         return $this->get( self::SITE_URL_KEY, '' );
     }
     
     
-    final public function setURL( string $url )
+    final public function setURL( string $url ): bool
     {
         // Variables
-        $url          = \PHP\URL::Sanitize( $url );
         $isSuccessful = true;
+        $url          = \PHP\URL::Sanitize( $url );
         
         // Invalid URL.
         if ( '' == $url ) {
@@ -176,7 +178,9 @@ class Site extends _Site
             // Change blog table url
             else {
                 global $wpdb;
-                \PHP\URL::Extract( $url, $protocol, $domain, $path );
+                $urlObject = new \PHP\URL( $url );
+                $domain    = $urlObject->getDomain();
+                $path      = $urlObject->getPath();
                 $isSuccessful = false !== $wpdb->update(
                     $wpdb->blogs,
                     [
@@ -199,13 +203,13 @@ class Site extends _Site
     }
     
     
-    final public function getHomePageURL()
+    final public function getHomePageURL(): string
     {
         return $this->get( self::HOME_URL_KEY, '' );
     }
     
     
-    final public function setHomePageURL( string $url )
+    final public function setHomePageURL( string $url ): bool
     {
         $url = \PHP\URL::Sanitize( $url );
         $isSuccessful = false;
@@ -216,10 +220,10 @@ class Site extends _Site
     }
     
     
-    final public function getProtocol()
+    final public function getProtocol(): string
     {
-        \PHP\URL::Extract( $this->getURL(), $protocol );
-        return $protocol;
+        $url = new \PHP\URL( $this->getURL() );
+        return $url->getProtocol();
     }
     
     
@@ -227,13 +231,13 @@ class Site extends _Site
     *                               ADMINISTRATION
     ***************************************************************************/
     
-    final public function getAdministratorEmail()
+    final public function getAdministratorEmail(): string
     {
         return $this->get( self::ADMINISTRATOR_EMAIL_KEY, '' );
     }
     
     
-    final public function setAdministratorEmail( string $email )
+    final public function setAdministratorEmail( string $email ): bool
     {
         $email = trim( $email );
         $isSuccessful = false;
@@ -244,7 +248,7 @@ class Site extends _Site
     }
     
     
-    final public function getTimeZone()
+    final public function getTimeZone(): \WordPress\Sites\TimeZone
     {
         // WordPress stores either the GMT or timezone string, but not both
         $_timezone_gmt    = $this->get( self::GMT_KEY );
@@ -263,24 +267,58 @@ class Site extends _Site
     }
     
     
-    final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone )
+    final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone ): bool
     {
         // Variables
-        $string       = $timeZone->toIdentifier( false );
+        $id           = $timeZone->convertToID( false );
         $isSuccessful = false;
         
-        // Set timezone identifier string ('America/Los_Angeles')
-        if ( isset( $string )) {
-            $isSuccessful = $this->set( self::GMT_KEY, '' );
-            $isSuccessful = $isSuccessful &&
-                            $this->set( self::TIME_ZONE_KEY, $string );
+        // Set floating-point GMT offset
+        if ( '' === $id ) {
+            $isSuccessful = $this->set( self::GMT_KEY, $timeZone->convertToFloat() );
+            $isSuccessful = $isSuccessful && $this->set( self::TIME_ZONE_KEY, '' );
         }
         
-        // Set floating-point GMT offset
+        // Set timezone identifier string ('America/Los_Angeles')
         else {
-            $isSuccessful = $this->set( self::GMT_KEY, $timeZone->toFloat() );
-            $isSuccessful = $isSuccessful &&
-                            $this->set( self::TIME_ZONE_KEY, '' );
+            $isSuccessful = $this->set( self::GMT_KEY, '' );
+            $isSuccessful = $isSuccessful && $this->set( self::TIME_ZONE_KEY, $id );
+        }
+        
+        return $isSuccessful;
+    }
+    
+    
+    /***************************************************************************
+    *                               UTILITIES
+    ***************************************************************************/
+    
+    final public function get( string $key, $defaultValue = NULL )
+    {
+        // Variables
+        $value = $defaultValue;
+        
+        // Retrieve value
+        if ( '' != $key ) {
+            Sites::SwitchTo( $this->getID() );
+            $value = get_option( $key, $defaultValue );
+            Sites::SwitchBack();
+        }
+        return $value;
+    }
+    
+    
+    final public function set( string $key, $value )
+    {
+        // Variables
+        $isSuccessful = false;
+        
+        // Set value
+        if ( '' != $key ) {
+            Sites::SwitchTo( $this->getID() );
+            update_option( $key, $value );
+            $isSuccessful = true;
+            Sites::SwitchBack();
         }
         
         return $isSuccessful;

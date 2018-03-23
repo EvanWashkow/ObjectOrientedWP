@@ -1,6 +1,10 @@
 <?php
 namespace WordPress;
 
+use PHP\Collections\Dictionary\ReadOnlyDictionary;
+use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use WordPress\Plugins\Models\PluginSpec;
+
 /**
  * Manages WordPress plugins
  */
@@ -21,7 +25,7 @@ class Plugins
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache();
+            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\PluginSpec' );
         }
     }
     
@@ -32,7 +36,7 @@ class Plugins
      * @param string $relativePath Path to plugin file, relative to the plugins directory
      * @return string
      */
-    final public static function ExtractID( string $relativePath )
+    final public static function ExtractID( string $relativePath ): string
     {
         return explode( '/', $relativePath )[ 0 ];
     }
@@ -46,7 +50,7 @@ class Plugins
      * Retrieve all plugin(s)
      *
      * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
-     * @return Plugins\Models\Plugin|null|array
+     * @return ReadOnlyDictionarySpec|PluginSpec
      */
     public static function Get( $mixed = null )
     {
@@ -66,6 +70,18 @@ class Plugins
     }
     
     
+    /**
+     * Determine whether or not the plugin ID is valid
+     *
+     * @param string $pluginID The plugin ID to check
+     * @return bool
+     */
+    public static function IsValidID( string $pluginID ): bool
+    {
+        return self::getAll()->hasIndex( $pluginID );
+    }
+    
+    
     /***************************************************************************
     *                               SUB-ROUTINES
     ***************************************************************************/
@@ -73,9 +89,9 @@ class Plugins
     /**
      * Retrieve all plugin(s)
      *
-     * @return array
+     * @return ReadOnlyDictionarySpec
      */
-    private static function getAll()
+    private static function getAll(): ReadOnlyDictionarySpec
     {
         // Build cache
         if ( !self::$cache->isComplete() ) {
@@ -95,7 +111,7 @@ class Plugins
         }
         
         // Return plugins
-        return self::$cache->get();
+        return new ReadOnlyDictionary( self::$cache );
     }
     
     
@@ -103,16 +119,23 @@ class Plugins
      * Get multiple plugins by their IDs
      *
      * @param array $pluginIDs List of plugin ids to return
-     * @return array Plugins indexed by their corresponding IDs
+     * @return ReadOnlyDictionarySpec Plugins indexed by their corresponding IDs
      */
-    private static function getMultiple( array $pluginIDs )
+    private static function getMultiple( array $pluginIDs ): ReadOnlyDictionarySpec
     {
-        $plugins = [];
-        if ( 0 < count( $pluginIDs )) {
-            $plugins = self::getAll();
-            $plugins = array_intersect_key( $plugins, array_flip( $pluginIDs ) );
+        // Variables
+        $plugins  = self::getAll();
+        $_plugins = new \PHP\Collections\Dictionary(
+            'string', 'WordPress\Plugins\Models\PluginSpec'
+        );
+        
+        // For each specified plugin ID, add it to the plugins dictionary
+        foreach ( $pluginIDs as $pluginID ) {
+            if ( $plugins->hasIndex( $pluginID )) {
+                $_plugins->add( $pluginID, $plugins->get( $pluginID ));
+            }
         }
-        return $plugins;
+        return new ReadOnlyDictionary( $_plugins );
     }
     
     
@@ -120,16 +143,14 @@ class Plugins
      * Retrieve a single plugin by its ID
      *
      * @param string $pluginID The plugin ID
-     * @return Plugins\Models\Plugin|null
+     * @return PluginSpec
      */
-    private static function getSingle( string $pluginID )
+    private static function getSingle( string $pluginID ): PluginSpec
     {
-        $plugin  = null;
-        $plugins = self::getAll();
-        if ( array_key_exists( $pluginID, $plugins )) {
-            $plugin = $plugins[ $pluginID ];
+        if ( !self::IsValidID( $pluginID )) {
+            throw new \Exception( "Cannot retrieve invalid plugin ID: {$pluginID}" );
         }
-        return $plugin;
+        return self::getAll()->get( $pluginID );
     }
 }
 Plugins::Initialize();

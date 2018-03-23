@@ -1,6 +1,10 @@
 <?php
 namespace WordPress;
 
+use PHP\Collections\Dictionary\ReadOnlyDictionary;
+use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use WordPress\Sites\Models\SiteSpec;
+
 /**
  * Manages WordPress sites
  *
@@ -47,7 +51,7 @@ class Sites
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache();
+            self::$cache = new \PHP\Cache( 'integer', 'WordPress\Sites\Models\SiteSpec' );
         }
     }
     
@@ -62,32 +66,44 @@ class Sites
      * @param string $url     The site URL
      * @param string $title   The site title
      * @param int    $adminID User ID for the site administrator
-     * @return Sites\Models\Site|null Null on failure
+     * @return SiteSpec
      */
-    public static function Add( string $url, string $title, int $adminID )
+    public static function Add( string $url, string $title, int $adminID ): SiteSpec
     {
-        // Variables
-        $site = null;
         
-        // Exit. Multisite is not enabled.
-        if ( !is_multisite() ) {
-            return $site;
+        // Error. Too early in the execution stack.
+        if ( !did_action( 'after_setup_theme' )) {
+            throw new \Exception( 'Too early to create site. Try creating it after the \'after_setup_theme\' action.' );
         }
         
-        // Exit. Invalid URL.
-        if ( !\PHP\URL::IsValid( $url )) {
-            return $site;
+        // Error. Multisite is not enabled.
+        elseif ( !is_multisite() ) {
+            throw new \Exception( 'The site could not be created: a multisite install is required.' );
         }
         
-        // Extract url properties and create site
-        \PHP\URL::Extract( $url, $protocol, $domain, $path );
+        // Error. Invalid URL.
+        elseif ( !\PHP\URL::IsValid( $url )) {
+            throw new \Exception( 'The site URL is invalid' );
+        }
+        
+        // Try to create site
+        $url = new \PHP\URL( $url );
+        $domain = $url->getDomain();
+        $path   = $url->getPath();
         $siteID = wpmu_create_blog( $domain, $path, $title, $adminID );
-        if ( !is_wp_error( $siteID )) {
-            self::$cache->markIncomplete();
-            $site = self::Get( $siteID );
+        
+        // Error. Could not create site
+        if ( is_wp_error( $siteID )) {
+            $wp_error = $siteID;
+            $message  = $wp_error->get_error_message( $wp_error->get_error_code() );
+            throw new \Exception( $message );
         }
         
-        return $site;
+        // Return the newly-created site
+        else {
+            self::$cache->markIncomplete();
+            return static::Get( $siteID );
+        }
     }
     
     
@@ -97,10 +113,15 @@ class Sites
      * Since WordPress does not allow you to delete the root site, neither do we.
      *
      * @param int $siteID The site (blog) ID to delete
+     * @return bool Whether or not the site was deleted
      */
-    final public static function Delete( int $siteID )
+    final public static function Delete( int $siteID ): bool
     {
-        $siteID = static::SanitizeID( $siteID );
+        // Variables
+        $isDeleted = false;
+        $siteID   = static::SanitizeID( $siteID );
+        
+        // Try to delete the site
         if (
             is_multisite()                &&
             ( self::INVALID !== $siteID ) &&
@@ -113,8 +134,10 @@ class Sites
             
             // Delete the site
             wpmu_delete_blog( $siteID, true );
-            self::$cache->delete( $siteID );
+            self::$cache->remove( $siteID );
+            $isDeleted = true;
         }
+        return $isDeleted;
     }
     
     
@@ -122,7 +145,7 @@ class Sites
      * Retrieve site(s)
      *
      * @param int $siteID The site ID, ALL, or CURRENT
-     * @return Sites\Models\Site|array|null
+     * @return SiteSpec|ReadOnlyDictionarySpec
      */
     public static function Get( int $siteID = self::ALL )
     {
@@ -138,11 +161,11 @@ class Sites
     /**
      * Retrieve the current site object
      *
-     * @return Sites\Models\Site
+     * @return SiteSpec
      */
-    final public static function GetCurrent()
+    final public static function GetCurrent(): SiteSpec
     {
-        return self::Get( self::GetCurrentID() );
+        return static::Get( self::GetCurrentID() );
     }
     
     
@@ -151,7 +174,7 @@ class Sites
      *
      * @return int
      */
-    final public static function GetCurrentID()
+    final public static function GetCurrentID(): int
     {
         return get_current_blog_id();
     }
@@ -167,7 +190,7 @@ class Sites
      * @param int $siteID The site (blog) ID to evaluate
      * @return bool
      */
-    final public static function IsValidID( int $siteID )
+    final public static function IsValidID( int $siteID ): bool
     {
         return self::INVALID !== static::SanitizeID( $siteID );
     }
@@ -191,7 +214,7 @@ class Sites
      * @param int $siteID The site ID or pseudo-site ID
      * @return int The corresponding site ID; ALL, or INVALID
      */
-    public static function SanitizeID( int $siteID )
+    public static function SanitizeID( int $siteID ): int
     {
         // Resolve CURRENT pseudo identifier to the current site ID
         if ( self::CURRENT === $siteID ) {
@@ -206,7 +229,7 @@ class Sites
         }
         
         // Given an invalid site ID
-        elseif (( $siteID < 0 ) || !array_key_exists( $siteID, self::getAll() )) {
+        elseif (( $siteID < 0 ) || !self::getAll()->hasIndex( $siteID )) {
             $siteID = self::INVALID;
         }
         return $siteID;
@@ -255,54 +278,36 @@ class Sites
      * Retrieve single site
      *
      * @param int $siteID The site ID to lookup
-     * @return Sites\Models\Site|null
+     * @return SiteSpec
      */
-    private static function getSingle( int $siteID )
+    private static function getSingle( int $siteID ): SiteSpec
     {
-        // Variables
         $siteID = static::SanitizeID( $siteID );
-        $site   = null;
-        
-        // Lookup site by ID
-        if ( self::INVALID !== $siteID ) {
-            $sites = self::getAll();
-            if ( array_key_exists( $siteID, $sites )) {
-                $site = $sites[ $siteID ];
-            }
+        if ( self::INVALID === $siteID ) {
+            throw new \Exception( "Cannot retrieve site: the site ID does not exist" );
         }
-        
-        return $site;
+        return self::getAll()->get( $siteID );
     }
     
     
     /**
      * Retrieve all sites
      *
-     * @return array
+     * @return ReadOnlyDictionarySpec
      */
-    private static function getAll()
+    private static function getAll(): ReadOnlyDictionarySpec
     {
         
-        // Variables
-        $sites = [];
-        
-        // Read all sites from cache.
-        if ( self::$cache->isComplete() ) {
-            $sites = self::$cache->get();
-        }
-        
         // Lookup sites
-        else {
+        if ( !self::$cache->isComplete() ) {
             
             // Retrieve sites from the multisite setup
             if ( is_multisite() ) {
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
-                    $siteID = $wp_site->blog_id;
-                    if ( !self::$cache->isSet( $siteID )) {
-                        $site = Sites\Models::Create( $siteID );
-                        self::$cache->add( $siteID, $site );
-                    }
+                    $siteID = ( int ) $wp_site->blog_id;
+                    $site = Sites\Models::Create( $siteID );
+                    self::$cache->add( $siteID, $site );
                 }
             }
             
@@ -317,8 +322,7 @@ class Sites
         }
         
         // Read sites from cache
-        $sites = self::$cache->get();
-        return $sites;
+        return new ReadOnlyDictionary( self::$cache );
     }
 }
 Sites::Initialize();

@@ -1,6 +1,10 @@
 <?php
 namespace WordPress\Plugins;
 
+use PHP\Collections\Dictionary;
+use PHP\Collections\Dictionary\ReadOnlyDictionary;
+use WordPress\Plugins\Models\PluginSpec;
+
 /**
  * Creates new plugin models using the factory method
  */
@@ -12,10 +16,15 @@ class Models
      *
      * @param string $relativePath Path to plugin file, relative to the plugins directory
      * @param array  $pluginData The mapped array of plugin details
-     * @return Models\Plugin
+     * @return PluginSpec
      */
-    final public static function Create( string $relativePath, array $pluginData )
+    final public static function Create( string $relativePath, array $pluginData ): PluginSpec
     {
-        return new Models\Plugin( $relativePath, $pluginData );
+        $properties = new Dictionary( 'string' );
+        foreach ( $pluginData as $index => $value ) {
+            $properties->add( $index, $value );
+        }
+        $properties = new ReadOnlyDictionary( $properties );
+        return new Models\Plugin( $relativePath, $properties );
     }
 }
