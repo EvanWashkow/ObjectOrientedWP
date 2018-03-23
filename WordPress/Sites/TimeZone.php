@@ -180,7 +180,7 @@ class TimeZone extends \DateTimeZone
      *
      * @return float
      */
-    public function convertToFloat()
+    public function convertToFloat(): float
     {
         // Extract components
         $gmt     = $this->convertToGMT();
