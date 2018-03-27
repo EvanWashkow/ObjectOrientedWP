@@ -1,12 +1,12 @@
 <?php
 namespace WordPress\Shared\Model;
 
-use PHP\ObjectSpec;
+use PHP\PHPObjectSpec;
 
 /**
  * Defines the basic structure for a read-only Model
  */
-interface ReadOnlyModelSpec extends ObjectSpec
+interface ReadOnlyModelSpec extends PHPObjectSpec
 {
     
     /**
