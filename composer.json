@@ -23,7 +23,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "evanwashkow/php-libraries": "0.4.*"
+        "evanwashkow/php-libraries": "0.5.*"
     },
     "authors": [
         {
