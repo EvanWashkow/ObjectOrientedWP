@@ -188,7 +188,7 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     final public function get( string $key, $defaultValue = '' )
     {
         $value = $defaultValue;
-        if ( $this->properties->hasIndex( $key )) {
+        if ( $this->properties->hasKey( $key )) {
             $value = $this->properties->get( $key );
         }
         return $value;

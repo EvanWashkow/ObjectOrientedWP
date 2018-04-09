@@ -229,7 +229,7 @@ class Sites
         }
         
         // Given an invalid site ID
-        elseif (( $siteID < 0 ) || !self::getAll()->hasIndex( $siteID )) {
+        elseif (( $siteID < 0 ) || !self::getAll()->hasKey( $siteID )) {
             $siteID = self::INVALID;
         }
         return $siteID;

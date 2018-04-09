@@ -78,7 +78,7 @@ class Plugins
      */
     public static function IsValidID( string $pluginID ): bool
     {
-        return self::getAll()->hasIndex( $pluginID );
+        return self::getAll()->hasKey( $pluginID );
     }
     
     
@@ -131,7 +131,7 @@ class Plugins
         
         // For each specified plugin ID, add it to the plugins dictionary
         foreach ( $pluginIDs as $pluginID ) {
-            if ( $plugins->hasIndex( $pluginID )) {
+            if ( $plugins->hasKey( $pluginID )) {
                 $_plugins->add( $pluginID, $plugins->get( $pluginID ));
             }
         }
