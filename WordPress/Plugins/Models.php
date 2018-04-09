@@ -2,7 +2,7 @@
 namespace WordPress\Plugins;
 
 use PHP\Collections\Dictionary;
-use PHP\Collections\Dictionary\ReadOnlyDictionary;
+use PHP\Collections\ReadOnlyDictionary;
 use WordPress\Plugins\Models\PluginSpec;
 
 /**

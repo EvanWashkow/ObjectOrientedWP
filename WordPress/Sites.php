@@ -1,8 +1,8 @@
 <?php
 namespace WordPress;
 
-use PHP\Collections\Dictionary\ReadOnlyDictionary;
-use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use PHP\Collections\ReadOnlyDictionary;
+use PHP\Collections\ReadOnlyDictionarySpec;
 use WordPress\Sites\Models\SiteSpec;
 
 /**
