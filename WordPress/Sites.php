@@ -308,7 +308,7 @@ final class Sites
                     $siteID = ( int ) $wp_site->blog_id;
                     if ( !self::$cache->hasKey( $siteID )) {
                         $site = Sites\Models::Create( $siteID );
-                        self::$cache->add( $siteID, $site );
+                        self::$cache->set( $siteID, $site );
                     }
                 }
             }
@@ -316,7 +316,7 @@ final class Sites
             // Retrieve site from default, non-multisite setup
             else {
                 $site = Sites\Models::Create( 1 );
-                self::$cache->add( 1, $site );
+                self::$cache->set( 1, $site );
             }
             
             // Mark the cache complete

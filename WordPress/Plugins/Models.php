@@ -22,7 +22,7 @@ class Models
     {
         $properties = new Dictionary( 'string' );
         foreach ( $pluginData as $index => $value ) {
-            $properties->add( $index, $value );
+            $properties->set( $index, $value );
         }
         $properties = new ReadOnlyDictionary( $properties );
         return new Models\Plugin( $relativePath, $properties );

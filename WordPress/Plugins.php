@@ -103,7 +103,7 @@ final class Plugins
             $plugins = get_plugins();
             foreach ( $plugins as $pluginFile => $pluginData ) {
                 $plugin = Plugins\Models::Create( $pluginFile, $pluginData );
-                self::$cache->add( $plugin->getID(), $plugin );
+                self::$cache->set( $plugin->getID(), $plugin );
             }
             
             // Mark cache complete
@@ -132,7 +132,7 @@ final class Plugins
         // For each specified plugin ID, add it to the plugins dictionary
         foreach ( $pluginIDs as $pluginID ) {
             if ( $plugins->hasKey( $pluginID )) {
-                $_plugins->add( $pluginID, $plugins->get( $pluginID ));
+                $_plugins->set( $pluginID, $plugins->get( $pluginID ));
             }
         }
         return new ReadOnlyDictionary( $_plugins );
