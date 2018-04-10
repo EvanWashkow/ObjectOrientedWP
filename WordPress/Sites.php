@@ -1,8 +1,8 @@
 <?php
 namespace WordPress;
 
-use PHP\Collections\Dictionary\ReadOnlyDictionary;
-use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use PHP\Collections\ReadOnlyDictionary;
+use PHP\Collections\ReadOnlyDictionarySpec;
 use WordPress\Sites\Models\SiteSpec;
 
 /**
@@ -12,7 +12,7 @@ use WordPress\Sites\Models\SiteSpec;
  * If this happens, you will either want to 1) delay the call the routine, or
  * 2) load the needed WordPress files by hand.
  */
-class Sites
+final class Sites
 {
     
     /**
@@ -102,7 +102,7 @@ class Sites
         // Return the newly-created site
         else {
             self::$cache->markIncomplete();
-            return static::Get( $siteID );
+            return self::Get( $siteID );
         }
     }
     
@@ -115,11 +115,11 @@ class Sites
      * @param int $siteID The site (blog) ID to delete
      * @return bool Whether or not the site was deleted
      */
-    final public static function Delete( int $siteID ): bool
+    public static function Delete( int $siteID ): bool
     {
         // Variables
         $isDeleted = false;
-        $siteID   = static::SanitizeID( $siteID );
+        $siteID   = self::SanitizeID( $siteID );
         
         // Try to delete the site
         if (
@@ -163,9 +163,9 @@ class Sites
      *
      * @return SiteSpec
      */
-    final public static function GetCurrent(): SiteSpec
+    public static function GetCurrent(): SiteSpec
     {
-        return static::Get( self::GetCurrentID() );
+        return self::Get( self::GetCurrentID() );
     }
     
     
@@ -174,7 +174,7 @@ class Sites
      *
      * @return int
      */
-    final public static function GetCurrentID(): int
+    public static function GetCurrentID(): int
     {
         return get_current_blog_id();
     }
@@ -190,9 +190,9 @@ class Sites
      * @param int $siteID The site (blog) ID to evaluate
      * @return bool
      */
-    final public static function IsValidID( int $siteID ): bool
+    public static function IsValidID( int $siteID ): bool
     {
-        return self::INVALID !== static::SanitizeID( $siteID );
+        return self::INVALID !== self::SanitizeID( $siteID );
     }
     
     
@@ -229,7 +229,7 @@ class Sites
         }
         
         // Given an invalid site ID
-        elseif (( $siteID < 0 ) || !self::getAll()->hasIndex( $siteID )) {
+        elseif (( $siteID < 0 ) || !self::getAll()->hasKey( $siteID )) {
             $siteID = self::INVALID;
         }
         return $siteID;
@@ -245,7 +245,7 @@ class Sites
      *
      * @param int $siteID Site (blog) ID to switch to
      */
-    final public static function SwitchTo( int $siteID )
+    public static function SwitchTo( int $siteID )
     {
         $siteID = self::SanitizeID( $siteID );
         if (
@@ -261,7 +261,7 @@ class Sites
     /**
      * Switch back to the prior site context
      */
-    final public static function SwitchBack()
+    public static function SwitchBack()
     {
         if ( is_multisite() ) {
             restore_current_blog();
@@ -282,7 +282,7 @@ class Sites
      */
     private static function getSingle( int $siteID ): SiteSpec
     {
-        $siteID = static::SanitizeID( $siteID );
+        $siteID = self::SanitizeID( $siteID );
         if ( self::INVALID === $siteID ) {
             throw new \Exception( "Cannot retrieve site: the site ID does not exist" );
         }
@@ -306,15 +306,17 @@ class Sites
                 $wp_sites = get_sites();
                 foreach ( $wp_sites as $wp_site ) {
                     $siteID = ( int ) $wp_site->blog_id;
-                    $site = Sites\Models::Create( $siteID );
-                    self::$cache->add( $siteID, $site );
+                    if ( !self::$cache->hasKey( $siteID )) {
+                        $site = Sites\Models::Create( $siteID );
+                        self::$cache->set( $siteID, $site );
+                    }
                 }
             }
             
             // Retrieve site from default, non-multisite setup
             else {
                 $site = Sites\Models::Create( 1 );
-                self::$cache->add( 1, $site );
+                self::$cache->set( 1, $site );
             }
             
             // Mark the cache complete

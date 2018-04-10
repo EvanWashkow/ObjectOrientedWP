@@ -1,7 +1,7 @@
 <?php
 namespace WordPress\Plugins\Models;
 
-use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use PHP\Collections\ReadOnlyDictionarySpec;
 use WordPress\Sites;
 
 /**
@@ -185,10 +185,10 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     *                               UTILITIES
     ***************************************************************************/
     
-    final public function get( string $key, $defaultValue = '' )
+    final public function get( string $key, string $defaultValue = '' )
     {
         $value = $defaultValue;
-        if ( $this->properties->hasIndex( $key )) {
+        if ( $this->properties->hasKey( $key )) {
             $value = $this->properties->get( $key );
         }
         return $value;

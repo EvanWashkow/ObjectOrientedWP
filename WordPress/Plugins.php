@@ -1,14 +1,14 @@
 <?php
 namespace WordPress;
 
-use PHP\Collections\Dictionary\ReadOnlyDictionary;
-use PHP\Collections\Dictionary\ReadOnlyDictionarySpec;
+use PHP\Collections\ReadOnlyDictionary;
+use PHP\Collections\ReadOnlyDictionarySpec;
 use WordPress\Plugins\Models\PluginSpec;
 
 /**
  * Manages WordPress plugins
  */
-class Plugins
+final class Plugins
 {
     
     /**
@@ -36,7 +36,7 @@ class Plugins
      * @param string $relativePath Path to plugin file, relative to the plugins directory
      * @return string
      */
-    final public static function ExtractID( string $relativePath ): string
+    public static function ExtractID( string $relativePath ): string
     {
         return explode( '/', $relativePath )[ 0 ];
     }
@@ -78,7 +78,7 @@ class Plugins
      */
     public static function IsValidID( string $pluginID ): bool
     {
-        return self::getAll()->hasIndex( $pluginID );
+        return self::getAll()->hasKey( $pluginID );
     }
     
     
@@ -103,7 +103,7 @@ class Plugins
             $plugins = get_plugins();
             foreach ( $plugins as $pluginFile => $pluginData ) {
                 $plugin = Plugins\Models::Create( $pluginFile, $pluginData );
-                self::$cache->add( $plugin->getID(), $plugin );
+                self::$cache->set( $plugin->getID(), $plugin );
             }
             
             // Mark cache complete
@@ -131,8 +131,8 @@ class Plugins
         
         // For each specified plugin ID, add it to the plugins dictionary
         foreach ( $pluginIDs as $pluginID ) {
-            if ( $plugins->hasIndex( $pluginID )) {
-                $_plugins->add( $pluginID, $plugins->get( $pluginID ));
+            if ( $plugins->hasKey( $pluginID )) {
+                $_plugins->set( $pluginID, $plugins->get( $pluginID ));
             }
         }
         return new ReadOnlyDictionary( $_plugins );
