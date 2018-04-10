@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "07cbdb4e05cdc2f7ce4224e82a3d6172",
+    "content-hash": "cafd39dcbee632a72e265a2dc560f2cb",
     "packages": [
         {
             "name": "evanwashkow/php-libraries",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/EvanWashkow/php-libraries.git",
-                "reference": "be21461a1285054b2fc06ee08802460832b67172"
+                "reference": "4ead0956fedc558fc38916b30ceb27cc62018e62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/be21461a1285054b2fc06ee08802460832b67172",
-                "reference": "be21461a1285054b2fc06ee08802460832b67172",
+                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/4ead0956fedc558fc38916b30ceb27cc62018e62",
+                "reference": "4ead0956fedc558fc38916b30ceb27cc62018e62",
                 "shasum": ""
             },
             "require": {
