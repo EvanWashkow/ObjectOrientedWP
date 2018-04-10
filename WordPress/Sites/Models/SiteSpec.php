@@ -140,4 +140,18 @@ interface SiteSpec extends ModelSpec
      * @return bool Whether or not the TimeZone change was successful
      */
     public function setTimeZone( \WordPress\Sites\TimeZone $timeZone ): bool;
+    
+    
+    /***************************************************************************
+    *                               MODEL EXTENSIONS
+    ***************************************************************************/
+    
+    /**
+     * Retrieve a property
+     *
+     * @param string $key          The property key
+     * @param mixed $defaultValue The property's default value
+     * @return mixed The property value
+     */
+    public function get( string $key, $defaultValue = NULL );
 }

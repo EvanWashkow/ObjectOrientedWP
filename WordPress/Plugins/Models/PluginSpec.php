@@ -105,4 +105,18 @@ interface PluginSpec extends ReadOnlyModelSpec
      * @return bool
      */
     public function isActive( int $siteID = Sites::ALL ): bool;
+    
+    
+    /***************************************************************************
+    *                               MODEL EXTENSIONS
+    ***************************************************************************/
+    
+    /**
+     * Retrieve a property
+     *
+     * @param string $key          The property key
+     * @param string $defaultValue The property's default value
+     * @return mixed The property value
+     */
+    public function get( string $key, string $defaultValue = '' );
 }

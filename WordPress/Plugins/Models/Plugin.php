@@ -185,7 +185,7 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     *                               UTILITIES
     ***************************************************************************/
     
-    final public function get( string $key, $defaultValue = '' )
+    final public function get( string $key, string $defaultValue = '' )
     {
         $value = $defaultValue;
         if ( $this->properties->hasKey( $key )) {
