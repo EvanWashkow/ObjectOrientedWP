@@ -8,7 +8,7 @@ use WordPress\Plugins\Models\PluginSpec;
 /**
  * Manages WordPress plugins
  */
-class Plugins
+final class Plugins
 {
     
     /**
@@ -36,7 +36,7 @@ class Plugins
      * @param string $relativePath Path to plugin file, relative to the plugins directory
      * @return string
      */
-    final public static function ExtractID( string $relativePath ): string
+    public static function ExtractID( string $relativePath ): string
     {
         return explode( '/', $relativePath )[ 0 ];
     }
