@@ -102,7 +102,7 @@ final class Sites
         // Return the newly-created site
         else {
             self::$cache->markIncomplete();
-            return static::Get( $siteID );
+            return self::Get( $siteID );
         }
     }
     
@@ -119,7 +119,7 @@ final class Sites
     {
         // Variables
         $isDeleted = false;
-        $siteID   = static::SanitizeID( $siteID );
+        $siteID   = self::SanitizeID( $siteID );
         
         // Try to delete the site
         if (
@@ -165,7 +165,7 @@ final class Sites
      */
     public static function GetCurrent(): SiteSpec
     {
-        return static::Get( self::GetCurrentID() );
+        return self::Get( self::GetCurrentID() );
     }
     
     
@@ -192,7 +192,7 @@ final class Sites
      */
     public static function IsValidID( int $siteID ): bool
     {
-        return self::INVALID !== static::SanitizeID( $siteID );
+        return self::INVALID !== self::SanitizeID( $siteID );
     }
     
     
@@ -282,7 +282,7 @@ final class Sites
      */
     private static function getSingle( int $siteID ): SiteSpec
     {
-        $siteID = static::SanitizeID( $siteID );
+        $siteID = self::SanitizeID( $siteID );
         if ( self::INVALID === $siteID ) {
             throw new \Exception( "Cannot retrieve site: the site ID does not exist" );
         }
