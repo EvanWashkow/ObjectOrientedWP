@@ -270,12 +270,12 @@ class Site extends \PHP\PHPObject implements SiteSpec
     final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone ): bool
     {
         // Variables
-        $id           = $timeZone->convertToID( false );
+        $id           = $timeZone->toID( false );
         $isSuccessful = false;
         
         // Set floating-point GMT offset
         if ( '' === $id ) {
-            $isSuccessful = $this->set( self::GMT_KEY, $timeZone->convertToFloat() );
+            $isSuccessful = $this->set( self::GMT_KEY, $timeZone->toFloat() );
             $isSuccessful = $isSuccessful && $this->set( self::TIME_ZONE_KEY, '' );
         }
         

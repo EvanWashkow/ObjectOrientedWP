@@ -132,14 +132,14 @@ class TimeZone extends \DateTimeZone
      * @param bool $fallback If unable to convert to this format, try the next in line
      * @return string
      */
-    public function convertToID( bool $fallback = true ): string
+    public function toID( bool $fallback = true ): string
     {
         $id = '';
         if ( self::IDENTIFICATION_TYPE == $this->timezone_type ) {
             $id = $this->format( 'e' );
         }
         elseif ( $fallback ) {
-            $id = $this->convertToAbbreviation();
+            $id = $this->toAbbreviation();
         }
         return $id;
     }
@@ -151,14 +151,14 @@ class TimeZone extends \DateTimeZone
      * @param bool $fallback If unable to convert to this format, try the next in line
      * @return string
      */
-    public function convertToAbbreviation( bool $fallback = true ): string
+    public function toAbbreviation( bool $fallback = true ): string
     {
         $abbreviation = '';
         if ( self::ABBREVIATION_TYPE <= $this->timezone_type ) {
             $abbreviation = $this->format( 'T' );
         }
         elseif ( $fallback ) {
-            $abbreviation = $this->convertToGMT();
+            $abbreviation = $this->toGMT();
         }
         return $abbreviation;
     }
@@ -169,7 +169,7 @@ class TimeZone extends \DateTimeZone
      *
      * @return string
      */
-    public function convertToGMT(): string
+    public function toGMT(): string
     {
         return $this->format( 'P' );
     }
@@ -180,10 +180,10 @@ class TimeZone extends \DateTimeZone
      *
      * @return float
      */
-    public function convertToFloat(): float
+    public function toFloat(): float
     {
         // Extract components
-        $gmt     = $this->convertToGMT();
+        $gmt     = $this->toGMT();
         $operand = substr( $gmt, 0, 1 );
         $gmt     = substr( $gmt, 1 );
         $pieces  = explode( ':', $gmt );
