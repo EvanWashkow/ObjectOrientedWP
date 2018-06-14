@@ -6,7 +6,7 @@ use WordPress\Shared\ModelSpec;
 /**
  * Defines the basic structure for a Site model
  */
-interface SiteSpec extends ModelSpec
+interface ISite extends ModelSpec
 {
     
     /***************************************************************************

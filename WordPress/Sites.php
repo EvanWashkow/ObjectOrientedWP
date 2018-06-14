@@ -3,7 +3,7 @@ namespace WordPress;
 
 use PHP\Collections\ReadOnlyDictionary;
 use PHP\Collections\IReadOnlyDictionary;
-use WordPress\Sites\Models\SiteSpec;
+use WordPress\Sites\Models\ISite;
 
 /**
  * Manages WordPress sites
@@ -51,7 +51,7 @@ final class Sites
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache( 'integer', 'WordPress\Sites\Models\SiteSpec' );
+            self::$cache = new \PHP\Cache( 'integer', 'WordPress\Sites\Models\ISite' );
         }
     }
     
@@ -66,9 +66,9 @@ final class Sites
      * @param string $url     The site URL
      * @param string $title   The site title
      * @param int    $adminID User ID for the site administrator
-     * @return SiteSpec
+     * @return ISite
      */
-    public static function Add( string $url, string $title, int $adminID ): SiteSpec
+    public static function Add( string $url, string $title, int $adminID ): ISite
     {
         
         // Error. Too early in the execution stack.
@@ -145,7 +145,7 @@ final class Sites
      * Retrieve site(s)
      *
      * @param int $siteID The site ID, ALL, or CURRENT
-     * @return SiteSpec|IReadOnlyDictionary
+     * @return ISite|IReadOnlyDictionary
      */
     public static function Get( int $siteID = self::ALL )
     {
@@ -161,9 +161,9 @@ final class Sites
     /**
      * Retrieve the current site object
      *
-     * @return SiteSpec
+     * @return ISite
      */
-    public static function GetCurrent(): SiteSpec
+    public static function GetCurrent(): ISite
     {
         return self::Get( self::GetCurrentID() );
     }
@@ -278,9 +278,9 @@ final class Sites
      * Retrieve single site
      *
      * @param int $siteID The site ID to lookup
-     * @return SiteSpec
+     * @return ISite
      */
-    private static function getSingle( int $siteID ): SiteSpec
+    private static function getSingle( int $siteID ): ISite
     {
         $siteID = self::SanitizeID( $siteID );
         if ( self::INVALID === $siteID ) {

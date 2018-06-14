@@ -4,7 +4,7 @@ namespace WordPress\Shared;
 /**
  * Defines the basic structure for a Model
  */
-interface ModelSpec extends Model\ReadOnlyModelSpec
+interface IModel extends Model\IReadOnlyModel
 {
     
     /**

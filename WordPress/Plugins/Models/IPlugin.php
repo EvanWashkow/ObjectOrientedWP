@@ -1,13 +1,13 @@
 <?php
 namespace WordPress\Plugins\Models;
 
-use WordPress\Shared\Model\ReadOnlyModelSpec;
+use WordPress\Shared\Model\IReadOnlyModel;
 use WordPress\Sites;
 
 /**
  * Defines the structure for a single plugin
  */
-interface PluginSpec extends ReadOnlyModelSpec
+interface IPlugin extends IReadOnlyModel
 {
     
     /**

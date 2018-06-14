@@ -3,7 +3,7 @@ namespace WordPress\Plugins;
 
 use PHP\Collections\Dictionary;
 use PHP\Collections\ReadOnlyDictionary;
-use WordPress\Plugins\Models\PluginSpec;
+use WordPress\Plugins\Models\IPlugin;
 
 /**
  * Creates new plugin models using the factory method
@@ -16,9 +16,9 @@ class Models
      *
      * @param string $relativePath Path to plugin file, relative to the plugins directory
      * @param array  $pluginData The mapped array of plugin details
-     * @return PluginSpec
+     * @return IPlugin
      */
-    final public static function Create( string $relativePath, array $pluginData ): PluginSpec
+    final public static function Create( string $relativePath, array $pluginData ): IPlugin
     {
         $properties = new Dictionary( 'string' );
         foreach ( $pluginData as $index => $value ) {

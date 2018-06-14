@@ -6,7 +6,7 @@ use PHP\IPHPObject;
 /**
  * Defines the basic structure for a read-only Model
  */
-interface ReadOnlyModelSpec extends IPHPObject
+interface IReadOnlyModel extends IPHPObject
 {
     
     /**

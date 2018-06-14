@@ -7,7 +7,7 @@ use WordPress\Sites;
 /**
  * Represents a single WordPress plugin
  */
-class Plugin extends \PHP\PHPObject implements PluginSpec
+class Plugin extends \PHP\PHPObject implements IPlugin
 {
     
     /**
