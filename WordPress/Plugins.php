@@ -2,7 +2,7 @@
 namespace WordPress;
 
 use PHP\Collections\ReadOnlyDictionary;
-use PHP\Collections\ReadOnlyDictionarySpec;
+use PHP\Collections\IReadOnlyDictionary;
 use WordPress\Plugins\Models\PluginSpec;
 
 /**
@@ -50,7 +50,7 @@ final class Plugins
      * Retrieve all plugin(s)
      *
      * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
-     * @return ReadOnlyDictionarySpec|PluginSpec
+     * @return IReadOnlyDictionary|PluginSpec
      */
     public static function Get( $mixed = null )
     {
@@ -89,9 +89,9 @@ final class Plugins
     /**
      * Retrieve all plugin(s)
      *
-     * @return ReadOnlyDictionarySpec
+     * @return IReadOnlyDictionary
      */
-    private static function getAll(): ReadOnlyDictionarySpec
+    private static function getAll(): IReadOnlyDictionary
     {
         // Build cache
         if ( !self::$cache->isComplete() ) {
@@ -119,9 +119,9 @@ final class Plugins
      * Get multiple plugins by their IDs
      *
      * @param array $pluginIDs List of plugin ids to return
-     * @return ReadOnlyDictionarySpec Plugins indexed by their corresponding IDs
+     * @return IReadOnlyDictionary Plugins indexed by their corresponding IDs
      */
-    private static function getMultiple( array $pluginIDs ): ReadOnlyDictionarySpec
+    private static function getMultiple( array $pluginIDs ): IReadOnlyDictionary
     {
         // Variables
         $plugins  = self::getAll();

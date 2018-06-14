@@ -1,7 +1,7 @@
 <?php
 namespace WordPress\Plugins\Models;
 
-use PHP\Collections\ReadOnlyDictionarySpec;
+use PHP\Collections\IReadOnlyDictionary;
 use WordPress\Sites;
 
 /**
@@ -20,7 +20,7 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     /**
      * Mapped array of arbitrary properties
      *
-     * @var ReadOnlyDictionarySpec
+     * @var IReadOnlyDictionary
      */
     private $properties;
     
@@ -36,9 +36,9 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
      * Create a new plugin instance
      *
      * @param string                 $relativePath File path to the main plugin file, relative to the plugins directory
-     * @param ReadOnlyDictionarySpec $properties   Mapped array of this plugin's properties
+     * @param IReadOnlyDictionary $properties   Mapped array of this plugin's properties
      */
-    final public function __construct( string $relativePath, ReadOnlyDictionarySpec $properties )
+    final public function __construct( string $relativePath, IReadOnlyDictionary $properties )
     {
         $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
         $this->relativePath = $relativePath;

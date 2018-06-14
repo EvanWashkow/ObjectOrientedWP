@@ -2,7 +2,7 @@
 namespace WordPress;
 
 use PHP\Collections\ReadOnlyDictionary;
-use PHP\Collections\ReadOnlyDictionarySpec;
+use PHP\Collections\IReadOnlyDictionary;
 use WordPress\Sites\Models\SiteSpec;
 
 /**
@@ -145,7 +145,7 @@ final class Sites
      * Retrieve site(s)
      *
      * @param int $siteID The site ID, ALL, or CURRENT
-     * @return SiteSpec|ReadOnlyDictionarySpec
+     * @return SiteSpec|IReadOnlyDictionary
      */
     public static function Get( int $siteID = self::ALL )
     {
@@ -293,9 +293,9 @@ final class Sites
     /**
      * Retrieve all sites
      *
-     * @return ReadOnlyDictionarySpec
+     * @return IReadOnlyDictionary
      */
-    private static function getAll(): ReadOnlyDictionarySpec
+    private static function getAll(): IReadOnlyDictionary
     {
         
         // Lookup sites
