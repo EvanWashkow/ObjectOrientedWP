@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ee205604079d2947a5d19a15382561d",
+    "content-hash": "d71af6136db01f834176ce214062c2b7",
     "packages": [
         {
             "name": "evanwashkow/php-libraries",
-            "version": "0.5.5",
+            "version": "dev-rename-interfaces",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EvanWashkow/php-libraries.git",
-                "reference": "6dc67e94f57d7095d2546f5f048301ed312eb0ff"
+                "reference": "34b338b201e132a731bdf825756d95b0b55ffaad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/6dc67e94f57d7095d2546f5f048301ed312eb0ff",
-                "reference": "6dc67e94f57d7095d2546f5f048301ed312eb0ff",
+                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/34b338b201e132a731bdf825756d95b0b55ffaad",
+                "reference": "34b338b201e132a731bdf825756d95b0b55ffaad",
                 "shasum": ""
             },
             "require": {
@@ -44,16 +44,18 @@
             ],
             "description": "Foundational shared libraries for PHP",
             "support": {
-                "source": "https://github.com/EvanWashkow/php-libraries/tree/v0.5.5",
+                "source": "https://github.com/EvanWashkow/php-libraries/tree/rename-interfaces",
                 "issues": "https://github.com/EvanWashkow/php-libraries/issues"
             },
-            "time": "2018-04-25T05:17:33+00:00"
+            "time": "2018-06-13 05:52:53"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "evanwashkow/php-libraries": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
