@@ -1,12 +1,12 @@
 <?php
 namespace WordPress\Sites\Models;
 
-use WordPress\Shared\ModelSpec;
+use WordPress\Shared\IModel;
 
 /**
  * Defines the basic structure for a Site model
  */
-interface ISite extends ModelSpec
+interface ISite extends IModel
 {
     
     /***************************************************************************
