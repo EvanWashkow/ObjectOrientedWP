@@ -3,7 +3,7 @@ namespace WordPress;
 
 use PHP\Collections\ReadOnlyDictionary;
 use PHP\Collections\IReadOnlyDictionary;
-use WordPress\Plugins\Models\IPlugin;
+use WordPress\Plugins\Models\Plugin;
 
 /**
  * Manages WordPress plugins
@@ -25,7 +25,7 @@ final class Plugins
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\IPlugin' );
+            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\Plugin' );
         }
     }
     
@@ -50,7 +50,7 @@ final class Plugins
      * Retrieve all plugin(s)
      *
      * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
-     * @return IReadOnlyDictionary|IPlugin
+     * @return IReadOnlyDictionary|Plugin
      */
     public static function Get( $mixed = null )
     {
@@ -126,7 +126,7 @@ final class Plugins
         // Variables
         $plugins  = self::getAll();
         $_plugins = new \PHP\Collections\Dictionary(
-            'string', 'WordPress\Plugins\Models\IPlugin'
+            'string', 'WordPress\Plugins\Models\Plugin'
         );
         
         // For each specified plugin ID, add it to the plugins dictionary
@@ -143,9 +143,9 @@ final class Plugins
      * Retrieve a single plugin by its ID
      *
      * @param string $pluginID The plugin ID
-     * @return IPlugin
+     * @return Plugin
      */
-    private static function getSingle( string $pluginID ): IPlugin
+    private static function getSingle( string $pluginID ): Plugin
     {
         if ( !self::IsValidID( $pluginID )) {
             throw new \Exception( "Cannot retrieve invalid plugin ID: {$pluginID}" );
