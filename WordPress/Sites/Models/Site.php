@@ -2,11 +2,12 @@
 namespace WordPress\Sites\Models;
 
 use WordPress\Sites;
+use WordPress\Shared\IModel;
 
 /**
  * Defines a single site
  */
-class Site extends \PHP\PHPObject implements ISite
+class Site extends \PHP\PHPObject implements IModel
 {
     
     /***************************************************************************
@@ -110,18 +111,34 @@ class Site extends \PHP\PHPObject implements ISite
     *                             GENERAL INFORMATION
     ***************************************************************************/
     
+    /**
+     * Get the unique identifier for this site (blog)
+     *
+     * @return int
+     */
     final public function getID(): int
     {
         return $this->id;
     }
     
     
+    /**
+     * Get the site title
+     *
+     * @return string
+     */
     final public function getTitle(): string
     {
         return $this->get( self::TITLE_KEY, '' );
     }
     
     
+    /**
+     * Set the site title
+     *
+     * @param string $title The new site title
+     * @return bool Whether or not the title change was successful
+     */
     final public function setTitle( string $title ): bool
     {
         $isSuccessful = false;
@@ -133,12 +150,23 @@ class Site extends \PHP\PHPObject implements ISite
     }
     
     
+    /**
+     * Get the site description
+     *
+     * @return string
+     */
     final public function getDescription(): string
     {
         return $this->get( self::DESECRIPTION_KEY, '' );
     }
     
     
+    /**
+     * Set the site description
+     *
+     * @param string $description The new site description
+     * @return bool Whether or not the description change was successful
+     */
     final public function setDescription( string $description ): bool
     {
         $description = trim( $description );
@@ -150,12 +178,27 @@ class Site extends \PHP\PHPObject implements ISite
     *                                    URLS
     ***************************************************************************/
     
+    /**
+     * Retrieve the primary site URL
+     *
+     * If you want to retrieve the front-facing home URL, see getHomePageURL()
+     *
+     * @return string
+     */
     final public function getURL(): string
     {
         return $this->get( self::SITE_URL_KEY, '' );
     }
     
     
+    /**
+     * Set the primary site URL
+     *
+     * If you want to set the front-facing home URL, see setHomePageURL()
+     *
+     * @param string $url The new URL
+     * @return bool Whether or not the URL change was successful
+     */
     final public function setURL( string $url ): bool
     {
         // Variables
@@ -203,12 +246,23 @@ class Site extends \PHP\PHPObject implements ISite
     }
     
     
+    /**
+     * Retrieve the home page URL for this site
+     *
+     * @return string
+     */
     final public function getHomePageURL(): string
     {
         return $this->get( self::HOME_URL_KEY, '' );
     }
     
     
+    /**
+     * Set the home page URL for this site
+     *
+     * @param string $url The new URL
+     * @return bool Whether or not the URL change was successful
+     */
     final public function setHomePageURL( string $url ): bool
     {
         $url = \PHP\URL::Sanitize( $url );
@@ -220,23 +274,27 @@ class Site extends \PHP\PHPObject implements ISite
     }
     
     
-    final public function getProtocol(): string
-    {
-        $url = new \PHP\URL( $this->getURL() );
-        return $url->getProtocol();
-    }
-    
-    
     /***************************************************************************
     *                               ADMINISTRATION
     ***************************************************************************/
     
+    /**
+     * Retrieve the administator's email address
+     *
+     * @return string
+     */
     final public function getAdministratorEmail(): string
     {
         return $this->get( self::ADMINISTRATOR_EMAIL_KEY, '' );
     }
     
     
+    /**
+     * Change the administator's email address
+     *
+     * @param string $email The new administrator email address
+     * @return bool Whether or not the change was successful
+     */
     final public function setAdministratorEmail( string $email ): bool
     {
         $email = trim( $email );
@@ -248,6 +306,11 @@ class Site extends \PHP\PHPObject implements ISite
     }
     
     
+    /**
+     * Get time zone for this site
+     *
+     * @return \WordPress\Sites\TimeZone
+     */
     final public function getTimeZone(): \WordPress\Sites\TimeZone
     {
         // WordPress stores either the GMT or timezone string, but not both
@@ -267,6 +330,12 @@ class Site extends \PHP\PHPObject implements ISite
     }
     
     
+    /**
+     * Set time zone for this site
+     *
+     * @param \WordPress\Sites\TimeZone $timeZone
+     * @return bool Whether or not the TimeZone change was successful
+     */
     final public function setTimeZone( \WordPress\Sites\TimeZone $timeZone ): bool
     {
         // Variables

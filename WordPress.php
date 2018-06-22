@@ -21,6 +21,3 @@ class WordPress
         return get_bloginfo( 'version' );
     }
 }
-
-$plugins = \WordPress\Plugins::Get();
-// \PHP\Debug\Log::Write( $plugins );
