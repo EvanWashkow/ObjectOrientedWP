@@ -1,13 +1,15 @@
 <?php
 namespace WordPress\Plugins\Models;
 
-use PHP\Collections\ReadOnlyDictionarySpec;
+use PHP\Collections\IReadOnlyDictionary;
+use PHP\Models\IReadOnlyModel;
 use WordPress\Sites;
+
 
 /**
  * Represents a single WordPress plugin
  */
-class Plugin extends \PHP\PHPObject implements PluginSpec
+class Plugin extends \PHP\PHPObject implements IReadOnlyModel
 {
     
     /**
@@ -20,7 +22,7 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     /**
      * Mapped array of arbitrary properties
      *
-     * @var ReadOnlyDictionarySpec
+     * @var IReadOnlyDictionary
      */
     private $properties;
     
@@ -36,50 +38,98 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
      * Create a new plugin instance
      *
      * @param string                 $relativePath File path to the main plugin file, relative to the plugins directory
-     * @param ReadOnlyDictionarySpec $properties   Mapped array of this plugin's properties
+     * @param IReadOnlyDictionary $properties   Mapped array of this plugin's properties
      */
-    final public function __construct( string $relativePath, ReadOnlyDictionarySpec $properties )
+    final public function __construct( string $relativePath, IReadOnlyDictionary $properties )
     {
         $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
         $this->relativePath = $relativePath;
         $this->properties   = $properties;
     }
     
+    
+    /**
+     * Retrieve this plugin's ID
+     *
+     * @return string
+     */
     final public function getID(): string
     {
         return $this->id;
     }
     
+    
+    /**
+     * Retrieves this plugin's author name
+     *
+     * @return string
+     */
     final public function getAuthorName(): string
     {
         return $this->get( 'Author' );
     }
     
+    
+    /**
+     * Retrieves this plugin author's website
+     *
+     * @return string
+     */
     final public function getAuthorURL(): string
     {
         return $this->get( 'AuthorURI' );
     }
     
+    
+    /**
+     * Retrieves the description of this plugin's purpose
+     *
+     * @return string
+     */
     final public function getDescription(): string
     {
         return $this->get( 'Description' );
     }
     
+    
+    /**
+     * Retrieves the user-friendly name for this plugin's
+     *
+     * @return string
+     */
     final public function getName(): string
     {
         return $this->get( 'Name' );
     }
     
+    
+    /**
+     * Retrieves the path to this plugin's file, relative to the plugins directory
+     *
+     * @return string
+     */
     final public function getRelativePath(): string
     {
         return $this->relativePath;
     }
     
+    
+    /**
+     * Retrieves this plugin's version number
+     *
+     * @return string
+     */
     final public function getVersion(): string
     {
         return $this->get( 'Version' );
     }
     
+    
+    /**
+     * Indicates this plugin requires global activation on all sites
+     *
+     * @return bool
+     */
     final public function requiresGlobalActivation(): bool
     {
         return $this->get( 'Network', false );
@@ -90,6 +140,12 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     *                                 ACTIVATING
     ***************************************************************************/
     
+    /**
+     * Activate the plugin
+     *
+     * @param int $siteID The site ID or a \WordPress\Sites constant
+     * @return bool True if the plugin is active
+     */
     final public function activate( int $siteID = Sites::ALL ): bool
     {
         if ( $this->canActivate( $siteID )) {
@@ -114,6 +170,12 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     }
     
     
+    /**
+     * Can the plugin be activated?
+     *
+     * @param int $siteID The site ID or a \WordPress\Sites constant
+     * @return bool
+     */
     final public function canActivate( int $siteID = Sites::ALL ): bool
     {
         // Variables
@@ -132,6 +194,12 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     }
     
     
+    /**
+     * Deactivate the plugin
+     *
+     * @param int $siteID The site ID or a \WordPress\Sites constant
+     * @return bool True if the plugin is no longer active
+     */
     final public function deactivate( int $siteID = Sites::ALL ): bool
     {
         // Variables
@@ -153,6 +221,15 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     }
     
     
+    /**
+     * Is the plugin activated?
+     *
+     * When checking activated plugins for a single site, also check the
+     * globally-activated plugins.
+     *
+     * @param int $siteID The site ID or a \WordPress\Sites constant
+     * @return bool
+     */
     final public function isActive( int $siteID = Sites::ALL ): bool
     {
         // Variables
@@ -185,6 +262,13 @@ class Plugin extends \PHP\PHPObject implements PluginSpec
     *                               UTILITIES
     ***************************************************************************/
     
+    /**
+     * Retrieve a property
+     *
+     * @param string $key          The property key
+     * @param string $defaultValue The property's default value
+     * @return mixed The property value
+     */
     final public function get( string $key, string $defaultValue = '' )
     {
         $value = $defaultValue;

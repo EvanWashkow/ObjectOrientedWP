@@ -2,8 +2,8 @@
 namespace WordPress;
 
 use PHP\Collections\ReadOnlyDictionary;
-use PHP\Collections\ReadOnlyDictionarySpec;
-use WordPress\Plugins\Models\PluginSpec;
+use PHP\Collections\IReadOnlyDictionary;
+use WordPress\Plugins\Models\Plugin;
 
 /**
  * Manages WordPress plugins
@@ -25,7 +25,7 @@ final class Plugins
     public static function Initialize()
     {
         if ( !isset( self::$cache )) {
-            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\PluginSpec' );
+            self::$cache = new \PHP\Cache( 'string', 'WordPress\Plugins\Models\Plugin' );
         }
     }
     
@@ -50,7 +50,7 @@ final class Plugins
      * Retrieve all plugin(s)
      *
      * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
-     * @return ReadOnlyDictionarySpec|PluginSpec
+     * @return IReadOnlyDictionary|Plugin
      */
     public static function Get( $mixed = null )
     {
@@ -89,9 +89,9 @@ final class Plugins
     /**
      * Retrieve all plugin(s)
      *
-     * @return ReadOnlyDictionarySpec
+     * @return IReadOnlyDictionary
      */
-    private static function getAll(): ReadOnlyDictionarySpec
+    private static function getAll(): IReadOnlyDictionary
     {
         // Build cache
         if ( !self::$cache->isComplete() ) {
@@ -119,14 +119,14 @@ final class Plugins
      * Get multiple plugins by their IDs
      *
      * @param array $pluginIDs List of plugin ids to return
-     * @return ReadOnlyDictionarySpec Plugins indexed by their corresponding IDs
+     * @return IReadOnlyDictionary Plugins indexed by their corresponding IDs
      */
-    private static function getMultiple( array $pluginIDs ): ReadOnlyDictionarySpec
+    private static function getMultiple( array $pluginIDs ): IReadOnlyDictionary
     {
         // Variables
         $plugins  = self::getAll();
         $_plugins = new \PHP\Collections\Dictionary(
-            'string', 'WordPress\Plugins\Models\PluginSpec'
+            'string', 'WordPress\Plugins\Models\Plugin'
         );
         
         // For each specified plugin ID, add it to the plugins dictionary
@@ -143,9 +143,9 @@ final class Plugins
      * Retrieve a single plugin by its ID
      *
      * @param string $pluginID The plugin ID
-     * @return PluginSpec
+     * @return Plugin
      */
-    private static function getSingle( string $pluginID ): PluginSpec
+    private static function getSingle( string $pluginID ): Plugin
     {
         if ( !self::IsValidID( $pluginID )) {
             throw new \Exception( "Cannot retrieve invalid plugin ID: {$pluginID}" );
