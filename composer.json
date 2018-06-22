@@ -1,7 +1,7 @@
 {
     "name":        "evanwashkow/object-oriented-wordpress",
     "description": "Access all of WordPress in an object-oriented way",
-    "version":     "0.3.4",
+    "version":     "0.3.5",
     "autoload": {
         "classmap": [
             "WordPress.php"
@@ -23,7 +23,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "evanwashkow/php-libraries": "dev-rename-interfaces"
+        "evanwashkow/php-libraries": "0.6.0"
     },
     "authors": [
         {
