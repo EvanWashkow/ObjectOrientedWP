@@ -2,8 +2,8 @@
 namespace WordPress\Plugins\Models;
 
 use PHP\Collections\IReadOnlyDictionary;
+use PHP\Models\IReadOnlyModel;
 use WordPress\Sites;
-use WordPress\Shared\Model\IReadOnlyModel;
 
 
 /**

@@ -2,7 +2,7 @@
 namespace WordPress\Sites\Models;
 
 use WordPress\Sites;
-use WordPress\Shared\IModel;
+use PHP\Models\IModel;
 
 /**
  * Defines a single site
