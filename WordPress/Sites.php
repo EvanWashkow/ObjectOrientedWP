@@ -1,8 +1,7 @@
 <?php
 namespace WordPress;
 
-use PHP\Collections\ReadOnlyDictionary;
-use PHP\Collections\IReadOnlyDictionary;
+use PHP\Collections\Dictionary;
 use WordPress\Sites\Models\Site;
 
 /**
@@ -145,7 +144,7 @@ final class Sites
      * Retrieve site(s)
      *
      * @param int $siteID The site ID, ALL, or CURRENT
-     * @return Site|IReadOnlyDictionary
+     * @return Site|Dictionary
      */
     public static function Get( int $siteID = self::ALL )
     {
@@ -293,9 +292,9 @@ final class Sites
     /**
      * Retrieve all sites
      *
-     * @return IReadOnlyDictionary
+     * @return Dictionary
      */
-    private static function getAll(): IReadOnlyDictionary
+    private static function getAll(): Dictionary
     {
         
         // Lookup sites
@@ -324,7 +323,7 @@ final class Sites
         }
         
         // Read sites from cache
-        return new ReadOnlyDictionary( self::$cache );
+        return clone self::$cache;
     }
 }
 Sites::Initialize();

@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c863d7d00d4e1648ac87072ba26b8855",
+    "content-hash": "7ed9debeaf5ae542555a7d3df41a8d7d",
     "packages": [
         {
             "name": "evanwashkow/php-libraries",
-            "version": "0.7.0",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EvanWashkow/php-libraries.git",
-                "reference": "ea8cf27fe89d3efd99f55c1f784747e25c0cd04a"
+                "reference": "eee3eabf68265a4bbe00cac0d9b6aa7ce8611291"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/ea8cf27fe89d3efd99f55c1f784747e25c0cd04a",
-                "reference": "ea8cf27fe89d3efd99f55c1f784747e25c0cd04a",
+                "url": "https://api.github.com/repos/EvanWashkow/php-libraries/zipball/eee3eabf68265a4bbe00cac0d9b6aa7ce8611291",
+                "reference": "eee3eabf68265a4bbe00cac0d9b6aa7ce8611291",
                 "shasum": ""
             },
             "require": {
@@ -47,10 +47,10 @@
             ],
             "description": "Foundational shared libraries for PHP",
             "support": {
-                "source": "https://github.com/EvanWashkow/php-libraries/tree/v0.7.0",
+                "source": "https://github.com/EvanWashkow/php-libraries/tree/v0.8.0",
                 "issues": "https://github.com/EvanWashkow/php-libraries/issues"
             },
-            "time": "2018-11-11T07:38:08+00:00"
+            "time": "2019-01-11T18:42:08+00:00"
         }
     ],
     "packages-dev": [],

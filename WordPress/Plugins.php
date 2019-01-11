@@ -1,8 +1,7 @@
 <?php
 namespace WordPress;
 
-use PHP\Collections\ReadOnlyDictionary;
-use PHP\Collections\IReadOnlyDictionary;
+use PHP\Collections\Dictionary;
 use WordPress\Plugins\Models\Plugin;
 
 /**
@@ -50,7 +49,7 @@ final class Plugins
      * Retrieve all plugin(s)
      *
      * @param mixed $mixed The plugin ID; array of plugin IDs; null to retrieve all
-     * @return IReadOnlyDictionary|Plugin
+     * @return Dictionary|Plugin
      */
     public static function Get( $mixed = null )
     {
@@ -89,9 +88,9 @@ final class Plugins
     /**
      * Retrieve all plugin(s)
      *
-     * @return IReadOnlyDictionary
+     * @return Dictionary
      */
-    private static function getAll(): IReadOnlyDictionary
+    private static function getAll(): Dictionary
     {
         // Build cache
         if ( !self::$cache->isComplete() ) {
@@ -101,8 +100,11 @@ final class Plugins
             
             // For each WordPress plugin, create and cache our own object
             $plugins = get_plugins();
-            foreach ( $plugins as $pluginFile => $pluginData ) {
-                $plugin = Plugins\Models::Create( $pluginFile, $pluginData );
+            foreach ( $plugins as $relativePath => $pluginData ) {
+                $plugin = new Plugin(
+                    $relativePath,
+                    new Dictionary( 'string', '*', $pluginData )
+                );
                 self::$cache->set( $plugin->getID(), $plugin );
             }
             
@@ -111,7 +113,7 @@ final class Plugins
         }
         
         // Return plugins
-        return new ReadOnlyDictionary( self::$cache );
+        return clone self::$cache;
     }
     
     
@@ -119,15 +121,13 @@ final class Plugins
      * Get multiple plugins by their IDs
      *
      * @param array $pluginIDs List of plugin ids to return
-     * @return IReadOnlyDictionary Plugins indexed by their corresponding IDs
+     * @return Dictionary Plugins indexed by their corresponding IDs
      */
-    private static function getMultiple( array $pluginIDs ): IReadOnlyDictionary
+    private static function getMultiple( array $pluginIDs ): Dictionary
     {
         // Variables
         $plugins  = self::getAll();
-        $_plugins = new \PHP\Collections\Dictionary(
-            'string', 'WordPress\Plugins\Models\Plugin'
-        );
+        $_plugins = new \PHP\Collections\Dictionary( 'string', Plugin::class );
         
         // For each specified plugin ID, add it to the plugins dictionary
         foreach ( $pluginIDs as $pluginID ) {
@@ -135,7 +135,7 @@ final class Plugins
                 $_plugins->set( $pluginID, $plugins->get( $pluginID ));
             }
         }
-        return new ReadOnlyDictionary( $_plugins );
+        return $_plugins;
     }
     
     

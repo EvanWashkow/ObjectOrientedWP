@@ -1,7 +1,7 @@
 <?php
 namespace WordPress\Plugins\Models;
 
-use PHP\Collections\IReadOnlyDictionary;
+use PHP\Collections\Dictionary;
 use PHP\Models\IReadOnlyModel;
 use WordPress\Sites;
 
@@ -22,7 +22,7 @@ class Plugin extends \PHP\PHPObject implements IReadOnlyModel
     /**
      * Mapped array of arbitrary properties
      *
-     * @var IReadOnlyDictionary
+     * @var Dictionary
      */
     private $properties;
     
@@ -37,10 +37,10 @@ class Plugin extends \PHP\PHPObject implements IReadOnlyModel
     /**
      * Create a new plugin instance
      *
-     * @param string                 $relativePath File path to the main plugin file, relative to the plugins directory
-     * @param IReadOnlyDictionary $properties   Mapped array of this plugin's properties
+     * @param string     $relativePath File path to the main plugin file, relative to the plugins directory
+     * @param Dictionary $properties   Mapped array of this plugin's properties
      */
-    final public function __construct( string $relativePath, IReadOnlyDictionary $properties )
+    final public function __construct( string $relativePath, Dictionary $properties )
     {
         $this->id           = \WordPress\Plugins::ExtractID( $relativePath );
         $this->relativePath = $relativePath;
