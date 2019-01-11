@@ -23,7 +23,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "evanwashkow/php-libraries": "dev-rework-collections"
+        "evanwashkow/php-libraries": ">=0.8.0"
     },
     "authors": [
         {
