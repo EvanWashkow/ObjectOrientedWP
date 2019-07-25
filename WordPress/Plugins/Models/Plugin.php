@@ -2,14 +2,13 @@
 namespace WordPress\Plugins\Models;
 
 use PHP\Collections\Dictionary;
-use PHP\Models\IReadOnlyModel;
 use WordPress\Sites;
 
 
 /**
  * Represents a single WordPress plugin
  */
-class Plugin extends \PHP\PHPObject implements IReadOnlyModel
+class Plugin
 {
     
     /**

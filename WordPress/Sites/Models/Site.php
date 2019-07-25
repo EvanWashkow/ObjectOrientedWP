@@ -7,7 +7,7 @@ use PHP\Models\IModel;
 /**
  * Defines a single site
  */
-class Site extends \PHP\PHPObject implements IModel
+class Site
 {
     
     /***************************************************************************
